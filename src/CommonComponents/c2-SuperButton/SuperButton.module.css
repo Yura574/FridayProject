@@ -1,0 +1,46 @@
+.default {
+
+}
+
+.red {
+    background: red;
+}
+
+.btn {
+    outline: none;
+    text-decoration: none;
+    border-radius: 50px;
+    align-items: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 25px;
+    min-width: 100px;
+    background-color: #ffffff;
+    border: 1px solid rgba(22, 76, 167, 0.6);
+}
+
+.btn:hover {
+    animation: rotate 0.7s ease-in-out both
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg) translate3d(0, 0, 0)
+    }
+    25% {
+        transform: rotate(3deg) translate3d(0, 0, 0)
+    }
+    50% {
+        transform: rotate(-3deg) translate3d(0, 0, 0)
+    }
+    75% {
+        transform: rotate(1deg) translate3d(0, 0, 0)
+    }
+    100% {
+        transform: rotate(0deg) translate3d(0, 0, 0)
+    }
+}
+.btn:active {
+    background: aqua;
+}
