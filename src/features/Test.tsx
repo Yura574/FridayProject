@@ -6,8 +6,8 @@ import SuperCheckbox from "../CommonComponents/c3-SuperCheckbox/SuperCheckbox";
 export const TestPage = () => {
     return (
         <div>
-            <SuperInputText onChangeText={() => {}} value={''}/>
-            <SuperButton/>
+            <div><SuperInputText onChangeText={() => {}} value={''}/></div>
+            <div><SuperButton>button</SuperButton></div>
             <SuperCheckbox/>
         </div>
     )

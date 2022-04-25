@@ -21,7 +21,7 @@ const SuperCheckbox: React.FC<SuperCheckboxPropsType> = (
     }
 ) => {
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
-        if(onChangeChecked){
+        if (onChangeChecked) {
             onChangeChecked(e.currentTarget.checked)
         }
     }
@@ -63,8 +63,10 @@ const SuperCheckbox: React.FC<SuperCheckboxPropsType> = (
                         </svg>
                     </label>
 
+                </div>
 
-            </div>
+
+
         </>
     );
 }

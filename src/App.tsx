@@ -11,7 +11,7 @@ import {TestPage} from "./features/Test";
 function App() {
 
     return (
-        <div>
+        <div className={'App'}>
             <Routes>
                 <Route path={'/profile'} element={<Profile/>}/>
                 <Route path={'/'} element={<Navigate to={'profile'}/>}/>
