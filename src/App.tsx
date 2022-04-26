@@ -12,8 +12,8 @@ function App() {
     return (
         <div className={'App'}>
             <Routes>
-                <Route path={'/profile'} element={<Profile/>}/>
                 <Route path={'/'} element={<Navigate to={'profile'}/>}/>
+                <Route path={'/profile'} element={<Profile/>}/>
                 <Route path={'/create-password'} element={<CreateNewPassword/>}/>
                 <Route path={'/enter-password'} element={<EnterNewPassword/>}/>
                 <Route path={'/404'} element={<Error404/>}/>
