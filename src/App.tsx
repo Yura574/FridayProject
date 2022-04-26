@@ -16,17 +16,17 @@ function App() {
                 <Route path={'/profile'} element={<Profile/>}/>
                 <Route path={'/create-password'} element={<CreateNewPassword/>}/>
                 <Route path={'/enter-password'} element={<EnterNewPassword/>}/>
-                <Route path={'/404'} element={<Error404/>}/>
+                {/*<Route path={'/404'} element={<Error404/>}/>*/}
                 <Route path={'/login'} element={<Login/>}/>
                 <Route path={'/test'} element={<TestPage/>}/>
-                <Route path={'*'} element={<Navigate to={'/404'}/>}/>
+                <Route path={'*'} element={<Error404 />}/>
             </Routes>
             <div>
                 <div><NavLink to={'/profile'}>Profile</NavLink></div>
                 <div><NavLink to={'/create-password'}>Create password</NavLink></div>
                 <div><NavLink to={'/create-password'}>Create password</NavLink></div>
                 <div><NavLink to={'/enter-password'}>Enter password</NavLink></div>
-                <div><NavLink to={'/404'}>404</NavLink></div>
+                {/*<div><NavLink to={'/404'}>404</NavLink></div>*/}
                 <div><NavLink to={'/login'}>Login</NavLink></div>
                 <div><NavLink to={'/test'}>Test</NavLink></div>
             </div>
