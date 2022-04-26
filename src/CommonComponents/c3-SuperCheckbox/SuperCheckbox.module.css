@@ -6,78 +6,65 @@
 /*    border-radius: 5px;*/
 /*}*/
 
-/*.spanClassName {*/
-
-/*}*/
-
-*, *:before, *:after {
-    box-sizing: border-box;
+:root {
+    --form-control-disabled: #959495;
 }
 
-.form_container {
-    padding: 1rem;
-    margin: 2rem auto;
-    background-color: #fcfcfc;
-    border: 1px solid #e6e6e6;
-    width: 50%;
+.checkbox:disabled {
+    --form-control-color: var(--form-control-disabled);
+
+    color: var(--form-control-disabled);
+    cursor: not-allowed;
 }
 
-/* HTML5 Boilerplate accessible hidden styles */
-.promoted_input_checkbox {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+.checkbox {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: #fff;
+    /* Not removed via appearance */
+    margin: 0;
+    font: inherit;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid #8b8a8b;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
 }
 
-.promoted_checkbox{
-    width: 40px;
-    height: 40px;
-    margin: 5px;
+.form_control {
+    font-family: system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+    margin: 10px;
+
 }
-.promoted_checkbox input:checked + label > svg {
-    height: 24px;
-    animation: draw-checkbox ease-in-out 0.2s forwards;
-}
-.promoted_checkbox label:active::after {
-    background-color: #e6e6e6;
-}
-.promoted_checkbox label {
-    color: #0080d3;
-    line-height: 40px;
-    cursor: pointer;
-    position: relative;
-}
-.promoted_checkbox label:after {
+
+
+.checkbox::before {
     content: "";
-    height: 40px;
-    width: 40px;
-    margin-right: 1rem;
-    float: left;
-    border: 2px solid #0080d3;
-    border-radius: 3px;
-    transition: 0.15s all ease-out;
+    width: 0.55em;
+    height: 0.55em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    /*box-shadow: inset 1em 1em var(--form-control-color);*/
+    background-color: #471263;
+    border: 0.15em solid #471263;
+    transform-origin: bottom left;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
-.promoted_checkbox svg {
-    stroke: #0080d3;
-    stroke-width: 2px;
-    height: 0;
-    width: 24px;
-    position: absolute;
-    left: -48px;
-    top: 8px;
-    stroke-dasharray: 33;
+.checkbox:checked::before {
+    transform: scale(1);
+    border: 0.15em solid #471263
 }
+.checkbox:checked{
 
-@keyframes draw_checkbox {
-    0% {
-        stroke-dashoffset: 33;
-    }
-    100% {
-        stroke-dashoffset: 0;
-    }
+    border: 0.15em solid #471263
 }

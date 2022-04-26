@@ -9,7 +9,6 @@ import {Profile} from "./features/Profile";
 import {TestPage} from "./features/Test";
 
 function App() {
-
     return (
         <div className={'App'}>
             <Routes>
@@ -22,14 +21,21 @@ function App() {
                 <Route path={'/test'} element={<TestPage/>}/>
                 <Route path={'*'} element={<Navigate to={'/404'}/>}/>
             </Routes>
-            <div><NavLink to={'/profile'}>Profile</NavLink></div>
-            <div><NavLink to={'/create-password'}>Create password</NavLink></div>
-            <div><NavLink to={'/create-password'}>Create password</NavLink></div>
-            <div><NavLink to={'/enter-password'}>Enter password</NavLink></div>
-            <div><NavLink to={'/404'}>404</NavLink></div>
-            <div><NavLink to={'/login'}>Login</NavLink></div>
-            <div><NavLink to={'/test'}>Test</NavLink></div>
+            <div>
+                <div><NavLink to={'/profile'}>Profile</NavLink></div>
+                <div><NavLink to={'/create-password'}>Create password</NavLink></div>
+                <div><NavLink to={'/create-password'}>Create password</NavLink></div>
+                <div><NavLink to={'/enter-password'}>Enter password</NavLink></div>
+                <div><NavLink to={'/404'}>404</NavLink></div>
+                <div><NavLink to={'/login'}>Login</NavLink></div>
+                <div><NavLink to={'/test'}>Test</NavLink></div>
+            </div>
+
+
+
+
         </div>
+
 
     );
 }

@@ -42,5 +42,5 @@
     }
 }
 .btn:active {
-    background: aqua;
+    background: rgba(71,18,99, 0.5);
 }
