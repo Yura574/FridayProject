@@ -8,6 +8,9 @@ import {Login} from "./features/Login";
 import {Profile} from "./features/Profile";
 import {TestPage} from "./features/Test";
 import {RecoveryPassword} from "./features/RecoveryPassword/RecoveryPassword";
+import {
+    SetNewPassword
+} from "./features/SetNewPassword/SetNewPassword";
 
 function App() {
     return (
@@ -21,6 +24,7 @@ function App() {
                 <Route path={'/login'} element={<Login/>}/>
                 <Route path={'/test'} element={<TestPage/>}/>
                 <Route path={'/recovery-password'} element={<RecoveryPassword/>}/>
+                <Route path={'/set-new-password/:token'} element={<SetNewPassword/>}/>
                 <Route path={'*'} element={<Error404 />}/>
             </Routes>
             <div>
