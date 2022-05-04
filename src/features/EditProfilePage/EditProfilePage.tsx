@@ -2,7 +2,7 @@ import s from './EditProfilePage.module.css'
 import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
 import {ChangeEvent, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {DataType, editProfileTC, setProfileTC} from "../../store/redusers/profile-reducer";
+import {DataType, editProfileTC} from "../../store/redusers/profile-reducer";
 import {AppRootStateType} from "../../store/store";
 
 
@@ -15,10 +15,7 @@ export const EditProfilePage = () => {
     const [name, setName] = useState<string>(nameDefault)
     const [avatar, setAvatar] = useState<string>(ava)
 
-    useEffect( () => {
-        dispatch(setProfileTC())
 
-    }, [])
     useEffect( () => {
         setName(nameDefault)
         setAvatar(ava)

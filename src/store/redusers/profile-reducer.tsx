@@ -11,7 +11,6 @@ const initialState = {
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case "SET_PROFILE":{
-            debugger
             return {...state, name: action.name,  avatar: action.avatar}
         }
 
@@ -42,26 +41,11 @@ export const editProfile = (name: string,  avatar: string) => {
 
 
 //thunks
-export const setProfileTC = () => (dispatch: Dispatch) => {
-    debugger
-    nekoCardsAPI.setProfile()
-        .then(res => {
-            debugger
-            const {name, avatar} = res.data
-            dispatch(setProfile(name,  avatar))
 
-        })
-        .catch((err) => {
-            debugger
-            console.log(err)
-        })
-}
 
 export const editProfileTC = (data: DataType) => (dispatch: Dispatch) => {
-    debugger
     nekoCardsAPI.editProfile(data)
         .then(res => {
-            debugger
             const {name, avatar} = res.data.updatedUser
             dispatch(editProfile(name,  avatar))
 
