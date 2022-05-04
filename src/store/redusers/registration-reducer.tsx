@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {API, RegisterErrorType} from "../../api/CreateNewPasswordApi";
+import {nekoCardsAPI} from "../../api/neko-cards-api";
 
 export type CreatePasswordInitialStateType = {
     email: string
@@ -13,7 +13,7 @@ const createPasswordInitialState: CreatePasswordInitialStateType = {
     serverError: '',
 }
 
-export const createPasswordReducer = (state: CreatePasswordInitialStateType = createPasswordInitialState, action: CreatePasswordActionType): CreatePasswordInitialStateType => {
+export const registrationReducer = (state: CreatePasswordInitialStateType = createPasswordInitialState, action: CreatePasswordActionType): CreatePasswordInitialStateType => {
     switch (action.type) {
         case 'REGISTRATION':
             return {...state, email: action.email, password: action.password}
@@ -37,12 +37,21 @@ export type SetServerErrorAT = ReturnType<typeof SetServerErrorAC>
 export type CreatePasswordActionType = RegistrationAT | SetServerErrorAT
 
 export const RegistrationTC = (email: string, password: string) => (dispatch: Dispatch) => {
-    API.register(email, password)
-        .then(res => {
+    nekoCardsAPI.registration(email, password)
+        .then(() => {
             dispatch(RegistrationAC(email, password))
         })
         .catch((err) => {
-            const registerError: RegisterErrorType = err.response.data
+            const registerError: RegistrationErrorType = err.response.data
             dispatch(SetServerErrorAC(registerError.error))
         })
+}
+
+export type RegistrationErrorType = {
+    emailRegExp: {}
+    error: string
+    in: string
+    isEmailValid: true
+    isPassValid: false
+    passwordRegExp: string
 }
