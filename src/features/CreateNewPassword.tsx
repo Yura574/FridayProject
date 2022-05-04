@@ -1,11 +1,15 @@
 import s from './CreateNewPassword.module.css';
 import SuperButton from "../CommonComponents/c2-SuperButton/SuperButton";
 import {ChangeEvent, useState} from "react";
-import {RegistrationAC} from "../store/redusers/createPassword-reducer";
-import {useDispatch} from "react-redux";
+import {RegistrationTC, SetServerErrorAC} from "../store/redusers/createPassword-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, AppRootStateType} from "../store/store";
+import {Navigate} from "react-router-dom";
 
 export const CreateNewPassword = () => {
-    const dispatch = useDispatch();
+    const serverError = useSelector<AppRootStateType, string>(state => state.createPassword.serverError)
+    const email = useSelector<AppRootStateType, string>(state => state.createPassword.email)
+    const dispatch: AppDispatch = useDispatch();
 
     const [emailInsert, setEmailInsert] = useState<string>('')
     const [passwordInsert, setPasswordInsertInsert] = useState<string>('')
@@ -23,20 +27,27 @@ export const CreateNewPassword = () => {
     const confirmPasswordInsertOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setConfirmPasswordInsertInsert(e.currentTarget.value)
     }
+
     const emailInsertOnFocusHandler = () => {
         setEmailError('')
+        dispatch(SetServerErrorAC(''))
     }
     const passwordInsertOnFocusHandler = () => {
         setPasswordInsertError('')
+        dispatch(SetServerErrorAC(''))
     }
     const confirmPasswordInsertOnFocusHandler = () => {
         setConfirmPasswordInsertError('')
+        dispatch(SetServerErrorAC(''))
     }
+
     const clearFormHandler = () => {
         setEmailInsert('')
         setPasswordInsertInsert('')
         setConfirmPasswordInsertInsert('')
+        dispatch(SetServerErrorAC(''))
     }
+
     const registrationHandler = () => {
         let error = false;
         if (emailInsert) {
@@ -45,7 +56,7 @@ export const CreateNewPassword = () => {
                 error = true
             }
         } else {
-            setEmailError('Email required')
+            setEmailError(' required')
             error = true
         }
         if (passwordInsert !== confirmPasswordInsert) {
@@ -53,27 +64,30 @@ export const CreateNewPassword = () => {
             error = true
         }
         if (passwordInsert) {
-            if (passwordInsert.length < 4) {
-                setPasswordInsertError('Should be 4 or more symbols')
+            if (passwordInsert.length < 8) {
+                setPasswordInsertError(' must be more than 7 characters')
                 error = true
             }
         } else {
-            setPasswordInsertError('Password required')
+            setPasswordInsertError(' required')
             error = true
         }
         if (confirmPasswordInsert) {
-            if (confirmPasswordInsert.length < 4) {
-                setConfirmPasswordInsertError('Should be 4 or more symbols')
+            if (confirmPasswordInsert.length < 8) {
+                setConfirmPasswordInsertError(' must be more than 7 characters')
                 error = true
             }
         } else {
-            setConfirmPasswordInsertError('Confirm password required')
+            setConfirmPasswordInsertError(' required')
             error = true
         }
         if (!error) {
-            dispatch(RegistrationAC(emailInsert, passwordInsert))
-            clearFormHandler()
+            dispatch(RegistrationTC(emailInsert, passwordInsert))
         }
+    }
+
+    if (email) {
+        return <Navigate to={'/login'}/>
     }
 
     return (
@@ -117,6 +131,7 @@ export const CreateNewPassword = () => {
                             onFocus={confirmPasswordInsertOnFocusHandler}
                         />
                     </div>
+                    <div className={s.error}>{serverError}</div>
                 </div>
                 <div className={s.buttonBlock}>
                     <SuperButton
