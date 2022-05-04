@@ -41,7 +41,8 @@ export const nekoCardsAPI = {
     login(dataLogin: DataLoginType) {
 
         return instance.post('/auth/login', {dataLogin})
-    }
-
-
+    },
+    registration(email: string, password: string) {
+        return instance.post('/auth/register', {email, password})
+    },
 }

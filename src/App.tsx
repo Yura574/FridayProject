@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import { NavLink, Route, Routes} from 'react-router-dom';
-import {Registration} from "./features/Registration";
+import {Registration} from "./features/Registration/Registration";
 import {EnterNewPassword} from "./features/EnterNewPassword";
 import {Error404} from "./features/Error404";
 import {Login} from "./features/Login";

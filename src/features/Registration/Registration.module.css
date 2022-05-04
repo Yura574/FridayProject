@@ -35,11 +35,25 @@
     font-size: small;
     opacity: 50%;
 }
+.error {
+    font-size: small;
+    color: red;
+    height: 1px;
+}
+.inputContainer {
+    position: relative;
+}
 .input {
     width: 100%;
     height: 30px;
     border: 0;
     border-bottom: 1px solid #a1a1a1;
+}
+.eyeIcon {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 5px;
 }
 .input:focus {
     outline: none;
@@ -51,12 +65,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-
-.error {
-    font-size: small;
-    color: red;
-    height: 1px;
 }
 
 .blue {

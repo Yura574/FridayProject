@@ -1,14 +1,15 @@
 import s from './Registration.module.css';
-import SuperButton from "../CommonComponents/c2-SuperButton/SuperButton";
+import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
 import {ChangeEvent, useState} from "react";
-import {RegistrationTC, SetServerErrorAC} from "../store/redusers/createPassword-reducer";
+import {RegistrationTC, SetServerErrorAC} from "../../store/redusers/registration-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, AppRootStateType} from "../store/store";
+import {AppDispatch, AppRootStateType} from "../../store/store";
 import {Navigate} from "react-router-dom";
+import eyeIcon from "../../img/eye.png"
 
 export const Registration = () => {
-    const serverError = useSelector<AppRootStateType, string>(state => state.createPassword.serverError)
-    const email = useSelector<AppRootStateType, string>(state => state.createPassword.email)
+    const serverError = useSelector<AppRootStateType, string>(state => state.registration.serverError)
+    const email = useSelector<AppRootStateType, string>(state => state.registration.email)
     const dispatch: AppDispatch = useDispatch();
 
     const [emailInsert, setEmailInsert] = useState<string>('')
@@ -17,6 +18,7 @@ export const Registration = () => {
     const [emailError, setEmailError] = useState<string>('')
     const [passwordError, setPasswordInsertError] = useState<string>('')
     const [confirmPasswordError, setConfirmPasswordInsertError] = useState<string>('')
+    const [passwordInputType, setPasswordInputType] = useState<string>('password')
 
     const emailInsertOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setEmailInsert(e.currentTarget.value)
@@ -39,6 +41,11 @@ export const Registration = () => {
     const confirmPasswordInsertOnFocusHandler = () => {
         setConfirmPasswordInsertError('')
         dispatch(SetServerErrorAC(''))
+    }
+
+    const changePasswordDisplay = () => {
+        if (passwordInputType === 'password') {setPasswordInputType('text')}
+        if (passwordInputType === 'text') {setPasswordInputType('password')}
     }
 
     const clearFormHandler = () => {
@@ -112,24 +119,38 @@ export const Registration = () => {
                     <div>
                         <span className={s.inputDescription}>Password   </span>
                         <span className={s.error}>{passwordError}</span>
-                        <input
-                            className={s.input}
-                            type={"password"}
-                            value={passwordInsert}
-                            onChange={passwordInsertOnChangeHandler}
-                            onFocus={passwordInsertOnFocusHandler}
-                        />
+                        <div className={s.inputContainer}>
+                            <input
+                                className={s.input}
+                                type={passwordInputType}
+                                value={passwordInsert}
+                                onChange={passwordInsertOnChangeHandler}
+                                onFocus={passwordInsertOnFocusHandler}
+                            />
+                            <img
+                                src={eyeIcon}
+                                className={s.eyeIcon}
+                                onClick={changePasswordDisplay}
+                            />
+                        </div>
                     </div>
                     <div>
                         <span className={s.inputDescription}>Confirm password   </span>
                         <span className={s.error}>{confirmPasswordError}</span>
-                        <input
-                            className={s.input}
-                            type={"password"}
-                            value={confirmPasswordInsert}
-                            onChange={confirmPasswordInsertOnChangeHandler}
-                            onFocus={confirmPasswordInsertOnFocusHandler}
-                        />
+                        <div className={s.inputContainer}>
+                            <input
+                                className={s.input}
+                                type={passwordInputType}
+                                value={confirmPasswordInsert}
+                                onChange={confirmPasswordInsertOnChangeHandler}
+                                onFocus={confirmPasswordInsertOnFocusHandler}
+                            />
+                            <img
+                                src={eyeIcon}
+                                className={s.eyeIcon}
+                                onClick={changePasswordDisplay}
+                            />
+                        </div>
                     </div>
                     <div className={s.error}>{serverError}</div>
                 </div>
