@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import s from './RecoveryPassword.module.css';
 import SuperInputText from '../../CommonComponents/c1-SuperInputText/SuperInputText';
 import SuperButton from '../../CommonComponents/c2-SuperButton/SuperButton';
@@ -6,16 +6,22 @@ import {NavLink} from 'react-router-dom';
 import emailImg from '../../img/email-picture.svg';
 import {requestNewPassword, setErrorMessage, setIsSuccess} from '../../store/redusers/recoveryPassword-reducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from '../../store/store';
+import {AppDispatch, AppRootStateType} from '../../store/store';
 
-export const RecoveryPassword = () => {
+export const RecoveryPassword = memo(() => {
 
     const [email, setEmail] = useState('');
 
     const isSuccess = useSelector<AppRootStateType, boolean>((state) => state.recoveryPassword.isSuccess)
     const errorMessage = useSelector<AppRootStateType, string | null>((state) => state.recoveryPassword.errorMessage)
 
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        return () => {
+            dispatch(setIsSuccess(false));
+        }
+    }, [])
 
     const onClickSendInstructions = () => {
         dispatch(requestNewPassword(email));
@@ -59,4 +65,4 @@ export const RecoveryPassword = () => {
             </div>
         </div>
     )
-}
+});

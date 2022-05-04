@@ -12,13 +12,13 @@ import {
     SetNewPassword
 } from "./features/SetNewPassword/SetNewPassword";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./store/store";
+import {AppDispatch, AppRootStateType} from "./store/store";
 import s from './App.module.css'
 
 import {isAuthTC} from "./store/redusers/login-reducer";
 
 function App() {
-    const dispatch = useDispatch<any>()
+    const dispatch = useDispatch<AppDispatch>()
 
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.login.initialized)
 
