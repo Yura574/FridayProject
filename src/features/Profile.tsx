@@ -1,10 +1,10 @@
-
+import {ProfilePage} from "./ProfilePage/ProfilePage";
 
 
 export const Profile = () => {
     return (
         <h1>
-            Profile
+            <ProfilePage/>
         </h1>
     )
 }
