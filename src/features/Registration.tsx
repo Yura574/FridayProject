@@ -1,4 +1,4 @@
-import s from './CreateNewPassword.module.css';
+import s from './Registration.module.css';
 import SuperButton from "../CommonComponents/c2-SuperButton/SuperButton";
 import {ChangeEvent, useState} from "react";
 import {RegistrationTC, SetServerErrorAC} from "../store/redusers/createPassword-reducer";
@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../store/store";
 import {Navigate} from "react-router-dom";
 
-export const CreateNewPassword = () => {
+export const Registration = () => {
     const serverError = useSelector<AppRootStateType, string>(state => state.createPassword.serverError)
     const email = useSelector<AppRootStateType, string>(state => state.createPassword.email)
     const dispatch: AppDispatch = useDispatch();
