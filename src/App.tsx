@@ -1,18 +1,18 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import { NavLink, Route, Routes} from 'react-router-dom';
-import {Registration} from "./features/Registration";
+import {CreateNewPassword} from "./features/CreateNewPassword";
 import {EnterNewPassword} from "./features/EnterNewPassword";
 import {Error404} from "./features/Error404";
 import {Login} from "./features/Login";
-import {Profile} from "./features/Profile";
+import {Profile} from "./features/Profile/Profile";
 import {TestPage} from "./features/Test";
 import {RecoveryPassword} from "./features/RecoveryPassword/RecoveryPassword";
 import {
     SetNewPassword
 } from "./features/SetNewPassword/SetNewPassword";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, AppRootStateType} from "./store/store";
+import {AppRootStateType} from "./store/store";
 import s from './App.module.css'
 
 import {isAuthTC} from "./store/redusers/login-reducer";

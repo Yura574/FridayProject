@@ -1,7 +1,10 @@
 import s from './EditProfilePage.module.css'
-import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
+import SuperButton from "../../../CommonComponents/c2-SuperButton/SuperButton";
 import {ChangeEvent, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {DataType, editProfileTC} from "../../../store/redusers/profile-reducer";
+import {AppRootStateType} from "../../../store/store";
+import {NavLink} from "react-router-dom";
 import {DataType, editProfileTC} from "../../store/redusers/profile-reducer";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 
