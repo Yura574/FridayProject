@@ -16,11 +16,13 @@ import {AppRootStateType} from "./store/store";
 import s from './App.module.css'
 
 import {isAuthTC} from "./store/redusers/login-reducer";
+import {Loader} from "./CommonComponents/c4-Loader/Loader";
 
 function App() {
     const dispatch = useDispatch<any>()
 
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.login.initialized)
+    const isLoader = useSelector<AppRootStateType, boolean>(state => state.app.isLoading);
 
     useEffect( () => {
         dispatch(isAuthTC())
@@ -35,6 +37,7 @@ function App() {
 
     return (
         <div className={'App'}>
+            {isLoader && <Loader/>}
             <div className={s.headerWrapper}>
                 <h1>Card training</h1>
                 <div className={s.nav}>

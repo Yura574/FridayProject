@@ -1,5 +1,6 @@
 import {nekoCardsAPI} from '../../api/neko-cards-api';
 import {Dispatch} from 'redux';
+import {setIsLoader, SetIsLoadingType} from "./app-reducer";
 
 enum SetNewPasswordAction {
     SET_IS_SUCCESS = 'SetNewPassword/SET_IS_SUCCESS',
@@ -16,9 +17,11 @@ const initialState: InitialStateType = {
     errorMessage: null,
 }
 
-type SetNewPasswordActionType = SetSuccessMessageType | SetErrorMessageType;
+type SetNewPasswordActionType = SetSuccessMessageType
+                              | SetErrorMessageType
+                              | SetIsLoadingType;
 
-export const SetNewPasswordReducer = (state: InitialStateType = initialState, action: SetNewPasswordActionType): InitialStateType => {
+export const setNewPasswordReducer = (state: InitialStateType = initialState, action: SetNewPasswordActionType): InitialStateType => {
     switch (action.type) {
         case SetNewPasswordAction.SET_IS_SUCCESS :
         case SetNewPasswordAction.SET_ERROR_MESSAGE:
@@ -48,7 +51,8 @@ export const setErrorMessage = (errorMessage: string | null) => {
     } as const
 }
 
-export const setNewPassword = (password: string, token: string) => (dispatch: Dispatch) => {
+export const setNewPassword = (password: string, token: string) => (dispatch: Dispatch<SetNewPasswordActionType>) => {
+    dispatch(setIsLoader(true));
     nekoCardsAPI.setNewPassword(password, token)
         .then(({data}) => {
             dispatch(setIsSuccess(!!data.info));
@@ -56,4 +60,7 @@ export const setNewPassword = (password: string, token: string) => (dispatch: Di
         .catch(({response}) => {
             dispatch(setErrorMessage(response.data.error));
         })
+        .finally(() => {
+            dispatch(setIsLoader(false));
+        });
 }

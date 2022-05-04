@@ -6,17 +6,19 @@ import {createPasswordReducer} from "./redusers/createPassword-reducer";
 import {enterPasswordReducer} from "./redusers/enterPassword-reducer";
 import {recoveryPasswordReducer} from "./redusers/recoveryPassword-reducer";
 import thunkMiddleware from "redux-thunk";
-import {SetNewPasswordReducer} from "./redusers/setNewPassword-reducer";
+import {setNewPasswordReducer} from "./redusers/setNewPassword-reducer";
+import {appReducer} from "./redusers/app-reducer";
 
 
 export const rootReducer  = combineReducers({
+    app: appReducer,
     profile: profileReducer,
     login: loginReducer,
     register: registerReducer,
     createPassword: createPasswordReducer,
     enterPassword: enterPasswordReducer,
     recoveryPassword: recoveryPasswordReducer,
-    setNewPassword: SetNewPasswordReducer,
+    setNewPassword: setNewPasswordReducer,
 })
 
 
