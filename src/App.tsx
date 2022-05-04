@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import { NavLink, Route, Routes} from 'react-router-dom';
-import {CreateNewPassword} from "./features/CreateNewPassword";
 import {Registration} from "./features/Registration/Registration";
 import {EnterNewPassword} from "./features/EnterNewPassword";
 import {Error404} from "./features/Error404";
@@ -13,11 +12,12 @@ import {
     SetNewPassword
 } from "./features/SetNewPassword/SetNewPassword";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./store/store";
+import {AppDispatch, AppRootStateType} from "./store/store";
 import s from './App.module.css'
 
 import {isAuthTC} from "./store/redusers/login-reducer";
 import {Loader} from "./CommonComponents/c4-Loader/Loader";
+import {EditProfilePage} from "./features/Profile/EditProfilePage/EditProfilePage";
 
 function App() {
     const dispatch = useDispatch<AppDispatch>()
@@ -54,6 +54,7 @@ function App() {
             <Routes>
                 <Route path={'/'} element={<Profile/>}/>
                  <Route path={'/profile'} element={<Profile/>}/>
+                 <Route path={'/edit-profile'} element={<EditProfilePage />}/>
                 <Route path={'/create-password'} element={<Registration/>}/>
                 <Route path={'/enter-password'} element={<EnterNewPassword/>}/>
                 {/*<Route path={'/404'} element={<Error404/>}/>*/}

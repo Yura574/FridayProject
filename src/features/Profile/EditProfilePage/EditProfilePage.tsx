@@ -2,11 +2,9 @@ import s from './EditProfilePage.module.css'
 import SuperButton from "../../../CommonComponents/c2-SuperButton/SuperButton";
 import {ChangeEvent, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, AppRootStateType} from "../../../store/store";
 import {DataType, editProfileTC} from "../../../store/redusers/profile-reducer";
-import {AppRootStateType} from "../../../store/store";
 import {NavLink} from "react-router-dom";
-import {DataType, editProfileTC} from "../../store/redusers/profile-reducer";
-import {AppDispatch, AppRootStateType} from "../../store/store";
 
 
 
@@ -73,7 +71,7 @@ export const EditProfilePage = () => {
 
                 </div>
                 <div className={s.buttonBlock}>
-                    <SuperButton>Cancel</SuperButton>
+                    <NavLink to={'/profile'}><SuperButton>Cancel</SuperButton></NavLink>
                     <SuperButton className={s.blue}
                      onClick={()=> editProfile({name, avatar})}>Save</SuperButton>
                 </div>
