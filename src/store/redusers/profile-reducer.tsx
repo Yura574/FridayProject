@@ -10,10 +10,13 @@ const initialState = {
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-        case "SET_PROFILE":
-            return {...state}
+        case "SET_PROFILE":{
+            debugger
+            return {...state, name: action.name,  avatar: action.avatar}
+        }
+
         case "EDIT_PROFILE":
-            return {...state, name: action.name, email: action.email, avatar: action.avatar}
+            return {...state, name: action.name,  avatar: action.avatar}
 
 
         default:
@@ -22,16 +25,17 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
 }
 
 // actions
-export const setProfile = () => {
+export const setProfile = (name: string, avatar: string) => {
     return {
-        type: "SET_PROFILE"
+        type: "SET_PROFILE",
+        name,
+        avatar
     } as const
 }
-export const editProfile = (name: string, email: string, avatar: string) => {
+export const editProfile = (name: string,  avatar: string) => {
     return {
         type: "EDIT_PROFILE",
         name,
-        email,
         avatar
     } as const
 }
@@ -39,37 +43,30 @@ export const editProfile = (name: string, email: string, avatar: string) => {
 
 //thunks
 export const setProfileTC = () => (dispatch: Dispatch) => {
+    debugger
     nekoCardsAPI.setProfile()
         .then(res => {
-            if(res){
-                debugger
-            }
+            debugger
+            const {name, avatar} = res.data
+            dispatch(setProfile(name,  avatar))
+
         })
         .catch((err) => {
+            debugger
             console.log(err)
         })
 }
 
 export const editProfileTC = (data: DataType) => (dispatch: Dispatch) => {
+    debugger
     nekoCardsAPI.editProfile(data)
         .then(res => {
-            dispatch(editProfile(data.name, data.mail, data.avatar))
+            debugger
+            const {name, avatar} = res.data.updatedUser
+            dispatch(editProfile(name,  avatar))
+
         })
 }
-export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
-    debugger
-    nekoCardsAPI.login(data)
-        .then(res => {
-            if(res){
-                debugger
-            }
-            debugger
-        })
-        // .catch ((e)=> { const error = e.response ? e.response.data.error : (e.message + ', more details in the console')});
-        .catch(err => {
-            alert(JSON.stringify(err))
-        })
- }
 
 
 //types
@@ -80,7 +77,6 @@ type EditProfileType = ReturnType<typeof editProfile>
 type SetProfileType = ReturnType<typeof setProfile>
 export type DataType = {
     name: string,
-    mail: string,
     avatar: string
 }
 export type DataLoginType = {
@@ -89,4 +85,25 @@ export type DataLoginType = {
     rememberMe: boolean
 }
 
+export type ProfileResponseType = {
+    avatar: string
+    created: Date
+    email: string
+    isAdmin: boolean
+    name: string
+    publicCardPacksCount: number
+    rememberMe: boolean
+    token: string
+    tokenDeathTime: number
+    updated: Date
+    verified: boolean
+    __v: number
+    _id: string
+}
+
+export type UpdateProfileResponseType = {
+    token: string
+    tokenDeathTime: number
+    updatedUser: ProfileResponseType
+}
 

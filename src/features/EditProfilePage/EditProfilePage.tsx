@@ -9,24 +9,32 @@ import {AppRootStateType} from "../../store/store";
 
 export const EditProfilePage = () => {
     const dispatch = useDispatch<any>()
+
+    const nameDefault = useSelector<AppRootStateType, string>(state => state.profile.name)
     const ava = useSelector<AppRootStateType, string>(state => state.profile.avatar)
-    const [name, setName] = useState<string>('')
-    const [mail, setMail] = useState<string>('')
+    const [name, setName] = useState<string>(nameDefault)
     const [avatar, setAvatar] = useState<string>(ava)
 
     useEffect( () => {
         dispatch(setProfileTC())
+
     }, [])
+    useEffect( () => {
+        setName(nameDefault)
+        setAvatar(ava)
+
+    }, [nameDefault, ava])
 
     const changeName = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value)
     }
   const changeMail = (e: ChangeEvent<HTMLInputElement>) => {
-        setMail(e.currentTarget.value)
+        setAvatar(e.currentTarget.value)
     }
 
 
     const editProfile = (data: DataType) => {
+        debugger
        dispatch(editProfileTC(data))
     }
 
@@ -46,24 +54,20 @@ export const EditProfilePage = () => {
                 <div className={s.inputsBlock}>
                     <div>
                         <span className={s.inputDescription}>Nickname   </span>
-
                         <input
                             className={s.input}
                             type={"text"}
                             value={name}
                             onChange={changeName}
-
                         />
                     </div>
                     <div>
-                        <span className={s.inputDescription}>email   </span>
+                        <span className={s.inputDescription}>Url avatar   </span>
 
                         <input
                             className={s.input}
-                            type={"email"}
-                            value={mail}
+                            value={avatar}
                             onChange={changeMail}
-
                         />
                     </div>
 
@@ -71,7 +75,7 @@ export const EditProfilePage = () => {
                 <div className={s.buttonBlock}>
                     <SuperButton>Cancel</SuperButton>
                     <SuperButton className={s.blue}
-                     onClick={()=> editProfile({name, mail, avatar})}>Save</SuperButton>
+                     onClick={()=> editProfile({name, avatar})}>Save</SuperButton>
                 </div>
             </div>
         </div>
