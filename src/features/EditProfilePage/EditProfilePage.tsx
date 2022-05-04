@@ -1,0 +1,79 @@
+import s from './EditProfilePage.module.css'
+import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
+import {ChangeEvent, useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {DataType, editProfileTC, setProfileTC} from "../../store/redusers/profile-reducer";
+import {AppRootStateType} from "../../store/store";
+
+
+
+export const EditProfilePage = () => {
+    const dispatch = useDispatch<any>()
+    const ava = useSelector<AppRootStateType, string>(state => state.profile.avatar)
+    const [name, setName] = useState<string>('')
+    const [mail, setMail] = useState<string>('')
+    const [avatar, setAvatar] = useState<string>(ava)
+
+    useEffect( () => {
+        dispatch(setProfileTC())
+    }, [])
+
+    const changeName = (e: ChangeEvent<HTMLInputElement>) => {
+        setName(e.currentTarget.value)
+    }
+  const changeMail = (e: ChangeEvent<HTMLInputElement>) => {
+        setMail(e.currentTarget.value)
+    }
+
+
+    const editProfile = (data: DataType) => {
+       dispatch(editProfileTC(data))
+    }
+
+
+    return (
+        <div className={s.main}>
+            <div className={s.form}>
+                <div className={s.headerBlock}>
+                    <div className={s.header}>Personal information</div>
+                    <div className={s.profile_img_wrapper}>
+                        <img
+                            className={s.profileImg}
+                            src={avatar} alt={'photo'}/>
+                        <div className={s.test}> </div>
+                    </div>
+                </div>
+                <div className={s.inputsBlock}>
+                    <div>
+                        <span className={s.inputDescription}>Nickname   </span>
+
+                        <input
+                            className={s.input}
+                            type={"text"}
+                            value={name}
+                            onChange={changeName}
+
+                        />
+                    </div>
+                    <div>
+                        <span className={s.inputDescription}>email   </span>
+
+                        <input
+                            className={s.input}
+                            type={"email"}
+                            value={mail}
+                            onChange={changeMail}
+
+                        />
+                    </div>
+
+                </div>
+                <div className={s.buttonBlock}>
+                    <SuperButton>Cancel</SuperButton>
+                    <SuperButton className={s.blue}
+                     onClick={()=> editProfile({name, mail, avatar})}>Save</SuperButton>
+                </div>
+            </div>
+        </div>
+    )
+}

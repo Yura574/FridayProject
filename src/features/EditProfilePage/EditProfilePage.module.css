@@ -8,7 +8,6 @@
 }
 
 
-
 .form {
     width: 420px;
     height: 540px;
@@ -27,19 +26,48 @@
     align-items: center;
 }
 
-.header{
+.header {
     font-size: 22px;
     line-height: 33px;
 }
 
-.profile_img_wrapper{
+.profile_img_wrapper {
     position: relative;
+    margin-top: 15px;
+    cursor: pointer;
 }
-.profile_img_wrapper button{
+.profile_img_wrapper:hover::after{
+    content: 'Веберите фотографию';
+    /*content: attr(data-title); !* Выводим текст *!*/
+    position: absolute; /* Абсолютное позиционирование */
+    left: 0; top: -20%; /* Положение подсказки */
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */
+    font-family: Arial, sans-serif; /* Гарнитура шрифта */
+    font-size: 11px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    border: 1px solid #333; /* Параметры рамки */
+    /*width: 200%;*/
+}
+
+/*.profile_img_wrapper button {*/
+.test {
     position: absolute;
+    background: url('../../img/Group.svg') no-repeat;
+    width: 35px;
+    height: 35px;
+    top: 70%;
+    right: 5%;
+    /*margin-bottom: 40px;*/
+
 
 }
-.profileImg{
+
+/*    position: absolute;*/
+
+/*}*/
+
+.profileImg {
     width: 100px;
     border-radius: 50%;
 
@@ -52,16 +80,19 @@
     flex-direction: column;
     justify-content: space-around;
 }
+
 .inputDescription {
     font-size: small;
     opacity: 50%;
 }
+
 .input {
     width: 100%;
     height: 30px;
     border: 0;
     border-bottom: 1px solid #a1a1a1;
 }
+
 .input:focus {
     outline: none;
 }

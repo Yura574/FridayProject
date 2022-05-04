@@ -30,7 +30,6 @@ function App() {
             <div>
                 <div><NavLink to={'/profile'}>Profile</NavLink></div>
                 <div><NavLink to={'/create-password'}>Create password</NavLink></div>
-                <div><NavLink to={'/create-password'}>Create password</NavLink></div>
                 <div><NavLink to={'/enter-password'}>Enter password</NavLink></div>
                 <div><NavLink to={'/recovery-password'}>Recovery Password</NavLink></div>
                 {/*<div><NavLink to={'/404'}>404</NavLink></div>*/}

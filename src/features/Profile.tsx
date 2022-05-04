@@ -1,10 +1,10 @@
-import {ProfilePage} from "./ProfilePage/ProfilePage";
+import {EditProfilePage} from "./EditProfilePage/EditProfilePage";
 
 
 export const Profile = () => {
     return (
         <h1>
-            <ProfilePage/>
+            <EditProfilePage/>
         </h1>
     )
 }
