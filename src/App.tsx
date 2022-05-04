@@ -7,6 +7,10 @@ import {Error404} from "./features/Error404";
 import {Login} from "./features/Login";
 import {Profile} from "./features/Profile";
 import {TestPage} from "./features/Test";
+import {RecoveryPassword} from "./features/RecoveryPassword/RecoveryPassword";
+import {
+    SetNewPassword
+} from "./features/SetNewPassword/SetNewPassword";
 
 function App() {
     return (
@@ -19,6 +23,8 @@ function App() {
                 {/*<Route path={'/404'} element={<Error404/>}/>*/}
                 <Route path={'/login'} element={<Login/>}/>
                 <Route path={'/test'} element={<TestPage/>}/>
+                <Route path={'/recovery-password'} element={<RecoveryPassword/>}/>
+                <Route path={'/set-new-password/:token'} element={<SetNewPassword/>}/>
                 <Route path={'*'} element={<Error404 />}/>
             </Routes>
             <div>
@@ -26,6 +32,7 @@ function App() {
                 <div><NavLink to={'/create-password'}>Create password</NavLink></div>
                 <div><NavLink to={'/create-password'}>Create password</NavLink></div>
                 <div><NavLink to={'/enter-password'}>Enter password</NavLink></div>
+                <div><NavLink to={'/recovery-password'}>Recovery Password</NavLink></div>
                 {/*<div><NavLink to={'/404'}>404</NavLink></div>*/}
                 <div><NavLink to={'/login'}>Login</NavLink></div>
                 <div><NavLink to={'/test'}>Test</NavLink></div>

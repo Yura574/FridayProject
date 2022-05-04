@@ -1,9 +1,9 @@
-import {Dispatch} from 'redux';
 import {nekoCardsAPI} from '../../api/neko-cards-api';
+import {Dispatch} from 'redux';
 
-enum RecoveryPasswordAction {
-    SET_IS_SUCCESS = 'RecoveryPassword/SET_IS_SUCCESS',
-    SET_ERROR_MESSAGE = 'RecoveryPassword/SET_ERROR_MESSAGE',
+enum SetNewPasswordAction {
+    SET_IS_SUCCESS = 'SetNewPassword/SET_IS_SUCCESS',
+    SET_ERROR_MESSAGE = 'SetNewPassword/SET_ERROR_MESSAGE',
 }
 
 type InitialStateType = {
@@ -16,13 +16,12 @@ const initialState: InitialStateType = {
     errorMessage: null,
 }
 
-type RecoveryPasswordActionType = SetSuccessMessageType
-                                | SetErrorMessageType;
+type SetNewPasswordActionType = SetSuccessMessageType | SetErrorMessageType;
 
-export const recoveryPasswordReducer = (state: InitialStateType = initialState, action: RecoveryPasswordActionType): InitialStateType => {
+export const SetNewPasswordReducer = (state: InitialStateType = initialState, action: SetNewPasswordActionType): InitialStateType => {
     switch (action.type) {
-        case RecoveryPasswordAction.SET_IS_SUCCESS :
-        case RecoveryPasswordAction.SET_ERROR_MESSAGE:
+        case SetNewPasswordAction.SET_IS_SUCCESS :
+        case SetNewPasswordAction.SET_ERROR_MESSAGE:
             return {...state, ...action.payload};
         default:
             return state
@@ -32,7 +31,7 @@ export const recoveryPasswordReducer = (state: InitialStateType = initialState, 
 type SetSuccessMessageType = ReturnType<typeof setIsSuccess>;
 export const setIsSuccess = (isSuccess: boolean) => {
     return {
-        type: RecoveryPasswordAction.SET_IS_SUCCESS,
+        type: SetNewPasswordAction.SET_IS_SUCCESS,
         payload: {
             isSuccess,
         },
@@ -42,19 +41,19 @@ export const setIsSuccess = (isSuccess: boolean) => {
 type SetErrorMessageType = ReturnType<typeof setErrorMessage>;
 export const setErrorMessage = (errorMessage: string | null) => {
     return {
-        type: RecoveryPasswordAction.SET_ERROR_MESSAGE,
+        type: SetNewPasswordAction.SET_ERROR_MESSAGE,
         payload: {
             errorMessage,
         },
     } as const
 }
 
-export const requestNewPassword = (email: string) => (dispatch: Dispatch<RecoveryPasswordActionType>) => {
-    nekoCardsAPI.requestNewPassword(email)
+export const setNewPassword = (password: string, token: string) => (dispatch: Dispatch) => {
+    nekoCardsAPI.setNewPassword(password, token)
         .then(({data}) => {
             dispatch(setIsSuccess(!!data.info));
         })
         .catch(({response}) => {
             dispatch(setErrorMessage(response.data.error));
-        });
+        })
 }
