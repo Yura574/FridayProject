@@ -5,7 +5,7 @@ import {CreateNewPassword} from "./features/CreateNewPassword";
 import {EnterNewPassword} from "./features/EnterNewPassword";
 import {Error404} from "./features/Error404";
 import {Login} from "./features/Login";
-import {Profile} from "./features/Profile";
+import {Profile} from "./features/Profile/Profile";
 import {TestPage} from "./features/Test";
 import {RecoveryPassword} from "./features/RecoveryPassword/RecoveryPassword";
 import {
@@ -16,6 +16,7 @@ import {AppRootStateType} from "./store/store";
 import s from './App.module.css'
 
 import {isAuthTC} from "./store/redusers/login-reducer";
+import {EditProfilePage} from "./features/Profile/EditProfilePage/EditProfilePage";
 
 function App() {
     const dispatch = useDispatch<any>()
@@ -49,7 +50,8 @@ function App() {
             </div>
             <Routes>
                 <Route path={'/'} element={<Profile/>}/>
-                 <Route path={'/profile'} element={<Profile/>}/>
+                <Route path={'/profile'} element={<Profile/>}/>
+                 <Route path={'/edit-profile'} element={<EditProfilePage />}/>
                 <Route path={'/create-password'} element={<CreateNewPassword/>}/>
                 <Route path={'/enter-password'} element={<EnterNewPassword/>}/>
                 {/*<Route path={'/404'} element={<Error404/>}/>*/}

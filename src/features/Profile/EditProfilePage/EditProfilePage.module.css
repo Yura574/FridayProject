@@ -53,7 +53,7 @@
 /*.profile_img_wrapper button {*/
 .test {
     position: absolute;
-    background: url('../../img/Group.svg') no-repeat;
+    background: url('../../../img/Group.svg') no-repeat;
     width: 35px;
     height: 35px;
     top: 70%;
