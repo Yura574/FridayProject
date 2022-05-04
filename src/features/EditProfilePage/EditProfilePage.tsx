@@ -3,12 +3,12 @@ import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
 import {ChangeEvent, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {DataType, editProfileTC} from "../../store/redusers/profile-reducer";
-import {AppRootStateType} from "../../store/store";
+import {AppDispatch, AppRootStateType} from "../../store/store";
 
 
 
 export const EditProfilePage = () => {
-    const dispatch = useDispatch<any>()
+    const dispatch = useDispatch<AppDispatch>()
 
     const nameDefault = useSelector<AppRootStateType, string>(state => state.profile.name)
     const ava = useSelector<AppRootStateType, string>(state => state.profile.avatar)

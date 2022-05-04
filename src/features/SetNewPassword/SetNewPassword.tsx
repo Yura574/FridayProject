@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import s from './SetNewPassword.module.css';
 import SuperButton from '../../CommonComponents/c2-SuperButton/SuperButton';
 import SuperInputText from '../../CommonComponents/c1-SuperInputText/SuperInputText';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {setNewPassword, setErrorMessage} from '../../store/redusers/setNewPassword-reducer';
-import {AppRootStateType} from '../../store/store';
+import {setNewPassword, setErrorMessage, setIsSuccess} from '../../store/redusers/setNewPassword-reducer';
+import {AppDispatch, AppRootStateType} from '../../store/store';
 
-export const SetNewPassword = () => {
+export const SetNewPassword = memo(() => {
 
     const [password, setPassword] = useState('');
 
@@ -17,12 +17,15 @@ export const SetNewPassword = () => {
     const isSuccess = useSelector<AppRootStateType, boolean>((state) => state.setNewPassword.isSuccess)
     const errorMessage = useSelector<AppRootStateType, string | null>((state) => state.setNewPassword.errorMessage)
 
-    const dispatch = useDispatch<any>();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         if (isSuccess) {
             dispatch(setErrorMessage(null));
             navigate('/login');
+        }
+        return () => {
+            dispatch(setIsSuccess(false));
         }
     }, [isSuccess])
 
@@ -49,4 +52,4 @@ export const SetNewPassword = () => {
             </div>
         </div>
     );
-};
+});
