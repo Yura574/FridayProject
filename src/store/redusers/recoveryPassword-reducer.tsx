@@ -1,5 +1,6 @@
 import {Dispatch} from 'redux';
 import {nekoCardsAPI} from '../../api/neko-cards-api';
+import {setIsLoader, SetIsLoadingType} from "./app-reducer";
 
 enum RecoveryPasswordAction {
     SET_IS_SUCCESS = 'RecoveryPassword/SET_IS_SUCCESS',
@@ -17,7 +18,8 @@ const initialState: InitialStateType = {
 }
 
 type RecoveryPasswordActionType = SetSuccessMessageType
-                                | SetErrorMessageType;
+                                | SetErrorMessageType
+                                | SetIsLoadingType;
 
 export const recoveryPasswordReducer = (state: InitialStateType = initialState, action: RecoveryPasswordActionType): InitialStateType => {
     switch (action.type) {
@@ -50,11 +52,15 @@ export const setErrorMessage = (errorMessage: string | null) => {
 }
 
 export const requestNewPassword = (email: string) => (dispatch: Dispatch<RecoveryPasswordActionType>) => {
+    dispatch(setIsLoader(true));
     nekoCardsAPI.requestNewPassword(email)
         .then(({data}) => {
             dispatch(setIsSuccess(!!data.info));
         })
         .catch(({response}) => {
             dispatch(setErrorMessage(response.data.error));
+        })
+        .finally(() => {
+            dispatch(setIsLoader(false));
         });
 }
