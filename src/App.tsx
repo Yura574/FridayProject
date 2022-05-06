@@ -4,7 +4,7 @@ import { NavLink, Route, Routes} from 'react-router-dom';
 import {Registration} from "./features/Registration/Registration";
 import {EnterNewPassword} from "./features/EnterNewPassword";
 import {Error404} from "./features/Error404";
-import {Login} from "./features/Login";
+import {Login} from "./features/Login/Login";
 import {Profile} from "./features/Profile/Profile";
 import {TestPage} from "./features/Test";
 import {RecoveryPassword} from "./features/RecoveryPassword/RecoveryPassword";
