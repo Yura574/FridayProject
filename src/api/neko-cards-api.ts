@@ -22,7 +22,7 @@ export const nekoCardsAPI = {
                       password recovery link: 
                         <a href='http://localhost:3000/#/set-new-password/$token$'>
                           link
-                        </a>
+                        </a> 
                       </div>`,
         }
         return instance.post(`/auth/forgot`, data);
@@ -35,12 +35,13 @@ export const nekoCardsAPI = {
     },
     editProfile(dataProfile: DataType) {
         const {name, avatar} = dataProfile
-        debugger
         return instance.put<any, AxiosResponse<UpdateProfileResponseType>, {name: string, avatar: string}>(`/auth/me`, {name, avatar})
     },
     login(dataLogin: DataLoginType) {
-
-        return instance.post('/auth/login', {dataLogin})
+        return instance.post('/auth/login', {...dataLogin})
+    },
+    logout() {
+        return instance.delete('/auth/me')
     },
     registration(email: string, password: string) {
         return instance.post('/auth/register', {email, password})

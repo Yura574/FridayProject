@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {nekoCardsAPI} from "../../api/neko-cards-api";
+import {setIsAuth} from "./login-reducer";
 
 
 const initialState = {
@@ -11,7 +12,7 @@ const initialState = {
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case "SET_PROFILE":{
-            return {...state, name: action.name,  avatar: action.avatar}
+            return {...state, name: action.name, email: action.email,  avatar: action.avatar}
         }
 
         case "EDIT_PROFILE":
@@ -24,10 +25,11 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
 }
 
 // actions
-export const setProfile = (name: string, avatar: string) => {
+export const setProfile = (name: string, email: string, avatar: string) => {
     return {
         type: "SET_PROFILE",
         name,
+        email,
         avatar
     } as const
 }
@@ -48,6 +50,28 @@ export const editProfileTC = (data: DataType) => (dispatch: Dispatch) => {
         .then(res => {
             const {name, avatar} = res.data.updatedUser
             dispatch(editProfile(name,  avatar))
+
+        })
+}
+
+export const loginTC =(dataLogin: DataLoginType) => (dispatch: Dispatch) => {
+    debugger
+    nekoCardsAPI.login(dataLogin)
+        .then(res => {
+            debugger
+            const {name, email, avatar} = res.data
+            dispatch(setProfile(name, email, avatar))
+            dispatch(setIsAuth(true))
+
+        })
+}
+export const logoutTC =() => (dispatch: Dispatch) => {
+    debugger
+    nekoCardsAPI.logout()
+        .then(res => {
+
+            dispatch(setProfile('', '', ''))
+            dispatch(setIsAuth(false))
 
         })
 }

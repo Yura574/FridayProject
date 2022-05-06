@@ -25,6 +25,8 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
     }
 }
 
+
+//actions
 type SetInitializedType = ReturnType<typeof setInitialized>
 export const setInitialized = (initialized: boolean) => {
     return {
@@ -37,6 +39,7 @@ export const setInitialized = (initialized: boolean) => {
 
 type SetIsAuthType = ReturnType<typeof setIsAuth>
 export const setIsAuth = (isAuth: boolean) => {
+    debugger
     return {
         type: LoginAction.SET_IS_AUTH,
         payload: {
@@ -45,13 +48,14 @@ export const setIsAuth = (isAuth: boolean) => {
     }
 }
 
+
+//thunks
 export const isAuthTC = () => (dispatch: Dispatch) => {
     nekoCardsAPI.AuthMe()
         .then(res => {
-            const {name, avatar} = res.data
-            dispatch(setProfile(name,  avatar))
+            const {name, email, avatar} = res.data
+            dispatch(setProfile(name, email,  avatar))
             dispatch(setIsAuth(true))
-
         })
         .catch((err) => {
             console.log(err.message)
