@@ -39,7 +39,6 @@ export const setInitialized = (initialized: boolean) => {
 
 type SetIsAuthType = ReturnType<typeof setIsAuth>
 export const setIsAuth = (isAuth: boolean) => {
-    debugger
     return {
         type: LoginAction.SET_IS_AUTH,
         payload: {

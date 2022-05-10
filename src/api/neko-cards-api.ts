@@ -5,11 +5,11 @@ import {
     ProfileResponseType,
     UpdateProfileResponseType
 } from "../store/redusers/profile-reducer";
-import {PacksListType} from "../store/redusers/packsListPage-reducer";
+import {NewPackType, PacksListType, PackType} from "../store/redusers/packsListPage-reducer";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:7542/2.0',
-    // baseURL: 'https://neko-back.herokuapp.com/2.0',
+    // baseURL: 'http://localhost:7542/2.0',
+    baseURL: 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true,
 });
 
@@ -52,5 +52,14 @@ export const nekoCardsAPI = {
 export const packsListPageAPI = {
     getPacksList(packName?: string) {
         return instance.get<PacksListType>('/cards/pack', {params: {packName}})
+    },
+    addNewPack(cardsPack: NewPackType){
+       return  instance.post('/cards/pack', {cardsPack})
+    },
+    deletePack(packId: string){
+       return  instance.delete(`/cards/pack/?id=${packId}`)
+    },
+    updatePack(cardsPack: PackType){
+       return  instance.put('/cards/pack', {cardsPack})
     }
 }

@@ -1,19 +1,12 @@
 import {Navigate, NavLink} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import {AppRootStateType} from "../../store/store";
 import s from './Profile.module.css'
-import {logoutTC} from "../../store/redusers/profile-reducer";
 
 
 export const Profile = () => {
-    const dispatch = useDispatch<any>()
     const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isAuth)
     const avatar = useSelector<AppRootStateType, string>(state => state.profile.avatar)
-
-
-    const logout =()=> {
-        dispatch(logoutTC())
-    }
 
     if (!isAuth) {
         return <Navigate to={'/login'}/>
@@ -28,7 +21,7 @@ export const Profile = () => {
                     <button>Edit profile</button>
                 </NavLink>
             </div>
-            <button onClick={logout}>logout</button>
+            {/*<button onClick={logout}>logout</button>*/}
         </div>
     )
 }

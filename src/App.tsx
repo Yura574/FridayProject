@@ -19,6 +19,7 @@ import {isAuthTC} from "./store/redusers/login-reducer";
 import {Loader} from "./CommonComponents/c4-Loader/Loader";
 import {EditProfilePage} from "./features/Profile/EditProfilePage/EditProfilePage";
 import {PacksListPage} from "./features/PackList/PacksListPage";
+import {logoutTC} from "./store/redusers/profile-reducer";
 
 function App() {
     const dispatch = useDispatch<AppDispatch>()
@@ -30,6 +31,9 @@ function App() {
         dispatch(isAuthTC())
 
     }, [])
+    const logout =()=> {
+        dispatch(logoutTC())
+    }
 
     if (!isInitialized) {
         return <div style={{display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center'}}>
@@ -58,6 +62,7 @@ function App() {
                     </div>
                     <div><NavLink to={'/test'} className={({isActive}) => isActive ? s.active : s.link}>Test</NavLink>
                     </div>
+                    <button onClick={logout} className={s.logout}>logout</button>
                 </div>
             </div>
             <Routes>

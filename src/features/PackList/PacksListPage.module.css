@@ -34,3 +34,12 @@
     align-items: center;
     justify-content: center;
 }
+.header{
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    margin-bottom: 20px;
+}
+.addPack {
+
+}
