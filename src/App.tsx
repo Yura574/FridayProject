@@ -20,6 +20,7 @@ import {Loader} from "./CommonComponents/c4-Loader/Loader";
 import {EditProfilePage} from "./features/Profile/EditProfilePage/EditProfilePage";
 import {PacksListPage} from "./features/PackList/PacksListPage";
 import {logoutTC} from "./store/redusers/profile-reducer";
+import {Cards} from "./features/Cards/Cards";
 
 function App() {
     const dispatch = useDispatch<AppDispatch>()
@@ -77,6 +78,7 @@ function App() {
                 <Route path={'/test'} element={<TestPage/>}/>
                 <Route path={'/recovery-password'} element={<RecoveryPassword/>}/>
                 <Route path={'/set-new-password/:token'} element={<SetNewPassword/>}/>
+                <Route path={'/cards/:cardsPack_id'} element={<Cards/>}/>
                 <Route path={'*'} element={<Error404/>}/>
             </Routes>
 

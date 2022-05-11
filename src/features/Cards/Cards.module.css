@@ -1,0 +1,55 @@
+.cardsWrapper {
+
+}
+
+.container {
+    width: 1200px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.searchInput {
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+}
+
+.table {
+    border-spacing: 0;
+    width: 100%;
+    text-align: start;
+    -webkit-box-shadow: 0 4px 14px rgba(45, 46, 70, 0.15);
+    -moz-box-shadow: 0 4px 14px rgba(45, 46, 70, 0.15);
+    box-shadow: 0 4px 14px rgba(45, 46, 70, 0.15);
+}
+
+.tableHead {
+    border-radius: 5px 5px 0 0;
+}
+
+.table th {
+    text-align: start;
+}
+
+.tableTitleRow {
+    background: #ECECF9;
+}
+
+.tableTitleRow > th {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px 24px;
+}
+
+.tableRow {
+
+}
+
+.tableRow:nth-child(even) {
+    background: #F8F7FD;
+}
+
+.tableRow > td {
+    font-size: 14px;
+    padding: 16px 24px;
+}
