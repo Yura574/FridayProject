@@ -32,7 +32,7 @@ export const nekoCardsAPI = {
         return instance.post(`/auth/set-new-password`, {password, resetPasswordToken});
     },
     AuthMe() {
-        return instance.post<any, AxiosResponse<ProfileResponseType>>('/auth/me', {})
+        return instance.post<ProfileResponseType, AxiosResponse<ProfileResponseType>>('/auth/me', {})
     },
     editProfile(dataProfile: DataType) {
         const {name, avatar} = dataProfile

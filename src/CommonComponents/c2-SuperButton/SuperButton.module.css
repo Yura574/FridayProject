@@ -22,6 +22,9 @@
 .btn:hover {
     animation: rotate 0.7s ease-in-out both
 }
+.btn:disabled {
+    background: rgba(68,59,141,0.84);
+}
 
 
 @keyframes rotate {
@@ -42,5 +45,5 @@
     }
 }
 .btn:active {
-    background: rgba(71,18,99, 0.5);
+    /*background: rgba(71,18,99, 0.5);*/
 }

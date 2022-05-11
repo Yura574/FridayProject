@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {nekoCardsAPI} from "../../api/neko-cards-api";
 import {setProfile} from "./profile-reducer";
+import {AxiosError} from "axios";
 
 enum LoginAction {
     SET_INITIALIZED = 'Login/SET_INITIALIZED',
@@ -56,8 +57,9 @@ export const isAuthTC = () => (dispatch: Dispatch) => {
             dispatch(setProfile(name, email,  avatar))
             dispatch(setIsAuth(true))
         })
-        .catch((err) => {
-            console.log(err.message)
+        .catch((err: AxiosError) => {
+            debugger
+            console.warn( err.response?.status)
         })
         .finally(() => {
             dispatch(setInitialized(true))
