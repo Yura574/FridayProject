@@ -1,12 +1,27 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import s from './Cards.module.css';
 import {useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../store/store";
+import {CardType, fetchCards} from "../../store/redusers/cards-reducer";
 
 export const Cards = () => {
     const {cardsPack_id} = useParams();
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
 
+    const dispatch = useDispatch<any>();
+
+    const cards = useSelector<AppRootStateType, CardType[]>(state => state.cards.cards);
+    const cardsBodyTable = cards.map(card => {
+            return <tr key={card._id} className={s.tableRow}><td>{card.question}</td><td>{card.answer}</td><td>{card.updated}</td><td>{card.grade}</td></tr>
+        });
+
+    useEffect(() => {
+        if(cardsPack_id) {
+            dispatch(fetchCards(cardsPack_id));
+        }
+    }, []);
 
     return (
         <div className={s.cardsWrapper}>
@@ -32,11 +47,7 @@ export const Cards = () => {
                         <tr className={s.tableTitleRow}><th>Question</th><th>Answer</th><th>Last Updated</th><th>Grade</th></tr>
                     </thead>
                     <tbody>
-                        <tr className={s.tableRow}><td>данные1</td><td>данные2</td><td>данные3</td><td>данные4</td></tr>
-                        <tr className={s.tableRow}><td>данные1</td><td>данные2</td><td>данные3</td><td>данные4</td></tr>
-                        <tr className={s.tableRow}><td>данные1</td><td>данные2</td><td>данные3</td><td>данные4</td></tr>
-                        <tr className={s.tableRow}><td>данные1</td><td>данные2</td><td>данные3</td><td>данные4</td></tr>
-                        <tr className={s.tableRow}><td>данные1</td><td>данные2</td><td>данные3</td><td>данные4</td></tr>
+                        {cardsBodyTable}
                     </tbody>
                 </table>
                 <div>

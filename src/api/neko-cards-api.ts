@@ -61,5 +61,8 @@ export const packsListPageAPI = {
     },
     updatePack(cardsPack: PackType){
        return  instance.put('/cards/pack', {cardsPack})
-    }
+    },
+    getCards(cardsPack_id: string) {
+        return instance.get('/cards/card', {params: {cardsPack_id}});
+    },
 }
