@@ -8,6 +8,7 @@ import thunkMiddleware from "redux-thunk";
 import {setNewPasswordReducer} from "./redusers/setNewPassword-reducer";
 import {appReducer} from "./redusers/app-reducer";
 import {packsListReducer} from "./redusers/packsListPage-reducer";
+import {cardsReducer} from "./redusers/cards-reducer";
 
 
 export const rootReducer  = combineReducers({
@@ -19,6 +20,7 @@ export const rootReducer  = combineReducers({
     recoveryPassword: recoveryPasswordReducer,
     setNewPassword: setNewPasswordReducer,
     packsList: packsListReducer,
+    cards: cardsReducer,
 })
 
 
