@@ -11,8 +11,8 @@ import {NavLink} from "react-router-dom";
 export const EditProfilePage = () => {
     const dispatch = useDispatch<AppDispatch>()
 
-    const nameDefault = useSelector<AppRootStateType, string>(state => state.profile.name)
-    const ava = useSelector<AppRootStateType, string>(state => state.profile.avatar)
+    const nameDefault = useSelector<AppRootStateType, string>(state => state.profile.profile.name)
+    const ava = useSelector<AppRootStateType, string>(state => state.profile.profile.avatar)
     const [name, setName] = useState<string>(nameDefault)
     const [avatar, setAvatar] = useState<string>(ava)
 

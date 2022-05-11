@@ -2,7 +2,7 @@ import axios, {AxiosResponse} from 'axios';
 import {
     DataLoginType,
     DataType,
-    ProfileResponseType,
+    ProfileType,
     UpdateProfileResponseType
 } from "../store/redusers/profile-reducer";
 import {NewPackType, PacksListType, PackType} from "../store/redusers/packsListPage-reducer";
@@ -32,7 +32,7 @@ export const nekoCardsAPI = {
         return instance.post(`/auth/set-new-password`, {password, resetPasswordToken});
     },
     AuthMe() {
-        return instance.post<ProfileResponseType, AxiosResponse<ProfileResponseType>>('/auth/me', {})
+        return instance.post<ProfileType, AxiosResponse<ProfileType>>('/auth/me', {})
     },
     editProfile(dataProfile: DataType) {
         const {name, avatar} = dataProfile

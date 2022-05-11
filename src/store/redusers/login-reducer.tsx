@@ -16,11 +16,9 @@ const initialState = {
 
 export const loginReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-
         case LoginAction.SET_IS_AUTH:
         case  LoginAction.SET_INITIALIZED:
             return {...state, ...action.payload}
-
         default:
             return state
     }
@@ -54,13 +52,10 @@ export const isAuthTC = () => (dispatch: Dispatch) => {
     nekoCardsAPI.AuthMe()
         .then(res => {
             const {name, email, avatar} = res.data
-            dispatch(setProfile(name, email,  avatar))
+            dispatch(setProfile(res.data))
             dispatch(setIsAuth(true))
         })
-        .catch((err: AxiosError) => {
-            debugger
-            console.warn( err.response?.status)
-        })
+
         .finally(() => {
             dispatch(setInitialized(true))
         })
