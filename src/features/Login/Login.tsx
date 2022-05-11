@@ -7,13 +7,11 @@ import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
 import {DataLoginType, loginTC} from "../../store/redusers/profile-reducer";
 import s from './Login.module.css';
 import SuperCheckbox from "../../CommonComponents/c3-SuperCheckbox/SuperCheckbox";
-import {Loader} from "../../CommonComponents/c4-Loader/Loader";
 
 
 export const Login = () => {
     const dispatch: AppDispatch = useDispatch();
     const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isAuth)
-    const isLoading = useSelector<AppRootStateType, boolean>(state => state.app.isLoading)
     const messageError = useSelector<AppRootStateType, string>(state => state.app.messageError)
     const isDisabled = useSelector<AppRootStateType, boolean>(state => state.app.isDisabled)
 
@@ -45,7 +43,6 @@ export const Login = () => {
     }
     return (
         <div className={s.main} >
-            {isLoading && <Loader/>}
 
             <div className={s.form}>
                 <div className={s.headerBlock}>

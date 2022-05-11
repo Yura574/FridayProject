@@ -61,7 +61,7 @@ export const PacksListPage = () => {
                 </div>
                 <div className={s.tableBody}>
                     {packsList.packsList.cardPacks.map(p => {
-                            return <CardPack pack={p}/>
+                            return <CardPack pack={p} key={p._id}/>
                         }
                     )}
                 </div>
