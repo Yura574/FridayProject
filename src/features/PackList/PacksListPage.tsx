@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import s from './PacksListPage.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
@@ -7,28 +7,31 @@ import {
     GetPacksListTC, PacksListPageType,
     SetSearchValueAC, UpdatePackTC
 } from "../../store/redusers/packsListPage-reducer";
+import {useDebouncedCallback} from "use-debounce";
 
 export const PacksListPage = () => {
     const packsList = useSelector<AppRootStateType, PacksListPageType>(state => state.packsList)
     const searchValue = useSelector<AppRootStateType, string>(state => state.packsList.searchValue)
     const dispatch: AppDispatch = useDispatch()
 
-    const [timerId, setTimerId] = useState<number>(0)
-    const [searchInput, setSearchInput] = useState<string>('')
     const [titlePack, setTitlePack] = useState<string>('')
-
+    const [searchInput, setSearchInput] = useState<string>('')
+    const debounced = useDebouncedCallback(
+        useCallback((searchInput: string) => {
+            setSearchInput(searchInput)
+        }, []),
+        1500)
 
     useEffect(() => {
         dispatch(GetPacksListTC())
     }, [searchValue])
 
+    useEffect(() => {
+        dispatch(SetSearchValueAC(searchInput))
+    }, [searchInput])
+
     const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        window.clearTimeout(timerId)
-        setSearchInput(e.currentTarget.value)
-        const id: number = window.setTimeout(() => {
-            dispatch(SetSearchValueAC(searchInput))
-        }, 1500)
-        setTimerId(id)
+        debounced(e.currentTarget.value)
     }
     const titlePackHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitlePack(e.currentTarget.value)
@@ -42,7 +45,6 @@ export const PacksListPage = () => {
             <div className={s.header}>
                 <input
                     placeholder={'search'}
-                    value={searchInput}
                     onChange={searchHandler}
                 />
                 <div>
