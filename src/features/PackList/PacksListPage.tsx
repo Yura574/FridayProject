@@ -5,13 +5,17 @@ import {AppDispatch, AppRootStateType} from "../../store/store";
 import {
     AddPackTC, DeletePackTC,
     GetPacksListTC, PacksListPageType,
-    SetSearchValueAC, UpdatePackTC
+    SetSearchValueAC, SortPacksByDateAC, UpdatePackTC
 } from "../../store/redusers/packsListPage-reducer";
 import {useDebouncedCallback} from "use-debounce";
+import {CardsCountSlider} from "./CardsCountSlider";
 
 export const PacksListPage = () => {
     const packsList = useSelector<AppRootStateType, PacksListPageType>(state => state.packsList)
     const searchValue = useSelector<AppRootStateType, string>(state => state.packsList.searchValue)
+    const searchMinCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.searchMinCardsCount)
+    const searchMaxCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.searchMaxCardsCount)
+    const sortPacks = useSelector<AppRootStateType, string>(state => state.packsList.sortPacks)
     const dispatch: AppDispatch = useDispatch()
 
     const [titlePack, setTitlePack] = useState<string>('')
@@ -24,7 +28,7 @@ export const PacksListPage = () => {
 
     useEffect(() => {
         dispatch(GetPacksListTC())
-    }, [searchValue])
+    }, [searchValue, searchMinCardsCount, searchMaxCardsCount, sortPacks])
 
     useEffect(() => {
         dispatch(SetSearchValueAC(searchInput))
@@ -32,6 +36,12 @@ export const PacksListPage = () => {
 
     const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
         debounced(e.currentTarget.value)
+    }
+    const sortPacksByDateUp = () => {
+        dispatch(SortPacksByDateAC('0updated'))
+    }
+    const sortPacksByDateDown = () => {
+        dispatch(SortPacksByDateAC('1updated'))
     }
     const titlePackHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitlePack(e.currentTarget.value)
@@ -43,6 +53,9 @@ export const PacksListPage = () => {
     return (
         <div className={s.main}>
             <div className={s.header}>
+                <div className={s.slider}>
+                    <CardsCountSlider />
+                </div>
                 <input
                     placeholder={'search'}
                     onChange={searchHandler}
@@ -56,12 +69,16 @@ export const PacksListPage = () => {
                 <div className={s.header}>
                     <div className={s.column}>Name</div>
                     <div className={s.column}>Cards</div>
-                    <div className={s.column}>Updated</div>
+                    <div>
+                        <div className={s.column}>Updated</div>
+                        <button onClick={sortPacksByDateUp}>^</button>
+                        <button onClick={sortPacksByDateDown}>v</button>
+                    </div>
                     <div className={s.column}>Actions</div>
                 </div>
                 <div className={s.tableBody}>
                     {packsList.packsList.cardPacks.map(p => {
-                            return <CardPack pack={p}/>
+                            return <CardPack pack={p} key={p._id}/>
                         }
                     )}
                 </div>
@@ -83,7 +100,7 @@ const CardPack = (props: CardPackType) => {
         setIsEditNamePack(false)
     }
 
-    return <div className={s.tableData} key={_id}>
+    return <div className={s.tableData}>
         {isEditNamePack ?
             <input autoFocus onBlur={() => setIsEditNamePack(false)} value={title}
                    onChange={(e) => setName(e.currentTarget.value)}/>

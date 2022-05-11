@@ -36,7 +36,10 @@ export const nekoCardsAPI = {
     },
     editProfile(dataProfile: DataType) {
         const {name, avatar} = dataProfile
-        return instance.put<any, AxiosResponse<UpdateProfileResponseType>, {name: string, avatar: string}>(`/auth/me`, {name, avatar})
+        return instance.put<any, AxiosResponse<UpdateProfileResponseType>, { name: string, avatar: string }>(`/auth/me`, {
+            name,
+            avatar
+        })
     },
     login(dataLogin: DataLoginType) {
         return instance.post('/auth/login', {...dataLogin})
@@ -50,16 +53,25 @@ export const nekoCardsAPI = {
 }
 
 export const packsListPageAPI = {
-    getPacksList(packName?: string) {
-        return instance.get<PacksListType>('/cards/pack', {params: {packName}})
+    getPacksList(packName?: string, min?: number, max?: number, sortPacks?: string) {
+        const config = {
+            params: {
+                packName,
+                min,
+                max,
+                sortPacks,
+                pageCount: 20,
+            }
+        }
+        return instance.get<PacksListType>('/cards/pack', config)
     },
-    addNewPack(cardsPack: NewPackType){
-       return  instance.post('/cards/pack', {cardsPack})
+    addNewPack(cardsPack: NewPackType) {
+        return instance.post('/cards/pack', {cardsPack})
     },
-    deletePack(packId: string){
-       return  instance.delete(`/cards/pack/?id=${packId}`)
+    deletePack(packId: string) {
+        return instance.delete(`/cards/pack/?id=${packId}`)
     },
-    updatePack(cardsPack: PackType){
-       return  instance.put('/cards/pack', {cardsPack})
+    updatePack(cardsPack: PackType) {
+        return instance.put('/cards/pack', {cardsPack})
     }
 }
