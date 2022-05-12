@@ -1,16 +1,12 @@
 import {Dispatch} from "redux";
 import {packsListPageAPI} from "../../api/neko-cards-api";
-import {AppRootStateType} from "../store";
+import {AppDispatch, AppRootStateType} from "../store";
 
-
-// export type PackType = {
-//     _id: string
-//     user_id: string
-//     name: string
-//     cardsCount: number
-//     created: string
-//     updated: string
-// }
+export type NewPackType = {
+    name: string
+    deckCover?: string
+    private?: false
+}
 export type PackType = {
     _id: string
     user_id: string
@@ -37,8 +33,6 @@ export type PacksListType = {
     page: number
     pageCount: number
 }
-
-
 export type PacksListPageType = {
     packsList: PacksListType
     searchValue: string
@@ -48,7 +42,6 @@ export type PacksListPageType = {
     page: number
     packsOnPageCount: number
 }
-
 
 const packsListInitialState: PacksListPageType = {
     packsList: {
@@ -112,11 +105,9 @@ export const SetCurrentPageAC = (pageNumber: number) => {
 export const SetItemsQuantityOnPageAC = (itemsQuantity: number) => {
     return {type: 'SET-ITEMS-QUANTITY-ON-PAGE', itemsQuantity} as const
 }
-
 export const AddNewPacksAC = (newPack: PackType) => {
     return {type: 'ADD-NEW-PACK', newPack} as const
 }
-
 
 export type UpdatePacksListAT = ReturnType<typeof GetPacksListAC>
 export type SetSearchValueAT = ReturnType<typeof SetSearchValueAC>
@@ -153,36 +144,21 @@ export const AddPackTC = (newPack: NewPackType) => (dispatch: Dispatch) => {
             dispatch(AddNewPacksAC(res.data.newCardsPack))
         })
 }
-export const DeletePackTC = (packId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const DeletePackTC = (packId: string) => (dispatch: AppDispatch) => {
     packsListPageAPI.deletePack(packId)
-        .then(res => {
-            packsListPageAPI.getPacksList(getState().packsList.searchValue)
-                .then((res) => {
-                    dispatch(GetPacksListAC(res.data))
-                })
+        .then(() => {
+            dispatch(GetPacksListTC())
         })
 }
 
-export const UpdatePackTC = (packId: string, name: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const UpdatePackTC = (packId: string, name: string) => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
     let newUpdatePack = getState().packsList.packsList.cardPacks.find(el => el._id === packId)
 
     if (newUpdatePack) {
         newUpdatePack.name = name
         packsListPageAPI.updatePack(newUpdatePack)
-            .then(res => {
-                packsListPageAPI.getPacksList(getState().packsList.searchValue)
-                    .then((res) => {
-                        dispatch(GetPacksListAC(res.data))
-                    })
+            .then(() => {
+                dispatch(GetPacksListTC())
             })
     }
 }
-
-
-export type NewPackType = {
-    name: string
-    deckCover?: string
-    private?: false
-}
-
-

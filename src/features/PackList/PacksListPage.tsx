@@ -3,13 +3,14 @@ import s from './PacksListPage.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {
-    AddPackTC, DeletePackTC,
+    AddPackTC,
     GetPacksListTC, PacksListPageType, SetCurrentPageAC, SetItemsQuantityOnPageAC,
-    SetSearchValueAC, SortPacksByDateAC, UpdatePackTC
+    SetSearchValueAC, SortPacksByDateAC
 } from "../../store/redusers/packsListPage-reducer";
 import {useDebouncedCallback} from "use-debounce";
 import {CardsCountSlider} from "./CardsCountSlider";
 import {Pagination} from "../../CommonComponents/c5-Pagination/Pagination";
+import {CardPack} from "./CardPack";
 
 export const PacksListPage = () => {
     const packsList = useSelector<AppRootStateType, PacksListPageType>(state => state.packsList)
@@ -19,6 +20,7 @@ export const PacksListPage = () => {
     const sortPacks = useSelector<AppRootStateType, string>(state => state.packsList.sortPacks)
     const currentPage = useSelector<AppRootStateType, number>(state => state.packsList.page)
     const packsOnPageCount = useSelector<AppRootStateType, number>(state => state.packsList.packsOnPageCount)
+    const cardPacksTotalCount = useSelector<AppRootStateType, number>(state => state.packsList.packsList.cardPacksTotalCount)
     const dispatch: AppDispatch = useDispatch()
 
     const [titlePack, setTitlePack] = useState<string>('')
@@ -31,7 +33,7 @@ export const PacksListPage = () => {
 
     useEffect(() => {
         dispatch(GetPacksListTC())
-    }, [searchValue, searchMinCardsCount, searchMaxCardsCount, sortPacks, currentPage, packsOnPageCount])
+    }, [searchValue, searchMinCardsCount, searchMaxCardsCount, sortPacks, currentPage, packsOnPageCount, cardPacksTotalCount])
 
     useEffect(() => {
         dispatch(SetSearchValueAC(searchInput))
@@ -54,6 +56,7 @@ export const PacksListPage = () => {
     }
     const addPack = () => {
         dispatch(AddPackTC({name: titlePack, private: false, deckCover: ''}))
+        setTitlePack('')
     }
 
     return (
@@ -90,7 +93,7 @@ export const PacksListPage = () => {
                 </div>
             </div>
             <Pagination
-                totalElementsCount={packsList.packsList.cardPacksTotalCount}
+                totalElementsCount={cardPacksTotalCount}
                 elementsOnPageCount={packsList.packsList.pageCount}
                 currentPage={packsList.packsList.page}
                 buttonsQuantity={10}
@@ -108,40 +111,4 @@ export const PacksListPage = () => {
             </div>
         </div>
     )
-}
-
-const CardPack = (props: CardPackType) => {
-    const dispatch: AppDispatch = useDispatch()
-    const {name, cardsCount, _id, updated} = props.pack
-    const [isEditNamePack, setIsEditNamePack] = useState<boolean>(false)
-    const [title, setName] = useState<string>(name)
-    const deletePack = (packId: string) => {
-        dispatch(DeletePackTC(packId))
-    }
-    const editPack = (packId: string, name: string) => {
-        dispatch(UpdatePackTC(packId, name))
-        setIsEditNamePack(false)
-    }
-
-    return <div className={s.tableData}>
-        {isEditNamePack ?
-            <input autoFocus onBlur={() => setIsEditNamePack(false)} value={title}
-                   onChange={(e) => setName(e.currentTarget.value)}/>
-            : <div className={s.column} onClick={() => setIsEditNamePack(true)}>{name}</div>}
-        <div className={s.column}>{cardsCount}</div>
-        <div className={s.column}>{updated}</div>
-        <div className={s.column}>
-            <button onClick={() => editPack(_id, title)}>Edit</button>
-            <button onClick={() => deletePack(_id)}>Delete</button>
-            <button></button>
-        </div>
-    </div>
-}
-type CardPackType = {
-    pack: {
-        _id: string
-        name: string
-        cardsCount: number
-        updated: any
-    }
 }
