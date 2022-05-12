@@ -4,11 +4,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {
     AddPackTC, DeletePackTC,
-    GetPacksListTC, PacksListPageType,
+    GetPacksListTC, PacksListPageType, SetCurrentPageAC, SetItemsQuantityOnPageAC,
     SetSearchValueAC, SortPacksByDateAC, UpdatePackTC
 } from "../../store/redusers/packsListPage-reducer";
 import {useDebouncedCallback} from "use-debounce";
 import {CardsCountSlider} from "./CardsCountSlider";
+import {Pagination} from "../../CommonComponents/c5-Pagination/Pagination";
 
 export const PacksListPage = () => {
     const packsList = useSelector<AppRootStateType, PacksListPageType>(state => state.packsList)
@@ -16,6 +17,8 @@ export const PacksListPage = () => {
     const searchMinCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.searchMinCardsCount)
     const searchMaxCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.searchMaxCardsCount)
     const sortPacks = useSelector<AppRootStateType, string>(state => state.packsList.sortPacks)
+    const currentPage = useSelector<AppRootStateType, number>(state => state.packsList.page)
+    const packsOnPageCount = useSelector<AppRootStateType, number>(state => state.packsList.packsOnPageCount)
     const dispatch: AppDispatch = useDispatch()
 
     const [titlePack, setTitlePack] = useState<string>('')
@@ -28,7 +31,7 @@ export const PacksListPage = () => {
 
     useEffect(() => {
         dispatch(GetPacksListTC())
-    }, [searchValue, searchMinCardsCount, searchMaxCardsCount, sortPacks])
+    }, [searchValue, searchMinCardsCount, searchMaxCardsCount, sortPacks, currentPage, packsOnPageCount])
 
     useEffect(() => {
         dispatch(SetSearchValueAC(searchInput))
@@ -42,6 +45,9 @@ export const PacksListPage = () => {
     }
     const sortPacksByDateDown = () => {
         dispatch(SortPacksByDateAC('1updated'))
+    }
+    const changePage = (pageNumber: number) => {
+        dispatch(SetCurrentPageAC(pageNumber))
     }
     const titlePackHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitlePack(e.currentTarget.value)
@@ -83,6 +89,23 @@ export const PacksListPage = () => {
                     )}
                 </div>
             </div>
+            <Pagination
+                totalElementsCount={packsList.packsList.cardPacksTotalCount}
+                elementsOnPageCount={packsList.packsList.pageCount}
+                currentPage={packsList.packsList.page}
+                buttonsQuantity={10}
+                changePage={changePage}
+            />
+            <div>
+                Show
+                <select onChange={(e) => dispatch(SetItemsQuantityOnPageAC(+e.currentTarget.value))}>
+                    <option value={5}>5</option>
+                    <option selected value={10}>10</option>
+                    <option value={15}>15</option>
+                    <option value={20}>20</option>
+                </select>
+                items per page
+            </div>
         </div>
     )
 }
@@ -110,6 +133,7 @@ const CardPack = (props: CardPackType) => {
         <div className={s.column}>
             <button onClick={() => editPack(_id, title)}>Edit</button>
             <button onClick={() => deletePack(_id)}>Delete</button>
+            <button></button>
         </div>
     </div>
 }

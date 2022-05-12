@@ -45,6 +45,8 @@ export type PacksListPageType = {
     searchMinCardsCount: number
     searchMaxCardsCount: number
     sortPacks: string
+    page: number
+    packsOnPageCount: number
 }
 
 
@@ -60,7 +62,9 @@ const packsListInitialState: PacksListPageType = {
     searchValue: '',
     searchMinCardsCount: 0,
     searchMaxCardsCount: 0,
-    sortPacks: ''
+    sortPacks: '',
+    page: 1,
+    packsOnPageCount: 10,
 }
 
 export const packsListReducer = (state: PacksListPageType = packsListInitialState, action: PacksListPageActionType): PacksListPageType => {
@@ -70,9 +74,17 @@ export const packsListReducer = (state: PacksListPageType = packsListInitialStat
         case "SET-SEARCH-VALUE":
             return {...state, searchValue: action.searchValue}
         case "SEARCH-BY-CARDS-COUNT":
-            return {...state, searchMinCardsCount: action.searchMinCardsCount, searchMaxCardsCount: action.searchMaxCardsCount}
+            return {
+                ...state,
+                searchMinCardsCount: action.searchMinCardsCount,
+                searchMaxCardsCount: action.searchMaxCardsCount
+            }
         case "SORT-PACKS-BY-DATE":
             return {...state, sortPacks: action.sortDirection}
+        case "SET-CURRENT-PAGE":
+            return {...state, page: action.pageNumber}
+        case "SET-ITEMS-QUANTITY-ON-PAGE":
+            return {...state, packsOnPageCount: action.itemsQuantity}
         case "ADD-NEW-PACK":
             return {
                 ...state, packsList: {...state.packsList, cardPacks: [action.newPack, ...state.packsList.cardPacks]}
@@ -94,6 +106,12 @@ export const SearchByCardsCountAC = (searchMinCardsCount: number, searchMaxCards
 export const SortPacksByDateAC = (sortDirection: string) => {
     return {type: 'SORT-PACKS-BY-DATE', sortDirection} as const
 }
+export const SetCurrentPageAC = (pageNumber: number) => {
+    return {type: 'SET-CURRENT-PAGE', pageNumber} as const
+}
+export const SetItemsQuantityOnPageAC = (itemsQuantity: number) => {
+    return {type: 'SET-ITEMS-QUANTITY-ON-PAGE', itemsQuantity} as const
+}
 
 export const AddNewPacksAC = (newPack: PackType) => {
     return {type: 'ADD-NEW-PACK', newPack} as const
@@ -104,16 +122,27 @@ export type UpdatePacksListAT = ReturnType<typeof GetPacksListAC>
 export type SetSearchValueAT = ReturnType<typeof SetSearchValueAC>
 export type SearchByCardsCountAT = ReturnType<typeof SearchByCardsCountAC>
 export type SortPacksByDateAT = ReturnType<typeof SortPacksByDateAC>
+export type SetCurrentPageAT = ReturnType<typeof SetCurrentPageAC>
+export type SetItemsQuantityOnPageAT = ReturnType<typeof SetItemsQuantityOnPageAC>
 export type AddNewPackType = ReturnType<typeof AddNewPacksAC>
 
 export type PacksListPageActionType = UpdatePacksListAT
     | SetSearchValueAT
     | SearchByCardsCountAT
     | SortPacksByDateAT
+    | SetCurrentPageAT
+    | SetItemsQuantityOnPageAT
     | AddNewPackType
 
 export const GetPacksListTC = () => (dispatch: Dispatch, getState: () => AppRootStateType) => {
-    packsListPageAPI.getPacksList(getState().packsList.searchValue, getState().packsList.searchMinCardsCount, getState().packsList.searchMaxCardsCount, getState().packsList.sortPacks)
+    packsListPageAPI.getPacksList(
+        getState().packsList.searchValue,
+        getState().packsList.searchMinCardsCount,
+        getState().packsList.searchMaxCardsCount,
+        getState().packsList.sortPacks,
+        getState().packsList.page,
+        getState().packsList.packsOnPageCount
+    )
         .then((res) => {
             dispatch(GetPacksListAC(res.data))
         })
@@ -137,7 +166,7 @@ export const DeletePackTC = (packId: string) => (dispatch: Dispatch, getState: (
 export const UpdatePackTC = (packId: string, name: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
     let newUpdatePack = getState().packsList.packsList.cardPacks.find(el => el._id === packId)
 
-    if(newUpdatePack){
+    if (newUpdatePack) {
         newUpdatePack.name = name
         packsListPageAPI.updatePack(newUpdatePack)
             .then(res => {
@@ -148,7 +177,6 @@ export const UpdatePackTC = (packId: string, name: string) => (dispatch: Dispatc
             })
     }
 }
-
 
 
 export type NewPackType = {
