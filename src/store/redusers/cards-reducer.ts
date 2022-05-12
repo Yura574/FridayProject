@@ -3,7 +3,7 @@ import {Dispatch} from "redux";
 import {setIsLoader, SetIsLoadingType} from "./app-reducer";
 
 enum CardsAction {
-    GET_CARDS = 'Cards/GET_CARDS',
+    SET_CARDS = 'Cards/SET_CARDS',
 }
 
 export type CardType = {
@@ -43,39 +43,52 @@ const initialState: InitialState = {
     pageCount: 1,
 }
 
-type CardsActionTypes = GetCardsType;
+type CardsActionTypes = SetCardsType;
 
 export const cardsReducer = (state: InitialState = initialState, action: CardsActionTypes) => {
     switch (action.type) {
-        case CardsAction.GET_CARDS:
+        case CardsAction.SET_CARDS:
             return {...state, ...action.payload}
         default:
             return state;
     }
 }
 
-type GetCardsType = ReturnType<typeof getCards>
-export const getCards = (cards: CardType[]) => {
+type SetCardsType = ReturnType<typeof setCards>
+export const setCards = (cards: CardType[]) => {
     return {
-        type: CardsAction.GET_CARDS,
+        type: CardsAction.SET_CARDS,
         payload: {
-            cards
+            cards,
         }
     } as const
 }
 
-export const fetchCards = (cardsPack_id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+export const getCards = (cardsPack_id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
     dispatch(setIsLoader(true));
     packsListPageAPI.getCards(cardsPack_id)
         .then(({data}) => {
-
             console.log(data)
-            dispatch(getCards(data.cards))
+            dispatch(setCards(data.cards))
         })
         .catch((err) => {
             console.log(err)
         })
         .finally(() => {
             dispatch(setIsLoader(false));
+        });
+}
+
+export const deleteCard = (id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+    dispatch(setIsLoader(true));
+    packsListPageAPI.deleteCard(id)
+        .then((res) => {
+            console.log(res)
         })
+        .catch((err) => {
+            console.log(err)
+        })
+        .finally(() => {
+            dispatch(setIsLoader(false));
+        });
 }

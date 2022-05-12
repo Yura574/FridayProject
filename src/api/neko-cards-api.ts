@@ -65,4 +65,7 @@ export const packsListPageAPI = {
     getCards(cardsPack_id: string) {
         return instance.get('/cards/card', {params: {cardsPack_id}});
     },
+    deleteCard(id: string) {
+        return instance.delete(`/cards/card?`, {params: {id}});
+    },
 }

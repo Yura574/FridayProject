@@ -3,7 +3,7 @@ import s from './Cards.module.css';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../store/store";
-import {CardType, fetchCards} from "../../store/redusers/cards-reducer";
+import {CardType, deleteCard, getCards} from "../../store/redusers/cards-reducer";
 
 export const Cards = () => {
     const {cardsPack_id} = useParams();
@@ -13,19 +13,36 @@ export const Cards = () => {
     const dispatch = useDispatch<any>();
 
     const cards = useSelector<AppRootStateType, CardType[]>(state => state.cards.cards);
+
+    const onClickDeleteCard = (id: string) => {
+        dispatch(deleteCard(id));
+        if(cardsPack_id) {
+            dispatch(getCards(cardsPack_id));
+        }
+    }
+
     const cardsBodyTable = cards.map(card => {
-            return <tr key={card._id} className={s.tableRow}><td>{card.question}</td><td>{card.answer}</td><td>{card.updated}</td><td>{card.grade}</td></tr>
+            return (
+                <tr key={card._id} className={s.tableRow}>
+                    <td>{card.question}</td><td>{card.answer}</td><td>{card.updated}</td><td>{card.grade}</td><td><button onClick={() => onClickDeleteCard(card._id)}>delete</button></td>
+                </tr>
+            )
         });
 
     useEffect(() => {
         if(cardsPack_id) {
-            dispatch(fetchCards(cardsPack_id));
+            dispatch(getCards(cardsPack_id));
         }
     }, []);
 
     return (
         <div className={s.cardsWrapper}>
             <div className={s.container}>
+                <div>
+                    <button onClick={() => console.log('kek')}>
+                        Add Card
+                    </button>
+                </div>
                 <div>
                     <input
                         className={s.searchInput}
@@ -44,7 +61,7 @@ export const Cards = () => {
                 </div>
                 <table className={s.table}>
                     <thead className={s.tableHead}>
-                        <tr className={s.tableTitleRow}><th>Question</th><th>Answer</th><th>Last Updated</th><th>Grade</th></tr>
+                        <tr className={s.tableTitleRow}><th>Question</th><th>Answer</th><th>Last Updated</th><th>Grade</th><th></th></tr>
                     </thead>
                     <tbody>
                         {cardsBodyTable}
