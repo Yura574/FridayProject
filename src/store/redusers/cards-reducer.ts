@@ -106,3 +106,17 @@ export const deleteCard = (id: string) => (dispatch: Dispatch<CardsActionTypes |
             dispatch(setIsLoader(false));
         });
 }
+
+export const updateCard = (id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+    dispatch(setIsLoader(true));
+    packsListPageAPI.updateCard(id)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        .finally(() => {
+            dispatch(setIsLoader(false));
+        });
+}

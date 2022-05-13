@@ -66,9 +66,22 @@ export const packsListPageAPI = {
         return instance.get('/cards/card', {params: {cardsPack_id}});
     },
     addCards(cardsPack_id: string) {
-        return instance.post('cards/card', {card: {cardsPack_id}});
+        const card = {
+            cardsPack_id,
+        }
+
+        return instance.post('cards/card', {card});
     },
     deleteCard(id: string) {
-        return instance.delete(`/cards/card?`, {params: {id}});
+        return instance.delete('/cards/card?', {params: {id}});
     },
+    updateCard(_id: string) {
+        const card = {
+            _id,
+            question: 'new question',
+            answer: 'new answer',
+        }
+
+        return instance.put('/cards/card', {card})
+    }
 }

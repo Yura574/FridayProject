@@ -3,7 +3,7 @@ import s from './Cards.module.css';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../store/store";
-import {addCard, CardType, deleteCard, getCards} from "../../store/redusers/cards-reducer";
+import {addCard, CardType, deleteCard, getCards, updateCard} from "../../store/redusers/cards-reducer";
 
 export const Cards = () => {
     const {cardsPack_id} = useParams();
@@ -28,13 +28,26 @@ export const Cards = () => {
         }
     }
 
+    const onClickUpdateCard = (id: string) => {
+        dispatch(updateCard(id));
+        if(cardsPack_id) {
+            dispatch(getCards(cardsPack_id));
+        }
+    }
+
     const cardsBodyTable = cards.map(card => {
-            return (
-                <tr key={card._id} className={s.tableRow}>
-                    <td>{card.question}</td><td>{card.answer}</td><td>{card.updated}</td><td>{card.grade}</td><td><button onClick={() => onClickDeleteCard(card._id)}>delete</button></td>
-                </tr>
-            )
-        });
+
+        const buttons = <td>
+            <button onClick={() => onClickDeleteCard(card._id)}>delete</button>
+            <button onClick={() => onClickUpdateCard(card._id)}>update</button>
+        </td>
+
+        return (
+            <tr key={card._id} className={s.tableRow}>
+                <td>{card.question}</td><td>{card.answer}</td><td>{card.updated}</td><td>{card.grade}</td>{buttons}
+            </tr>
+        )
+    });
 
     useEffect(() => {
         if(cardsPack_id) {
