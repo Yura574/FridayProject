@@ -3,6 +3,7 @@ import {AppDispatch, AppRootStateType} from "../../store/store";
 import {useDispatch, useSelector} from "react-redux";
 import {DeletePackTC, UpdatePackTC} from "../../store/redusers/packsListPage-reducer";
 import s from "./PacksListPage.module.css";
+import {NavLink} from "react-router-dom";
 
 type CardPackType = {
     pack: {
@@ -17,7 +18,7 @@ type CardPackType = {
 export const CardPack = (props: CardPackType) => {
     const {name, cardsCount, _id, updated, user_id} = props.pack
 
-    const userId = useSelector<AppRootStateType, string>(state => state.profile._id)
+    const userId = useSelector<AppRootStateType, string>(state => state.profile.profile._id)
     const dispatch: AppDispatch = useDispatch()
 
     const [isEditNamePack, setIsEditNamePack] = useState<boolean>(false)
@@ -47,7 +48,9 @@ export const CardPack = (props: CardPackType) => {
                     <button onClick={() => deletePack(_id)}>Delete</button>
                 </>
             }
-            <button>Show cards</button>
+            <NavLink to={'/cards/:cardsPack_id'}
+                     className={({isActive}) => isActive ? s.active : s.link}><button>Show cards</button></NavLink>
+
         </div>
     </div>
 }

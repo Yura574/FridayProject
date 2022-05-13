@@ -4,7 +4,7 @@ import {AppDispatch, AppRootStateType} from "../../store/store";
 import {SetUserIdForPacksSearchingAC} from "../../store/redusers/packsListPage-reducer";
 
 export const PacksOwnerSelector = () => {
-    const userId = useSelector<AppRootStateType, string>(state => state.profile._id)
+    const userId = useSelector<AppRootStateType, string>(state => state.profile.profile._id)
     const dispatch: AppDispatch = useDispatch()
 
     const onClickHandler = (id: string) => {
