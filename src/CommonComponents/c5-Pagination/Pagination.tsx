@@ -55,10 +55,6 @@ export const Pagination = (props: PropsType) => {
                                 onClick={() => props.changePage(p)}
                     >{p}</div>
                 })}
-            {/*<div className={s.element}>...</div>
-            <div className={props.currentPage === pagesCount ? `${s.selected} ${s.element}` : s.element}
-                 onClick={() => props.changePage(pagesCount)}
-            >{pagesCount}</div>*/}
             {props.currentPage < pagesCount
                 ? <div
                     className={s.element}

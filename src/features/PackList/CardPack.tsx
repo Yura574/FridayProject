@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {AppDispatch} from "../../store/store";
-import {useDispatch} from "react-redux";
+import {AppDispatch, AppRootStateType} from "../../store/store";
+import {useDispatch, useSelector} from "react-redux";
 import {DeletePackTC, UpdatePackTC} from "../../store/redusers/packsListPage-reducer";
 import s from "./PacksListPage.module.css";
 
 type CardPackType = {
     pack: {
+        user_id: string
         _id: string
         name: string
         cardsCount: number
@@ -14,8 +15,9 @@ type CardPackType = {
 }
 
 export const CardPack = (props: CardPackType) => {
-    const {name, cardsCount, _id, updated} = props.pack
+    const {name, cardsCount, _id, updated, user_id} = props.pack
 
+    const userId = useSelector<AppRootStateType, string>(state => state.profile._id)
     const dispatch: AppDispatch = useDispatch()
 
     const [isEditNamePack, setIsEditNamePack] = useState<boolean>(false)
@@ -39,8 +41,12 @@ export const CardPack = (props: CardPackType) => {
         <div className={s.column}>{cardsCount}</div>
         <div className={s.column}>{date}</div>
         <div className={s.column}>
-            <button onClick={() => editPack(_id, title)}>Edit</button>
-            <button onClick={() => deletePack(_id)}>Delete</button>
+            {user_id === userId &&
+                <>
+                    <button onClick={() => editPack(_id, title)}>Edit</button>
+                    <button onClick={() => deletePack(_id)}>Delete</button>
+                </>
+            }
             <button>Show cards</button>
         </div>
     </div>

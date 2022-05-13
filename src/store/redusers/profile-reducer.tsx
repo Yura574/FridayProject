@@ -4,6 +4,7 @@ import {setIsAuth} from "./login-reducer";
 
 
 const initialState = {
+    _id: '',
     name: '',
     email: '',
     avatar: 'https://pm1.narvii.com/6889/74979d4d2744ec6e27995b6e866f091d04c0b40cr1-515-414v2_uhq.jpg'
@@ -12,7 +13,7 @@ const initialState = {
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case "SET_PROFILE":{
-            return {...state, name: action.name, email: action.email,  avatar: action.avatar}
+            return {...state, _id: action._id, name: action.name, email: action.email,  avatar: action.avatar}
         }
 
         case "EDIT_PROFILE":
@@ -25,9 +26,10 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
 }
 
 // actions
-export const setProfile = (name: string, email: string, avatar: string) => {
+export const setProfile = (_id: string, name: string, email: string, avatar: string) => {
     return {
         type: "SET_PROFILE",
+        _id,
         name,
         email,
         avatar
@@ -55,22 +57,19 @@ export const editProfileTC = (data: DataType) => (dispatch: Dispatch) => {
 }
 
 export const loginTC =(dataLogin: DataLoginType) => (dispatch: Dispatch) => {
-    debugger
     nekoCardsAPI.login(dataLogin)
         .then(res => {
-            debugger
-            const {name, email, avatar} = res.data
-            dispatch(setProfile(name, email, avatar))
+            const {_id, name, email, avatar} = res.data
+            dispatch(setProfile(_id, name, email, avatar))
             dispatch(setIsAuth(true))
 
         })
 }
 export const logoutTC =() => (dispatch: Dispatch) => {
-    debugger
     nekoCardsAPI.logout()
         .then(res => {
 
-            dispatch(setProfile('', '', ''))
+            dispatch(setProfile('', '', '', ''))
             dispatch(setIsAuth(false))
 
         })

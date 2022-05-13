@@ -41,6 +41,7 @@ export type PacksListPageType = {
     sortPacks: string
     page: number
     packsOnPageCount: number
+    userIdForSearching: string
 }
 
 const packsListInitialState: PacksListPageType = {
@@ -58,6 +59,7 @@ const packsListInitialState: PacksListPageType = {
     sortPacks: '',
     page: 1,
     packsOnPageCount: 10,
+    userIdForSearching: '',
 }
 
 export const packsListReducer = (state: PacksListPageType = packsListInitialState, action: PacksListPageActionType): PacksListPageType => {
@@ -78,6 +80,8 @@ export const packsListReducer = (state: PacksListPageType = packsListInitialStat
             return {...state, page: action.pageNumber}
         case "SET-ITEMS-QUANTITY-ON-PAGE":
             return {...state, packsOnPageCount: action.itemsQuantity}
+        case "SET-USER-ID-FOR-PACKS-SEARCHING":
+            return {...state, userIdForSearching: action.id}
         case "ADD-NEW-PACK":
             return {
                 ...state, packsList: {...state.packsList, cardPacks: [action.newPack, ...state.packsList.cardPacks]}
@@ -105,6 +109,9 @@ export const SetCurrentPageAC = (pageNumber: number) => {
 export const SetItemsQuantityOnPageAC = (itemsQuantity: number) => {
     return {type: 'SET-ITEMS-QUANTITY-ON-PAGE', itemsQuantity} as const
 }
+export const SetUserIdForPacksSearchingAC = (id: string) => {
+    return {type: 'SET-USER-ID-FOR-PACKS-SEARCHING', id} as const
+}
 export const AddNewPacksAC = (newPack: PackType) => {
     return {type: 'ADD-NEW-PACK', newPack} as const
 }
@@ -115,6 +122,7 @@ export type SearchByCardsCountAT = ReturnType<typeof SearchByCardsCountAC>
 export type SortPacksByDateAT = ReturnType<typeof SortPacksByDateAC>
 export type SetCurrentPageAT = ReturnType<typeof SetCurrentPageAC>
 export type SetItemsQuantityOnPageAT = ReturnType<typeof SetItemsQuantityOnPageAC>
+export type SetUserIdForPacksSearchingAT = ReturnType<typeof SetUserIdForPacksSearchingAC>
 export type AddNewPackType = ReturnType<typeof AddNewPacksAC>
 
 export type PacksListPageActionType = UpdatePacksListAT
@@ -123,6 +131,7 @@ export type PacksListPageActionType = UpdatePacksListAT
     | SortPacksByDateAT
     | SetCurrentPageAT
     | SetItemsQuantityOnPageAT
+    | SetUserIdForPacksSearchingAT
     | AddNewPackType
 
 export const GetPacksListTC = () => (dispatch: Dispatch, getState: () => AppRootStateType) => {
@@ -132,7 +141,8 @@ export const GetPacksListTC = () => (dispatch: Dispatch, getState: () => AppRoot
         getState().packsList.searchMaxCardsCount,
         getState().packsList.sortPacks,
         getState().packsList.page,
-        getState().packsList.packsOnPageCount
+        getState().packsList.packsOnPageCount,
+        getState().packsList.userIdForSearching,
     )
         .then((res) => {
             dispatch(GetPacksListAC(res.data))

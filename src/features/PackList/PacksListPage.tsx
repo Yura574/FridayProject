@@ -11,16 +11,12 @@ import {useDebouncedCallback} from "use-debounce";
 import {CardsCountSlider} from "./CardsCountSlider";
 import {Pagination} from "../../CommonComponents/c5-Pagination/Pagination";
 import {CardPack} from "./CardPack";
+import {Navigate} from "react-router-dom";
+import {PacksOwnerSelector} from "./PacksOwnerSelector";
 
 export const PacksListPage = () => {
+    const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isAuth)
     const packsList = useSelector<AppRootStateType, PacksListPageType>(state => state.packsList)
-    const searchValue = useSelector<AppRootStateType, string>(state => state.packsList.searchValue)
-    const searchMinCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.searchMinCardsCount)
-    const searchMaxCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.searchMaxCardsCount)
-    const sortPacks = useSelector<AppRootStateType, string>(state => state.packsList.sortPacks)
-    const currentPage = useSelector<AppRootStateType, number>(state => state.packsList.page)
-    const packsOnPageCount = useSelector<AppRootStateType, number>(state => state.packsList.packsOnPageCount)
-    const cardPacksTotalCount = useSelector<AppRootStateType, number>(state => state.packsList.packsList.cardPacksTotalCount)
     const dispatch: AppDispatch = useDispatch()
 
     const [titlePack, setTitlePack] = useState<string>('')
@@ -33,7 +29,16 @@ export const PacksListPage = () => {
 
     useEffect(() => {
         dispatch(GetPacksListTC())
-    }, [searchValue, searchMinCardsCount, searchMaxCardsCount, sortPacks, currentPage, packsOnPageCount, cardPacksTotalCount])
+    }, [
+        packsList.searchValue,
+        packsList.searchMinCardsCount,
+        packsList.searchMaxCardsCount,
+        packsList.sortPacks,
+        packsList.page,
+        packsList.packsOnPageCount,
+        packsList.packsList.cardPacksTotalCount,
+        packsList.userIdForSearching
+    ])
 
     useEffect(() => {
         dispatch(SetSearchValueAC(searchInput))
@@ -59,9 +64,14 @@ export const PacksListPage = () => {
         setTitlePack('')
     }
 
+    if (!isAuth) {
+        return <Navigate to={'/login'}/>
+    }
+
     return (
         <div className={s.main}>
             <div className={s.header}>
+                <PacksOwnerSelector />
                 <div className={s.slider}>
                     <CardsCountSlider />
                 </div>
@@ -87,13 +97,16 @@ export const PacksListPage = () => {
                 </div>
                 <div className={s.tableBody}>
                     {packsList.packsList.cardPacks.map(p => {
-                            return <CardPack pack={p} key={p._id}/>
+                            return <CardPack
+                                key={p._id}
+                                pack={p}
+                            />
                         }
                     )}
                 </div>
             </div>
             <Pagination
-                totalElementsCount={cardPacksTotalCount}
+                totalElementsCount={packsList.packsList.cardPacksTotalCount}
                 elementsOnPageCount={packsList.packsList.pageCount}
                 currentPage={packsList.packsList.page}
                 buttonsQuantity={10}
@@ -101,9 +114,9 @@ export const PacksListPage = () => {
             />
             <div>
                 Show
-                <select onChange={(e) => dispatch(SetItemsQuantityOnPageAC(+e.currentTarget.value))}>
+                <select defaultValue={10} onChange={(e) => dispatch(SetItemsQuantityOnPageAC(+e.currentTarget.value))}>
                     <option value={5}>5</option>
-                    <option selected value={10}>10</option>
+                    <option value={10}>10</option>
                     <option value={15}>15</option>
                     <option value={20}>20</option>
                 </select>

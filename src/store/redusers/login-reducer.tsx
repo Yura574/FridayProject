@@ -52,8 +52,8 @@ export const setIsAuth = (isAuth: boolean) => {
 export const isAuthTC = () => (dispatch: Dispatch) => {
     nekoCardsAPI.AuthMe()
         .then(res => {
-            const {name, email, avatar} = res.data
-            dispatch(setProfile(name, email,  avatar))
+            const {_id, name, email, avatar} = res.data
+            dispatch(setProfile(_id, name, email,  avatar))
             dispatch(setIsAuth(true))
         })
         .catch((err) => {
