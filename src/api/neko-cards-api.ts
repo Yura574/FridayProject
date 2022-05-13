@@ -50,14 +50,25 @@ export const nekoCardsAPI = {
 }
 
 export const packsListPageAPI = {
-    getPacksList(packName?: string) {
-        return instance.get<PacksListType>('/cards/pack', {params: {packName}})
+    getPacksList(packName?: string, min?: number, max?: number, sortPacks?: string, page?: number, pageCount?: number, user_id?: string) {
+        const config = {
+            params: {
+                packName,
+                min,
+                max,
+                sortPacks,
+                page,
+                pageCount,
+                user_id,
+            }
+        }
+        return instance.get<PacksListType>('/cards/pack', config)
     },
-    addNewPack(cardsPack: NewPackType){
-       return  instance.post('/cards/pack', {cardsPack})
+    addNewPack(cardsPack: NewPackType) {
+        return instance.post('/cards/pack', {cardsPack})
     },
-    deletePack(packId: string){
-       return  instance.delete(`/cards/pack/?id=${packId}`)
+    deletePack(packId: string) {
+        return instance.delete(`/cards/pack/?id=${packId}`)
     },
     updatePack(cardsPack: PackType){
        return  instance.put('/cards/pack', {cardsPack})

@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import './App.css';
 import {NavLink, Route, Routes} from 'react-router-dom';
 import {Registration} from "./features/Registration/Registration";
-import {EnterNewPassword} from "./features/EnterNewPassword";
 import {Error404} from "./features/Error404";
 import {Login} from "./features/Login/Login";
 import {Profile} from "./features/Profile/Profile";
@@ -54,8 +53,6 @@ function App() {
                                   className={({isActive}) => isActive ? s.active : s.link}>Profile</NavLink></div>
                     <div><NavLink to={'/create-password'}
                                   className={({isActive}) => isActive ? s.active : s.link}>Registration</NavLink></div>
-                    <div><NavLink to={'/enter-password'} className={({isActive}) => isActive ? s.active : s.link}>Enter
-                        password</NavLink></div>
                     <div><NavLink to={'/recovery-password'} className={({isActive}) => isActive ? s.active : s.link}>Recovery
                         Password</NavLink></div>
                     {/*<div><NavLink to={'/404'}>404</NavLink></div>*/}
@@ -72,7 +69,6 @@ function App() {
                 <Route path={'/profile'} element={<Profile/>}/>
                 <Route path={'/edit-profile'} element={<EditProfilePage/>}/>
                 <Route path={'/create-password'} element={<Registration/>}/>
-                <Route path={'/enter-password'} element={<EnterNewPassword/>}/>
                 {/*<Route path={'/404'} element={<Error404/>}/>*/}
                 <Route path={'/login'} element={<Login/>}/>
                 <Route path={'/test'} element={<TestPage/>}/>

@@ -51,11 +51,12 @@ export const setIsAuth = (isAuth: boolean) => {
 export const isAuthTC = () => (dispatch: Dispatch) => {
     nekoCardsAPI.AuthMe()
         .then(res => {
-            const {name, email, avatar} = res.data
             dispatch(setProfile(res.data))
             dispatch(setIsAuth(true))
         })
-
+        .catch((err) => {
+            console.log(err.message)
+        })
         .finally(() => {
             dispatch(setInitialized(true))
         })

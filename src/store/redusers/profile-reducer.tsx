@@ -22,7 +22,6 @@ const initialState = {
     }
 }
 
-
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case "SET_PROFILE": {
@@ -52,7 +51,6 @@ export const setProfile = (profile: ProfileType) => {
         type: "SET_PROFILE",
         profile
     } as const
-
 }
 export const editProfile = (name: string, avatar: string) => {
     return {
@@ -60,7 +58,6 @@ export const editProfile = (name: string, avatar: string) => {
         name,
         avatar
     } as const
-
 }
 
 
@@ -72,6 +69,7 @@ export const editProfileTC = (data: DataType) => (dispatch: Dispatch) => {
         .then(res => {
             const {name, avatar} = res.data.updatedUser
             dispatch(editProfile(name, avatar))
+
         })
 }
 
@@ -96,7 +94,6 @@ export const loginTC = (dataLogin: DataLoginType) => (dispatch: Dispatch) => {
         })
 }
 export const logoutTC = () => (dispatch: Dispatch) => {
-
     dispatch(setIsLoader(true))
     nekoCardsAPI.logout()
         .then(res => {
@@ -158,7 +155,6 @@ export type ProfileType = {
     __v: number
     _id: string
 }
-
 
 export type UpdateProfileResponseType = {
     token: string
