@@ -21,7 +21,7 @@ export const nekoCardsAPI = {
             from: 'test-front-admin <ai73a@yandex.by>',
             message: `<div style="background-color: lime; padding: 15px">
                       password recovery link: 
-                        <a href='http://localhost:3000/#/set-new-password/$token$'>
+                        <a href='https://yura574.github.io/#/set-new-password/$token$'>
                           link
                         </a> 
                       </div>`,
@@ -64,6 +64,9 @@ export const packsListPageAPI = {
     },
     getCards(cardsPack_id: string) {
         return instance.get('/cards/card', {params: {cardsPack_id}});
+    },
+    addCards(cardsPack_id: string) {
+        return instance.post('cards/card', {card: {cardsPack_id}});
     },
     deleteCard(id: string) {
         return instance.delete(`/cards/card?`, {params: {id}});

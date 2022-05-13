@@ -3,7 +3,7 @@ import s from './Cards.module.css';
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../store/store";
-import {CardType, deleteCard, getCards} from "../../store/redusers/cards-reducer";
+import {addCard, CardType, deleteCard, getCards} from "../../store/redusers/cards-reducer";
 
 export const Cards = () => {
     const {cardsPack_id} = useParams();
@@ -13,6 +13,13 @@ export const Cards = () => {
     const dispatch = useDispatch<any>();
 
     const cards = useSelector<AppRootStateType, CardType[]>(state => state.cards.cards);
+
+    const onClickAddCard = () => {
+        if(cardsPack_id) {
+            dispatch(addCard(cardsPack_id));
+            dispatch(getCards(cardsPack_id));
+        }
+    }
 
     const onClickDeleteCard = (id: string) => {
         dispatch(deleteCard(id));
@@ -39,7 +46,7 @@ export const Cards = () => {
         <div className={s.cardsWrapper}>
             <div className={s.container}>
                 <div>
-                    <button onClick={() => console.log('kek')}>
+                    <button onClick={onClickAddCard}>
                         Add Card
                     </button>
                 </div>

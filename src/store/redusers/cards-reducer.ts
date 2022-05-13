@@ -79,6 +79,20 @@ export const getCards = (cardsPack_id: string) => (dispatch: Dispatch<CardsActio
         });
 }
 
+export const addCard = (cardsPack_id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+    dispatch(setIsLoader(true));
+    packsListPageAPI.addCards(cardsPack_id)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        .finally(() => {
+            dispatch(setIsLoader(false));
+        });
+}
+
 export const deleteCard = (id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
     dispatch(setIsLoader(true));
     packsListPageAPI.deleteCard(id)
