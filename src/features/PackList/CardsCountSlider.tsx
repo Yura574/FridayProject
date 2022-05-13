@@ -1,33 +1,46 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../store/store";
-import {PacksListType, SearchByCardsCountAC} from "../../store/redusers/packsListPage-reducer";
+import {SearchByCardsCountAC} from "../../store/redusers/packsListPage-reducer";
+import {Range} from "rc-slider";
+import 'rc-slider/assets/index.css';
+import s from './PacksListPage.module.css'
 
 export const CardsCountSlider = () => {
-    const packsList = useSelector<AppRootStateType, PacksListType>(state => state.packsList.packsList)
+    const minCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.packsList.minCardsCount)
+    const maxCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.packsList.maxCardsCount)
     const dispatch = useDispatch()
 
-    const [inputValue, setInputValue] = useState<[number, number]>([packsList.minCardsCount, packsList.maxCardsCount])
+    const [start, setStart] = useState<number>(minCardsCount)
+    const [end, setEnd] = useState<number>(maxCardsCount)
 
-    const onClickHandler = () => {
-        dispatch(SearchByCardsCountAC(inputValue[0], inputValue[1]))
+    useEffect(() => {
+        setStart(minCardsCount);
+        setEnd(maxCardsCount)
+    }, [minCardsCount, maxCardsCount])
+
+    const rangeHandler = (value: number[]) => {
+        setStart(value[0])
+        setEnd(value[1])
+    }
+    const afterChangeRangeHandler = () => {
+        dispatch(SearchByCardsCountAC(start, end))
     }
 
     return (
-        <span>
-            <span>{packsList.minCardsCount}</span>
-            <input
-                type={"number"}
-                value={inputValue[0]}
-                onChange={(e) => setInputValue([+e.currentTarget.value, inputValue[1]])}
+        <div className={s.slider}>
+            <div>{start}</div>
+            <Range
+                style={{margin: '0 10px 0 10px'}}
+                min={minCardsCount}
+                max={maxCardsCount}
+                defaultValue={[minCardsCount, maxCardsCount]}
+                value={[start, end]}
+                allowCross={false}
+                onChange={(value: number[]) => rangeHandler(value)}
+                onAfterChange={afterChangeRangeHandler}
             />
-            <input
-                type={"number"}
-                value={inputValue[1]}
-                onChange={(e) => setInputValue([inputValue[0], +e.currentTarget.value])}
-            />
-            <span>{packsList.maxCardsCount}</span>
-            <button onClick={onClickHandler}>Filter</button>
-        </span>
+            <div>{end}</div>
+        </div>
     );
 }
