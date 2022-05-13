@@ -32,7 +32,7 @@ const SuperCheckbox: React.FC<SuperCheckboxPropsType> = (
     const finalSpanClassName = `${s.error} ${spanClassName ? spanClassName : ""}`
 
     return (
-        <div>
+
             <label className={s.form_control}>
                 <input type="checkbox"
                        name="checkbox-checked"
@@ -44,7 +44,7 @@ const SuperCheckbox: React.FC<SuperCheckboxPropsType> = (
                 />
                 {children && <span className={finalSpanClassName}>{children}</span>}
             </label>
-        </div>
+
 
 
     );

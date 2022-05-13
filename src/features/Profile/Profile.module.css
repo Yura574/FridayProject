@@ -12,5 +12,10 @@
     max-width: 1920px;
 width: 100%;
     /*border: 2px solid;*/
+}
 
+.avatar {
+    width: 300px;
+    border-radius: 30px;
+    margin: 30px;
 }

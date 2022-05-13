@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {nekoCardsAPI} from "../../api/neko-cards-api";
 import {setProfile} from "./profile-reducer";
+import {AxiosError} from "axios";
 
 enum LoginAction {
     SET_INITIALIZED = 'Login/SET_INITIALIZED',
@@ -15,11 +16,9 @@ const initialState = {
 
 export const loginReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-
         case LoginAction.SET_IS_AUTH:
         case  LoginAction.SET_INITIALIZED:
             return {...state, ...action.payload}
-
         default:
             return state
     }
@@ -53,12 +52,10 @@ export const isAuthTC = () => (dispatch: Dispatch) => {
     nekoCardsAPI.AuthMe()
         .then(res => {
             const {name, email, avatar} = res.data
-            dispatch(setProfile(name, email,  avatar))
+            dispatch(setProfile(res.data))
             dispatch(setIsAuth(true))
         })
-        .catch((err) => {
-            console.log(err.message)
-        })
+
         .finally(() => {
             dispatch(setInitialized(true))
         })
