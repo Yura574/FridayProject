@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {packsListPageAPI} from "../../api/neko-cards-api";
 import {AppDispatch, AppRootStateType} from "../store";
+import {setIsLoader} from "./app-reducer";
 
 export type NewPackType = {
     name: string
@@ -135,6 +136,7 @@ export type PacksListPageActionType = UpdatePacksListAT
     | AddNewPackType
 
 export const GetPacksListTC = () => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    dispatch(setIsLoader(true));
     packsListPageAPI.getPacksList(
         getState().packsList.searchValue,
         getState().packsList.searchMinCardsCount,
@@ -147,21 +149,33 @@ export const GetPacksListTC = () => (dispatch: Dispatch, getState: () => AppRoot
         .then((res) => {
             dispatch(GetPacksListAC(res.data))
         })
+        .finally(() => {
+            dispatch(setIsLoader(false));
+        });
 }
 export const AddPackTC = (newPack: NewPackType) => (dispatch: Dispatch) => {
+    dispatch(setIsLoader(true));
     packsListPageAPI.addNewPack(newPack)
         .then(res => {
             dispatch(AddNewPacksAC(res.data.newCardsPack))
         })
+        .finally(() => {
+            dispatch(setIsLoader(false));
+        });
 }
 export const DeletePackTC = (packId: string) => (dispatch: AppDispatch) => {
+    dispatch(setIsLoader(true));
     packsListPageAPI.deletePack(packId)
         .then(() => {
             dispatch(GetPacksListTC())
         })
+        .finally(() => {
+            dispatch(setIsLoader(false));
+        });
 }
 
 export const UpdatePackTC = (packId: string, name: string) => (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+    dispatch(setIsLoader(true));
     let newUpdatePack = getState().packsList.packsList.cardPacks.find(el => el._id === packId)
 
     if (newUpdatePack) {
@@ -170,5 +184,8 @@ export const UpdatePackTC = (packId: string, name: string) => (dispatch: AppDisp
             .then(() => {
                 dispatch(GetPacksListTC())
             })
+            .finally(() => {
+                dispatch(setIsLoader(false));
+            });
     }
 }
