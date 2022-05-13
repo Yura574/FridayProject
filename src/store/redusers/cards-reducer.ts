@@ -83,6 +83,11 @@ export const addCard = (cardsPack_id: string) => (dispatch: Dispatch<CardsAction
     dispatch(setIsLoader(true));
     packsListPageAPI.addCards(cardsPack_id)
         .then((res) => {
+            packsListPageAPI.getCards(cardsPack_id)
+                .then(({data}) => {
+                    console.log(data)
+                    dispatch(setCards(data.cards))
+                })
             console.log(res)
         })
         .catch((err) => {
@@ -93,10 +98,15 @@ export const addCard = (cardsPack_id: string) => (dispatch: Dispatch<CardsAction
         });
 }
 
-export const deleteCard = (id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+export const deleteCard = (id: string, cardsPack_id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
     dispatch(setIsLoader(true));
     packsListPageAPI.deleteCard(id)
         .then((res) => {
+            packsListPageAPI.getCards(cardsPack_id)
+                .then(({data}) => {
+                    console.log(data)
+                    dispatch(setCards(data.cards))
+                })
             console.log(res)
         })
         .catch((err) => {
@@ -107,11 +117,16 @@ export const deleteCard = (id: string) => (dispatch: Dispatch<CardsActionTypes |
         });
 }
 
-export const updateCard = (id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+export const updateCard = (id: string, cardsPack_id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
     dispatch(setIsLoader(true));
     packsListPageAPI.updateCard(id)
         .then((res) => {
             console.log(res)
+            packsListPageAPI.getCards(cardsPack_id)
+                .then(({data}) => {
+                    console.log(data)
+                    dispatch(setCards(data.cards))
+                })
         })
         .catch((err) => {
             console.log(err)

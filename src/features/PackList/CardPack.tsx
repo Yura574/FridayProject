@@ -48,7 +48,7 @@ export const CardPack = (props: CardPackType) => {
                     <button onClick={() => deletePack(_id)}>Delete</button>
                 </>
             }
-            <NavLink to={'/cards/:cardsPack_id'}
+            <NavLink to={`/cards/${_id}`}
                      className={({isActive}) => isActive ? s.active : s.link}><button>Show cards</button></NavLink>
 
         </div>

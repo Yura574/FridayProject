@@ -17,22 +17,26 @@ export const Cards = () => {
     const onClickAddCard = () => {
         if(cardsPack_id) {
             dispatch(addCard(cardsPack_id));
-            dispatch(getCards(cardsPack_id));
+            //dispatch(getCards(cardsPack_id));
         }
     }
 
     const onClickDeleteCard = (id: string) => {
-        dispatch(deleteCard(id));
         if(cardsPack_id) {
-            dispatch(getCards(cardsPack_id));
+            dispatch(deleteCard(id, cardsPack_id));
         }
+        // if(cardsPack_id) {
+        //     dispatch(getCards(cardsPack_id));
+        // }
     }
 
     const onClickUpdateCard = (id: string) => {
-        dispatch(updateCard(id));
         if(cardsPack_id) {
-            dispatch(getCards(cardsPack_id));
+            dispatch(updateCard(id, cardsPack_id));
         }
+        // if(cardsPack_id) {
+        //     dispatch(getCards(cardsPack_id));
+        // }
     }
 
     const cardsBodyTable = cards.map(card => {
