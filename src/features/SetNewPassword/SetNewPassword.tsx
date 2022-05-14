@@ -42,13 +42,19 @@ export const SetNewPassword = memo(() => {
 
     return (
         <div className={s.setNewPassword}>
-            <div className={s.card}>
-                <h2 className={s.mainTitle}>It-incubator</h2>
-                <h3 className={s.secondTitle}>Create new password</h3>
-                <SuperInputText type={"password"} placeholder={'Password'} value={password} onChangeText={onChangePasswordField}/>
-                <div className={s.error}>{errorMessage && errorMessage}</div>
-                <p className={s.text}>Create new password and we will send you further instructions to email</p>
-                <SuperButton onClick={onClickCreateNewPassword} className={s.btn} disabled={!password}>Create new password</SuperButton>
+            <div className={'mainCardWrapper'}>
+                <div className={'mainCardHeader'}>
+                    <h1>It-incubator</h1>
+                    <h3>Create new password</h3>
+                </div>
+                <div className={'mainCardBody'}>
+                    <SuperInputText type={"password"} title={'Password'} value={password} onChangeText={onChangePasswordField}/>
+                    <div className={s.error}>{errorMessage && errorMessage}</div>
+                    <p className={s.text}>Create new password and we will send you further instructions to email</p>
+                </div>
+                <div className={'mainCardFooter'}>
+                    <SuperButton onClick={onClickCreateNewPassword} className={s.btn} disabled={!password}>Create new password</SuperButton>
+                </div>
             </div>
         </div>
     );

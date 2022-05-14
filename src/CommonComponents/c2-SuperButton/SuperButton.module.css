@@ -13,10 +13,15 @@
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
-    height: 25px;
-    min-width: 100px;
-    background-color: #ffffff;
+    color: white;
+    background-color: #02359a;
+    padding: 5px 35px;
     border: 1px solid rgba(22, 76, 167, 0.6);
+}
+
+.white {
+    background: white;
+    color: #02359a;
 }
 
 .btn:hover {
