@@ -6,7 +6,6 @@ import {Modal} from "../Modal";
 import SuperButton from "../../../CommonComponents/c2-SuperButton/SuperButton";
 import s from "../ModalStyles.module.css";
 import SuperInput from "../../../CommonComponents/c1-SuperInput/SuperInput";
-import TestInput from "../../../CommonComponents/c1-SuperInput/TestInput";
 
 
 export const AddPackModalContainer = () => {
@@ -33,7 +32,7 @@ export const AddPackModalContainer = () => {
     return (
         <>
             <button onClick={() => setShow(true)}>add pack</button>
-            <Modal activeModal={show} setActiveModal={setShow}>
+            <Modal activeModal={show} cancel={cancel}>
                 <div className={s.wrapper}>
                     <div className={s.title}>
                         <span>Add new pack</span>

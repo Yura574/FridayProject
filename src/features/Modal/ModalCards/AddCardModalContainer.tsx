@@ -32,12 +32,14 @@ export const AddCardModalContainer = (props: AddCardModalContainerType) => {
     }
     const cancel = () => {
         setShow(false)
+        setQuestion('')
+        setAnswer('')
     }
 
     return (
         <>
             <button onClick={() => setShow(true)}>add pack</button>
-            <Modal activeModal={show} setActiveModal={setShow}>
+            <Modal activeModal={show} cancel={cancel}>
                 <div className={s.title}>
                     <span>Add new card</span>
                     <button onClick={cancel} className={s.iconButton}></button>
@@ -53,7 +55,7 @@ export const AddCardModalContainer = (props: AddCardModalContainerType) => {
                         value={answer}
                         placeholder={'answer'}
                         label={'answer'}
-                        autoRef={false}/>
+                        />
                 </div>
                 <div className={s.buttonsModal}>
                     <SuperButton onClick={cancel} className={s.cancelButton}> cancel</SuperButton>

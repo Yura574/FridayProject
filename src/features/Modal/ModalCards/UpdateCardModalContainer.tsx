@@ -33,13 +33,15 @@ export const UpdateCardModalContainer = (props: UpdateCardModalContainer) => {
     }
     const cancel = () => {
         setShow(false)
+        setAnswer(defaultAnswer)
+        setQuestion(defaultQuestion)
     }
 
 
     return (
         <>
             <button onClick={() => setShow(true)}>edit</button>
-            <Modal activeModal={show} setActiveModal={setShow}>
+            <Modal activeModal={show} cancel={cancel}>
                 <div className={s.title}>
                     <span>Edit card</span>
                     <button onClick={cancel} className={s.iconButton}></button>
@@ -55,7 +57,7 @@ export const UpdateCardModalContainer = (props: UpdateCardModalContainer) => {
                         value={answer}
                         placeholder={'answer'}
                         label={'answer'}
-                        autoRef={false}/>
+                      />
                 </div>
                 <div className={s.buttonsModal}>
                     <SuperButton onClick={cancel} className={s.cancelButton}> cancel</SuperButton>

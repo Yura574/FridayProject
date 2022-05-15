@@ -36,7 +36,7 @@ export const UpdatePackModalContainer = (props: EditModalContainerType) => {
     return (
         <div>
             <button onClick={() => setShow(true)}>edit</button>
-            <Modal activeModal={show} setActiveModal={setShow}>
+            <Modal activeModal={show} cancel={cancel}>
                 <div className={s.wrapper}>
                     <div className={s.title}>
                         <span>Edit title pack</span>

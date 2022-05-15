@@ -32,7 +32,7 @@ export const DeleteCardModalContainer = (props: DeleteCardModalContainerType) =>
     return (
         <>
             <button onClick={() => setShow(true)}>delete card</button>
-            <Modal activeModal={show} setActiveModal={setShow}>
+            <Modal activeModal={show} cancel={cancel}>
                 <div className={s.title}>
                     <span>Delete pack</span>
                     <button onClick={cancel} className={s.iconButton}></button>
