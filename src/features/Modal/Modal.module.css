@@ -11,6 +11,7 @@
     align-items: center;
     opacity: 0;
     pointer-events: none;
+    transition: 0.5s all;
 }
 
 .model_wrapper.active {
@@ -19,13 +20,12 @@
 }
 
 .model_content {
-    width: 20vw;
-    height: 200px;
-    border-radius: 20px;
+width: 60vh;
+    /*height: 50vh;*/
+    border-radius: 10px;
     background: white;
     transform: scale(0.5);
     transition: 0.5s all;
-    min-height: 400px;
 
 }
 

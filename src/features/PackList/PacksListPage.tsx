@@ -3,7 +3,6 @@ import s from './PacksListPage.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {
-    AddPackTC,
     GetPacksListTC, PacksListPageType, SetCurrentPageAC, SetItemsQuantityOnPageAC,
     SetSearchValueAC, SortPacksByDateAC
 } from "../../store/redusers/packsListPage-reducer";
@@ -13,10 +12,8 @@ import {Pagination} from "../../CommonComponents/c5-Pagination/Pagination";
 import {CardPack} from "./CardPack";
 import {Navigate} from "react-router-dom";
 import {PacksOwnerSelector} from "./PacksOwnerSelector";
-import {Modal} from "../Modal/Modal";
-import {Test} from "../Modal/Test";
-import {AddModalContainer} from "../Modal/ModalPackList/AddModal/AddModalContainer";
 import {ModalUp} from "../Modal/CommonModal/ModalUp/ModalUp";
+import { AddPackModalContainer } from '../Modal/ModalPackList/AddPackModalContainer';
 
 export const PacksListPage = () => {
     const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isAuth)
@@ -81,7 +78,7 @@ export const PacksListPage = () => {
                 />
                 <div>
 
-                    <AddModalContainer/>
+                    <AddPackModalContainer/>
                 </div>
             </div>
             <div className={s.table}>

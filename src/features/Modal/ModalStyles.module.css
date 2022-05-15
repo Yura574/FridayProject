@@ -1,0 +1,62 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.element {
+    padding: 30px;
+    width: 100%;
+}
+
+.buttonsModal {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 30px;
+}
+.text{
+    font-size: 14px;
+    padding: 30px;
+}
+
+.title{
+    width: 100%;
+    border-bottom: 1px solid #9b9b9b;
+    padding: 30px;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: space-between;
+}
+.iconButton{
+    background: url("../../img/svg/icons8-close.svg") no-repeat 50% 50%;
+    width: 15px;
+    height: 15px;
+    border: 0;
+    cursor: pointer;
+    background-size: 15px 15px;
+}
+.iconButton:active{
+    transform: scale(0.8);
+}
+.submitButton{
+    background-color: #21268F;
+    color: white;
+}
+.cancelButton{
+    background-color: #D7D8EF;
+    color: #21268F;
+    border: none;
+}
+.deleteButton{
+    background-color: #F1453D;
+    color: white;
+    border: none;
+    font-family: Roboto, sans-serif;
+}
+
+
+
