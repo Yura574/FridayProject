@@ -17,7 +17,6 @@ import {PacksOwnerSelector} from "./PacksOwnerSelector";
 export const PacksListPage = () => {
     const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isAuth)
     const packsList = useSelector<AppRootStateType, PacksListPageType>(state => state.packsList)
-    const searchValue = useSelector<AppRootStateType, string>(state => state.packsList.searchValue)
     const dispatch: AppDispatch = useDispatch()
 
     const [titlePack, setTitlePack] = useState<string>('')
@@ -48,11 +47,8 @@ export const PacksListPage = () => {
     const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
         debounced(e.currentTarget.value)
     }
-    const sortPacksByDateUp = () => {
-        dispatch(SortPacksByDateAC('0updated'))
-    }
-    const sortPacksByDateDown = () => {
-        dispatch(SortPacksByDateAC('1updated'))
+    const sortPacks = (sortDirection: string) => {
+        dispatch(SortPacksByDateAC(sortDirection))
     }
     const changePage = (pageNumber: number) => {
         dispatch(SetCurrentPageAC(pageNumber))
@@ -87,12 +83,20 @@ export const PacksListPage = () => {
             </div>
             <div className={s.table}>
                 <div className={s.header}>
-                    <div className={s.column}>Name</div>
-                    <div className={s.column}>Cards</div>
+                    <div>
+                        <div className={s.column}>Name</div>
+                        <button onClick={() => sortPacks('0name')}>^</button>
+                        <button onClick={() => sortPacks('1name')}>v</button>
+                    </div>
+                    <div>
+                        <div className={s.column}>Cards</div>
+                        <button onClick={() => sortPacks('0cardsCount')}>^</button>
+                        <button onClick={() => sortPacks('1cardsCount')}>v</button>
+                    </div>
                     <div>
                         <div className={s.column}>Updated</div>
-                        <button onClick={sortPacksByDateUp}>^</button>
-                        <button onClick={sortPacksByDateDown}>v</button>
+                        <button onClick={() => sortPacks('0updated')}>^</button>
+                        <button onClick={() => sortPacks('1updated')}>v</button>
                     </div>
                     <div className={s.column}>Actions</div>
                 </div>

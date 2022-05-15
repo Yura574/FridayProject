@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {Navigate} from "react-router-dom";
 import eyeIcon from "../../img/eye.png"
+import eyeHiddenIcon from "../../img/eye-hidden.png"
 
 export const Registration = () => {
     const serverError = useSelector<AppRootStateType, string>(state => state.registration.serverError)
@@ -127,11 +128,18 @@ export const Registration = () => {
                                 onChange={passwordInsertOnChangeHandler}
                                 onFocus={passwordInsertOnFocusHandler}
                             />
-                            <img
-                                src={eyeIcon}
-                                className={s.eyeIcon}
-                                onClick={changePasswordDisplay}
-                            />
+                            {passwordInputType === 'text'
+                                ? <img
+                                    src={eyeHiddenIcon}
+                                    className={s.eyeIcon}
+                                    onClick={changePasswordDisplay}
+                                />
+                                : <img
+                                    src={eyeIcon}
+                                    className={s.eyeIcon}
+                                    onClick={changePasswordDisplay}
+                                />
+                            }
                         </div>
                     </div>
                     <div>
@@ -145,11 +153,18 @@ export const Registration = () => {
                                 onChange={confirmPasswordInsertOnChangeHandler}
                                 onFocus={confirmPasswordInsertOnFocusHandler}
                             />
-                            <img
-                                src={eyeIcon}
-                                className={s.eyeIcon}
-                                onClick={changePasswordDisplay}
-                            />
+                            {passwordInputType === 'text'
+                                ? <img
+                                    src={eyeHiddenIcon}
+                                    className={s.eyeIcon}
+                                    onClick={changePasswordDisplay}
+                                />
+                                : <img
+                                    src={eyeIcon}
+                                    className={s.eyeIcon}
+                                    onClick={changePasswordDisplay}
+                                />
+                            }
                         </div>
                     </div>
                     <div className={s.error}>{serverError}</div>

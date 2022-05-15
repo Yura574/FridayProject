@@ -7,6 +7,8 @@ import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
 import {DataLoginType, loginTC} from "../../store/redusers/profile-reducer";
 import s from './Login.module.css';
 import SuperCheckbox from "../../CommonComponents/c3-SuperCheckbox/SuperCheckbox";
+import eyeHiddenIcon from "../../img/eye-hidden.png";
+import eyeIcon from "../../img/eye.png";
 
 
 export const Login = () => {
@@ -19,6 +21,7 @@ export const Login = () => {
     //const [emailError, setEmailError] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [rememberMe, setRememberMe] = useState<boolean>(false)
+    const [passwordInputType, setPasswordInputType] = useState<string>('password')
 
     const emailInsertOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.currentTarget.value)
@@ -32,10 +35,10 @@ export const Login = () => {
         dispatch(loginTC(dataLogin))
     }
 
-    //   const changePasswordDisplay = () => {
-    //     if (passwordInputType === 'password') {setPasswordInputType('text')}
-    //     if (passwordInputType === 'text') {setPasswordInputType('password')}
-    // }
+      const changePasswordDisplay = () => {
+        if (passwordInputType === 'password') {setPasswordInputType('text')}
+        if (passwordInputType === 'text') {setPasswordInputType('password')}
+    }
 
 
     if (isAuth) {
@@ -67,16 +70,23 @@ export const Login = () => {
                         <div className={s.inputContainer}>
                             <input
                                 className={s.input}
-                                //type={passwordInputType}
+                                type={passwordInputType}
                                 value={password}
                                 onChange={passwordInsertOnChangeHandler}
                                 //onFocus={passwordInsertOnFocusHandler}
                             />
-                            {/* <img
-                  src={eyeIcon}
-                  className={s.eyeIcon}
-                  onClick={changePasswordDisplay}
-                /> */}
+                            {passwordInputType === 'text'
+                                ? <img
+                                    src={eyeHiddenIcon}
+                                    className={s.eyeIcon}
+                                    onClick={changePasswordDisplay}
+                                />
+                                : <img
+                                    src={eyeIcon}
+                                    className={s.eyeIcon}
+                                    onClick={changePasswordDisplay}
+                                />
+                            }
                         </div>
                     </div>
                     {/* <div>

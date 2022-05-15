@@ -47,3 +47,6 @@
     display: flex;
     width: 250px;
 }
+.activeButton {
+    background: #4fdffa;
+}
