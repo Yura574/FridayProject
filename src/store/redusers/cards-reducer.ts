@@ -79,9 +79,9 @@ export const getCards = (cardsPack_id: string) => (dispatch: Dispatch<CardsActio
         });
 }
 
-export const addCard = (cardsPack_id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+export const addCard = (cardsPack_id: string, question: string, answer: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
     dispatch(setIsLoader(true));
-    packsListPageAPI.addCards(cardsPack_id)
+    packsListPageAPI.addCards(cardsPack_id, question, answer)
         .then((res) => {
             packsListPageAPI.getCards(cardsPack_id)
                 .then(({data}) => {
@@ -117,9 +117,9 @@ export const deleteCard = (id: string, cardsPack_id: string) => (dispatch: Dispa
         });
 }
 
-export const updateCard = (id: string, cardsPack_id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+export const updateCard = (id: string, cardsPack_id: string, question: string, answer: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
     dispatch(setIsLoader(true));
-    packsListPageAPI.updateCard(id)
+    packsListPageAPI.updateCard(id,question, answer)
         .then((res) => {
             console.log(res)
             packsListPageAPI.getCards(cardsPack_id)
