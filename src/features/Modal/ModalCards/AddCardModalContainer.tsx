@@ -9,13 +9,12 @@ import s from "../ModalStyles.module.css";
 import SuperInput from "../../../CommonComponents/c1-SuperInput/SuperInput";
 
 
-
 type AddCardModalContainerType = {
     cardsPack_id: string
 }
 
 export const AddCardModalContainer = (props: AddCardModalContainerType) => {
-    const{ cardsPack_id} = props
+    const {cardsPack_id} = props
     const dispatch: AppDispatch = useDispatch()
 
     const [show, setShow] = useState<boolean>(false)
@@ -24,7 +23,7 @@ export const AddCardModalContainer = (props: AddCardModalContainerType) => {
     const [answer, setAnswer] = useState<string>('')
 
     const onClickAddCard = () => {
-        if(cardsPack_id) {
+        if (cardsPack_id) {
             dispatch(addCard(cardsPack_id, question, answer));
         }
         setShow(false)
@@ -53,7 +52,8 @@ export const AddCardModalContainer = (props: AddCardModalContainerType) => {
                         onChangeText={setAnswer}
                         value={answer}
                         placeholder={'answer'}
-                        label={'answer'}/>
+                        label={'answer'}
+                        autoRef={false}/>
                 </div>
                 <div className={s.buttonsModal}>
                     <SuperButton onClick={cancel} className={s.cancelButton}> cancel</SuperButton>

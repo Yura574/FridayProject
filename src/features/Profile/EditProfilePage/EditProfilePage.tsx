@@ -1,10 +1,11 @@
 import s from './EditProfilePage.module.css'
 import SuperButton from "../../../CommonComponents/c2-SuperButton/SuperButton";
-import {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../../store/store";
 import {DataType, editProfileTC} from "../../../store/redusers/profile-reducer";
 import {NavLink} from "react-router-dom";
+import SuperInput from "../../../CommonComponents/c1-SuperInput/SuperInput";
 
 
 
@@ -36,7 +37,11 @@ export const EditProfilePage = () => {
        dispatch(editProfileTC(data))
     }
 
+    const emailInputRef = useRef<any>(null);
 
+    React.useEffect(()=>{
+        emailInputRef.current?.focus();
+    }, []);
     return (
         <div className={s.main}>
             <div className={s.form}>
@@ -52,12 +57,14 @@ export const EditProfilePage = () => {
                 <div className={s.inputsBlock}>
                     <div>
                         <span className={s.inputDescription}>Nickname   </span>
-                        <input
-                            className={s.input}
-                            type={"text"}
-                            value={name}
-                            onChange={changeName}
-                        />
+                        <SuperInput ref={emailInputRef.current?.focus()} onChangeText={setName} label={'name'} value={name}/>
+                        {/*<input*/}
+                        {/*    ref={emailInputRef}*/}
+                        {/*    className={s.input}*/}
+                        {/*    type={"text"}*/}
+                        {/*    value={name}*/}
+                        {/*    onChange={changeName}*/}
+                        {/*/>*/}
                     </div>
                     <div>
                         <span className={s.inputDescription}>Url avatar   </span>

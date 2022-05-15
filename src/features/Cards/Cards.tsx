@@ -23,8 +23,15 @@ export const Cards = () => {
     const cardsBodyTable = cards.map(card => {
 
         const buttons = <td>
-            <DeleteCardModalContainer cardsPack_id={card.cardsPack_id} card_id={card._id}/>
-            <UpdateCardModalContainer cardsPack_id={card.cardsPack_id} card_id={card._id}/>
+            <DeleteCardModalContainer cardsPack_id={card.cardsPack_id}
+                                      card_id={card._id}
+                                      defaultQuestion={card.question}
+            />
+            <UpdateCardModalContainer cardsPack_id={card.cardsPack_id}
+                                      card_id={card._id}
+                                      defaultQuestion={card.question}
+                                      defaultAnswer={card.answer}
+            />
         </td>
 
         return (

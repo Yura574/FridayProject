@@ -2,9 +2,8 @@ import {useDispatch} from "react-redux";
 import React, {useState} from "react";
 import {AppDispatch} from "../../../store/store";
 import {Modal} from "../Modal";
-import SuperInputText from "../../../CommonComponents/c1-SuperInputText/SuperInputText";
 import SuperButton from "../../../CommonComponents/c2-SuperButton/SuperButton";
-import {addCard, updateCard} from "../../../store/redusers/cards-reducer";
+import {updateCard} from "../../../store/redusers/cards-reducer";
 import s from "../ModalStyles.module.css";
 import SuperInput from "../../../CommonComponents/c1-SuperInput/SuperInput";
 
@@ -12,17 +11,20 @@ import SuperInput from "../../../CommonComponents/c1-SuperInput/SuperInput";
 type UpdateCardModalContainer = {
     cardsPack_id: string
     card_id: string
+    defaultQuestion: string
+    defaultAnswer: string
+
 
 }
 
 export const UpdateCardModalContainer = (props: UpdateCardModalContainer) => {
-    const {cardsPack_id, card_id} = props
+    const {cardsPack_id, card_id, defaultQuestion, defaultAnswer} = props
     const dispatch: AppDispatch = useDispatch()
 
     const [show, setShow] = useState<boolean>(false)
 
-    const [question, setQuestion] = useState<string>('')
-    const [answer, setAnswer] = useState<string>('')
+    const [question, setQuestion] = useState<string>(defaultQuestion)
+    const [answer, setAnswer] = useState<string>(defaultAnswer)
 
     const onClickUpdateCard = () => {
         if (cardsPack_id) {
@@ -52,7 +54,8 @@ export const UpdateCardModalContainer = (props: UpdateCardModalContainer) => {
                         onChangeText={setAnswer}
                         value={answer}
                         placeholder={'answer'}
-                        label={'answer'}/>
+                        label={'answer'}
+                        autoRef={false}/>
                 </div>
                 <div className={s.buttonsModal}>
                     <SuperButton onClick={cancel} className={s.cancelButton}> cancel</SuperButton>

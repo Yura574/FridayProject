@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {AddPackTC} from "../../../store/redusers/packsListPage-reducer";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../store/store";
@@ -6,6 +6,7 @@ import {Modal} from "../Modal";
 import SuperButton from "../../../CommonComponents/c2-SuperButton/SuperButton";
 import s from "../ModalStyles.module.css";
 import SuperInput from "../../../CommonComponents/c1-SuperInput/SuperInput";
+import TestInput from "../../../CommonComponents/c1-SuperInput/TestInput";
 
 
 export const AddPackModalContainer = () => {
@@ -22,7 +23,13 @@ export const AddPackModalContainer = () => {
     }
     const cancel = () => {
         setShow(false)
+        setTitlePack('')
     }
+    const emailInputRef = useRef<any>();
+
+    useEffect(() => {
+        emailInputRef.current?.focus();
+    });
     return (
         <>
             <button onClick={() => setShow(true)}>add pack</button>
@@ -36,8 +43,9 @@ export const AddPackModalContainer = () => {
                         <SuperInput
                             onChangeText={setTitlePack}
                             value={titlePack}
-                        placeholder={'title'}
-                        label={'title'}/>
+                            placeholder={'title'}
+                            label={'title'}/>
+                        {/*<TestInput ref={emailInputRef}/>*/}
                     </div>
                     <div className={s.buttonsModal}>
                         <SuperButton onClick={cancel} className={s.cancelButton}> cancel</SuperButton>

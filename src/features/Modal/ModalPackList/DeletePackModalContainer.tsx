@@ -9,9 +9,11 @@ import s from "../ModalStyles.module.css";
 
 type DeleteModalContainerType = {
     id: string
+    name: string
 }
 
 export const DeletePackModalContainer = (props: DeleteModalContainerType) => {
+    const{name, id}=props
     const dispatch: AppDispatch = useDispatch()
     const [show, setShow] = useState<boolean>(false)
 
@@ -31,11 +33,11 @@ export const DeletePackModalContainer = (props: DeleteModalContainerType) => {
                     <button onClick={cancel} className={s.iconButton}></button>
                 </div>
                 <div className={s.text}>
-                    Do you really want to remove Pack Name - Name Pack?
+                    Do you really want to remove <b>{name}</b>?
                     All cards will be excluded from this course.</div>
                 <div className={s.buttonsModal}>
                     <SuperButton onClick={cancel} className={s.cancelButton}> cancel</SuperButton>
-                    <SuperButton onClick={() => deletePack(props.id)} className={s.deleteButton}> submit</SuperButton>
+                    <SuperButton onClick={() => deletePack(id)} className={s.deleteButton}> submit</SuperButton>
                 </div>
 
             </Modal>

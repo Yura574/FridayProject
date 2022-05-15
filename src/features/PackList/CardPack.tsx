@@ -3,8 +3,8 @@ import { AppRootStateType} from "../../store/store";
 import { useSelector} from "react-redux";
 import s from "./PacksListPage.module.css";
 import {NavLink} from "react-router-dom";
-import {EditPackModalContainer} from "../Modal/ModalPackList/EditPackModalContainer";
 import {DeletePackModalContainer} from "../Modal/ModalPackList/DeletePackModalContainer";
+import {UpdatePackModalContainer} from "../Modal/ModalPackList/UpdatePackModalContainer";
 
 type CardPackType = {
     pack: {
@@ -32,8 +32,8 @@ export const CardPack = (props: CardPackType) => {
         <div className={s.column}>
             {user_id === userId &&
                 <>
-                    <EditPackModalContainer name={name} packId={_id}/>
-                    <DeletePackModalContainer id={_id}/>
+                    <UpdatePackModalContainer name={name} packId={_id}/>
+                    <DeletePackModalContainer id={_id} name={name}/>
                 </>
             }
         </div>

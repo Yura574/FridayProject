@@ -1,6 +1,5 @@
 import {Modal} from "../Modal";
-import React, {useState} from "react";
-import SuperInputText from "../../../CommonComponents/c1-SuperInputText/SuperInputText";
+import React, {FocusEvent, useRef, useState} from "react";
 import {UpdatePackTC} from "../../../store/redusers/packsListPage-reducer";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../store/store";
@@ -14,7 +13,7 @@ type EditModalContainerType = {
     packId: string
 }
 
-export const EditPackModalContainer = (props: EditModalContainerType) => {
+export const UpdatePackModalContainer = (props: EditModalContainerType) => {
 
     const {name, packId} = props
     const dispatch: AppDispatch = useDispatch()
@@ -29,6 +28,11 @@ export const EditPackModalContainer = (props: EditModalContainerType) => {
     const cancel = () => {
         setShow(false)
     }
+    // const emailInputRef = React.useRef<any>(null);
+    //
+    // React.useEffect(()=>{
+    //     emailInputRef.current?.focus();
+    // }, []);
     return (
         <div>
             <button onClick={() => setShow(true)}>edit</button>
@@ -39,7 +43,11 @@ export const EditPackModalContainer = (props: EditModalContainerType) => {
                         <button onClick={cancel} className={s.iconButton}></button>
                     </div>
                     <div className={s.element}>
-                        <SuperInput label={'title'}  onChangeText={setEditName} value={editName}/>
+                        <SuperInput
+                            // ref={emailInputRef}
+                            label={'title'}
+                            onChangeText={setEditName}
+                            value={editName}/>
                     </div>
                     <div className={s.buttonsModal}>
                         <SuperButton onClick={cancel} className={s.cancelButton}> cancel</SuperButton>

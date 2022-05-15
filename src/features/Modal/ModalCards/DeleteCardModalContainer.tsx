@@ -11,16 +11,17 @@ import s from "../ModalStyles.module.css";
 type DeleteCardModalContainerType = {
     cardsPack_id: string
     card_id: string
+    defaultQuestion: string
 }
 
 export const DeleteCardModalContainer = (props: DeleteCardModalContainerType) => {
-    const{ cardsPack_id, card_id} = props
+    const {cardsPack_id, card_id, defaultQuestion} = props
     const dispatch: AppDispatch = useDispatch()
 
     const [show, setShow] = useState<boolean>(false)
 
     const onClickDeleteCard = () => {
-        if(cardsPack_id) {
+        if (cardsPack_id) {
             dispatch(deleteCard(card_id, cardsPack_id));
         }
     }
@@ -37,8 +38,8 @@ export const DeleteCardModalContainer = (props: DeleteCardModalContainerType) =>
                     <button onClick={cancel} className={s.iconButton}></button>
                 </div>
                 <div className={s.text}>
-                    Do you really want to remove Card Name - Name Pack?
-                    All cards will be excluded from this course.</div>
+                    Do you really want to remove <b>{defaultQuestion}</b>?
+                </div>
                 <div className={s.buttonsModal}>
                     <SuperButton onClick={cancel} className={s.cancelButton}> cancel</SuperButton>
                     <SuperButton onClick={onClickDeleteCard} className={s.deleteButton}> submit</SuperButton>

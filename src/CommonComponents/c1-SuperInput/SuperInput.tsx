@@ -1,4 +1,12 @@
-import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent} from "react";
+import React, {
+    ChangeEvent,
+    DetailedHTMLProps,
+    FocusEvent,
+    InputHTMLAttributes,
+    KeyboardEvent,
+    useEffect,
+    useRef
+} from "react";
 import s from "./SuperInput.module.css";
 
 // тип пропсов обычного инпута
@@ -13,6 +21,7 @@ type SuperInputTextPropsType = DefaultInputPropsType & { // и + ещё проп
     onEnter?: () => void
     error?: string
     spanClassName?: string
+    autoRef?: boolean
 };
 
 const SuperInput: React.FC<SuperInputTextPropsType> = (props) => {
@@ -23,7 +32,7 @@ const SuperInput: React.FC<SuperInputTextPropsType> = (props) => {
         error,
         className, spanClassName,
         value, placeholder,
-        label,
+        label,autoRef = true,
         ...restProps// все остальные пропсы попадут в объект restProps
     } = props
 
@@ -43,17 +52,31 @@ const SuperInput: React.FC<SuperInputTextPropsType> = (props) => {
     }
 
     const finalSpanClassName = `${s.error} ${spanClassName ? spanClassName : ""}`;
-    const finalInputClassName = `${s.errorInput} ${s.inputClass}`; // need to fix with (?:) and s.superInput
+    const finalInputClassName = `${s.errorInput} ${s.form__field} ${className}`; // need to fix with (?:) and s.superInput
+
+    //выделание текста в input при автофокус
+    const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
+        event.target.select();
+    }
+    const emailInputRef = useRef<any>();
+
+//autoRef делает автофокус input при переходе на новую страницу или открытие модалки
+//autoRef по умолчанию true, если на странице 2 и более input, будет выделен последний
+    if(autoRef){
+        emailInputRef.current?.focus();
+    };
 
     return (
         <>
             <div className={s.form__group}>
                 <input
-                       className={s.form__field}
-                       placeholder={placeholder || 'title'}
-                       value={value}
-                       onChange={onChangeCallback}/>
-                <label  className={value=== ''? s.form__label: s.form__label2}>{label}</label>
+                    onFocus={handleFocus}
+                    ref={emailInputRef}
+                    className={finalInputClassName}
+                    placeholder={placeholder || 'title'}
+                    value={value}
+                    onChange={onChangeCallback}/>
+                <label className={value === '' ? s.form__label : s.form__label2}>{label || 'title'}</label>
             </div>
             {error && <span className={finalSpanClassName}>{error}</span>}
         </>
