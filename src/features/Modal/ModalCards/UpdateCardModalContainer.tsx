@@ -40,7 +40,7 @@ export const UpdateCardModalContainer = (props: UpdateCardModalContainer) => {
 
     return (
         <>
-            <button onClick={() => setShow(true)}>edit</button>
+            <SuperButton onClick={() => setShow(true)}>edit</SuperButton>
             <Modal activeModal={show} cancel={cancel}>
                 <div className={s.title}>
                     <span>Edit card</span>

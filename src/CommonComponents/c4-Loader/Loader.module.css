@@ -26,12 +26,12 @@
 
 @keyframes line-bounce {
     0% {
-        left: calc(100% - 100px);
-    }
-    50% {
         left: 0;
     }
-    100% {
+    50% {
         left: calc(100% - 100px);
+    }
+    100% {
+        left: 0;
     }
 }
