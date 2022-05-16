@@ -3,7 +3,6 @@ import s from './PacksListPage.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {
-    AddPackTC,
     GetPacksListTC, PacksListPageType, SetCurrentPageAC, SetItemsQuantityOnPageAC,
     SetSearchValueAC, SortPacksByDateAC
 } from "../../store/redusers/packsListPage-reducer";
@@ -13,13 +12,15 @@ import {Pagination} from "../../CommonComponents/c5-Pagination/Pagination";
 import {CardPack} from "./CardPack";
 import {Navigate} from "react-router-dom";
 import {PacksOwnerSelector} from "./PacksOwnerSelector";
+import {ModalUp} from "../Modal/CommonModal/ModalUp/ModalUp";
+import { AddPackModalContainer } from '../Modal/ModalPackList/AddPackModalContainer';
 
 export const PacksListPage = () => {
     const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isAuth)
     const packsList = useSelector<AppRootStateType, PacksListPageType>(state => state.packsList)
     const dispatch: AppDispatch = useDispatch()
 
-    const [titlePack, setTitlePack] = useState<string>('')
+
     const [searchInput, setSearchInput] = useState<string>('')
     const debounced = useDebouncedCallback(
         useCallback((searchInput: string) => {
@@ -53,32 +54,27 @@ export const PacksListPage = () => {
     const changePage = (pageNumber: number) => {
         dispatch(SetCurrentPageAC(pageNumber))
     }
-    const titlePackHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitlePack(e.currentTarget.value)
-    }
-    const addPack = () => {
-        dispatch(AddPackTC({name: titlePack, private: false, deckCover: ''}))
-        setTitlePack('')
-    }
+
 
     if (!isAuth) {
         return <Navigate to={'/login'}/>
     }
 
+
     return (
         <div className={s.main}>
             <div className={s.header}>
-                <PacksOwnerSelector />
+                <PacksOwnerSelector/>
                 <div className={s.slider}>
-                    <CardsCountSlider />
+                    <CardsCountSlider/>
                 </div>
                 <input
                     placeholder={'search'}
                     onChange={searchHandler}
                 />
                 <div>
-                    <input value={titlePack} onChange={titlePackHandler}/>
-                    <button onClick={addPack}>add pack</button>
+
+                    <AddPackModalContainer/>
                 </div>
             </div>
             <div className={s.table}>
@@ -124,9 +120,11 @@ export const PacksListPage = () => {
                     <option value={10}>10</option>
                     <option value={15}>15</option>
                     <option value={20}>20</option>
+                    <option value={200}>200</option>
                 </select>
                 items per page
             </div>
+<ModalUp/>
         </div>
     )
 }
