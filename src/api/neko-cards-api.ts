@@ -90,12 +90,12 @@ export const packsListPageAPI = {
         }
         return instance.get('/cards/card', config);
     },
-    addCards(cardsPack_id: string) {
+    addCards(cardsPack_id: string, question: string, answer: string) {
 
         const card = {
             cardsPack_id,
-            question: 'Test question',
-            answer: 'Test answer'
+            question,
+            answer
         }
 
         return instance.post('cards/card', {card});
@@ -103,11 +103,11 @@ export const packsListPageAPI = {
     deleteCard(id: string) {
         return instance.delete('/cards/card?', {params: {id}});
     },
-    updateCard(_id: string) {
+    updateCard(_id: string, question: string, answer: string) {
         const card = {
             _id,
-            question: 'new question',
-            answer: 'new answer',
+            question,
+            answer,
         }
 
         return instance.put('/cards/card', {card})

@@ -23,7 +23,6 @@ export const Profile = () => {
                     <button>Edit profile</button>
                 </NavLink>
             </div>
-            {/*<button onClick={logout}>logout</button>*/}
         </div>
     )
 }

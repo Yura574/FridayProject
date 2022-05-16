@@ -4,6 +4,9 @@ import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {addCard, CardType, deleteCard, getCards, updateCard} from "../../store/redusers/cards-reducer";
+import {AddCardModalContainer} from "../Modal/ModalCards/AddCardModalContainer";
+import {DeleteCardModalContainer} from "../Modal/ModalCards/DeleteCardModalContainer";
+import {UpdateCardModalContainer} from "../Modal/ModalCards/UpdateCardModalContainer";
 
 export const Cards = () => {
     const {cardsPack_id} = useParams();
@@ -14,36 +17,21 @@ export const Cards = () => {
 
     const cards = useSelector<AppRootStateType, CardType[]>(state => state.cards.cards);
 
-    const onClickAddCard = () => {
-        if(cardsPack_id) {
-            dispatch(addCard(cardsPack_id));
-            //dispatch(getCards(cardsPack_id));
-        }
-    }
 
-    const onClickDeleteCard = (id: string) => {
-        if(cardsPack_id) {
-            dispatch(deleteCard(id, cardsPack_id));
-        }
-        // if(cardsPack_id) {
-        //     dispatch(getCards(cardsPack_id));
-        // }
-    }
 
-    const onClickUpdateCard = (id: string) => {
-        if(cardsPack_id) {
-            dispatch(updateCard(id, cardsPack_id));
-        }
-        // if(cardsPack_id) {
-        //     dispatch(getCards(cardsPack_id));
-        // }
-    }
 
     const cardsBodyTable = cards.map(card => {
 
         const buttons = <td>
-            <button onClick={() => onClickDeleteCard(card._id)}>delete</button>
-            <button onClick={() => onClickUpdateCard(card._id)}>update</button>
+            <DeleteCardModalContainer cardsPack_id={card.cardsPack_id}
+                                      card_id={card._id}
+                                      defaultQuestion={card.question}
+            />
+            <UpdateCardModalContainer cardsPack_id={card.cardsPack_id}
+                                      card_id={card._id}
+                                      defaultQuestion={card.question}
+                                      defaultAnswer={card.answer}
+            />
         </td>
 
         return (
@@ -63,9 +51,7 @@ export const Cards = () => {
         <div className={s.cardsWrapper}>
             <div className={s.container}>
                 <div>
-                    <button onClick={onClickAddCard}>
-                        Add Card
-                    </button>
+                   <AddCardModalContainer cardsPack_id={cardsPack_id? cardsPack_id : ''}/>
                 </div>
                 {/*<div>*/}
                 {/*    <input*/}
