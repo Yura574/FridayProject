@@ -2,9 +2,8 @@ import {useDispatch} from "react-redux";
 import React, {useState} from "react";
 import {AppDispatch} from "../../../store/store";
 import {Modal} from "../Modal";
-import SuperInputText from "../../../CommonComponents/c1-SuperInputText/SuperInputText";
 import SuperButton from "../../../CommonComponents/c2-SuperButton/SuperButton";
-import {addCard, deleteCard} from "../../../store/redusers/cards-reducer";
+import {deleteCard} from "../../../store/redusers/cards-reducer";
 import s from "../ModalStyles.module.css";
 
 
@@ -31,7 +30,7 @@ export const DeleteCardModalContainer = (props: DeleteCardModalContainerType) =>
 
     return (
         <>
-            <button onClick={() => setShow(true)}>delete card</button>
+            <SuperButton onClick={() => setShow(true)}>Delete</SuperButton>
             <Modal activeModal={show} cancel={cancel}>
                 <div className={s.title}>
                     <span>Delete pack</span>

@@ -76,7 +76,7 @@ export const packsListPageAPI = {
     updatePack(cardsPack: PackType) {
         return instance.put('/cards/pack', {cardsPack})
     },
-    getCards(cardsPack_id: string, cardAnswer?: string, cardQuestion?: string, min?: number, max?: number, page?: number, pageCount?: number) {
+    getCardsData(cardsPack_id: string, page?: number, pageCount?: number, cardAnswer?: string, cardQuestion?: string, min?: number, max?: number) {
         const config = {
             params: {
                 cardAnswer,

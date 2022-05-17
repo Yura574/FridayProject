@@ -4,6 +4,7 @@ import {setIsLoader, SetIsLoadingType} from "./app-reducer";
 
 enum CardsAction {
     SET_CARDS = 'Cards/SET_CARDS',
+    SET_CURRENT_PAGE = 'Cards/SET_CURRENT_PAGE',
 }
 
 export type CardType = {
@@ -40,36 +41,48 @@ const initialState: InitialState = {
     maxGrade: 6,
     packUserId: "",
     page: 1,
-    pageCount: 1,
+    pageCount: 5,
 }
 
-type CardsActionTypes = SetCardsType;
+type CardsActionTypes = SetCardsType | SetCardPageType;
 
 export const cardsReducer = (state: InitialState = initialState, action: CardsActionTypes) => {
     switch (action.type) {
         case CardsAction.SET_CARDS:
+            return {...state, ...action.payload.data}
+        case CardsAction.SET_CURRENT_PAGE: {
             return {...state, ...action.payload}
+        }
         default:
             return state;
     }
 }
 
-type SetCardsType = ReturnType<typeof setCards>
-export const setCards = (cards: CardType[]) => {
+type SetCardsType = ReturnType<typeof setCardsData>
+export const setCardsData = (data: InitialState) => {
     return {
         type: CardsAction.SET_CARDS,
         payload: {
-            cards,
+            data,
         }
     } as const
 }
 
-export const getCards = (cardsPack_id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+type SetCardPageType = ReturnType<typeof setCardPage>
+export const setCardPage = (page: number) => {
+    return {
+        type: CardsAction.SET_CURRENT_PAGE,
+        payload: {
+            page,
+        },
+    } as const
+}
+
+export const getCardsData = (cardsPack_id: string, page?: number, pageCount?: number) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
     dispatch(setIsLoader(true));
-    packsListPageAPI.getCards(cardsPack_id)
+    packsListPageAPI.getCardsData(cardsPack_id, page, pageCount)
         .then(({data}) => {
-            console.log(data)
-            dispatch(setCards(data.cards))
+            dispatch(setCardsData(data))
         })
         .catch((err) => {
             console.log(err)
@@ -83,12 +96,10 @@ export const addCard = (cardsPack_id: string, question: string, answer: string) 
     dispatch(setIsLoader(true));
     packsListPageAPI.addCards(cardsPack_id, question, answer)
         .then((res) => {
-            packsListPageAPI.getCards(cardsPack_id)
+            packsListPageAPI.getCardsData(cardsPack_id)
                 .then(({data}) => {
-                    console.log(data)
-                    dispatch(setCards(data.cards))
+                    dispatch(setCardsData(data))
                 })
-            console.log(res)
         })
         .catch((err) => {
             console.log(err)
@@ -102,12 +113,10 @@ export const deleteCard = (id: string, cardsPack_id: string) => (dispatch: Dispa
     dispatch(setIsLoader(true));
     packsListPageAPI.deleteCard(id)
         .then((res) => {
-            packsListPageAPI.getCards(cardsPack_id)
+            packsListPageAPI.getCardsData(cardsPack_id)
                 .then(({data}) => {
-                    console.log(data)
-                    dispatch(setCards(data.cards))
+                    dispatch(setCardsData(data))
                 })
-            console.log(res)
         })
         .catch((err) => {
             console.log(err)
@@ -121,11 +130,9 @@ export const updateCard = (id: string, cardsPack_id: string, question: string, a
     dispatch(setIsLoader(true));
     packsListPageAPI.updateCard(id,question, answer)
         .then((res) => {
-            console.log(res)
-            packsListPageAPI.getCards(cardsPack_id)
+            packsListPageAPI.getCardsData(cardsPack_id)
                 .then(({data}) => {
-                    console.log(data)
-                    dispatch(setCards(data.cards))
+                    dispatch(setCardsData(data))
                 })
         })
         .catch((err) => {
