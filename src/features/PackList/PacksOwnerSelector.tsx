@@ -12,8 +12,8 @@ export const PacksOwnerSelector = () => {
     const dispatch: AppDispatch = useDispatch()
 
     const onClickHandler = (id: string) => {
-        dispatch(SetUserIdForPacksSearchingAC(id))
         dispatch(SearchByCardsCountAC(minCardsCount, maxCardsCount))
+        dispatch(SetUserIdForPacksSearchingAC(id))
     }
 
     return (

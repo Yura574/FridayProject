@@ -13,11 +13,10 @@ export const CardsCountSlider = () => {
     const searchMaxCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.searchMaxCardsCount)
     const dispatch = useDispatch()
 
-    const [start, setStart] = useState<number>(searchMinCardsCount)
-    const [end, setEnd] = useState<number>(searchMaxCardsCount)
+    const [start, setStart] = useState<number>(minCardsCount)
+    const [end, setEnd] = useState<number>(maxCardsCount)
 
     useEffect(() => {
-        debugger
         if (searchMinCardsCount > minCardsCount) {
             setStart(searchMinCardsCount)
         } else {
