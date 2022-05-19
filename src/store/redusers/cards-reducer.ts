@@ -1,10 +1,12 @@
 import {packsListPageAPI} from "../../api/neko-cards-api";
 import {Dispatch} from "redux";
-import {setIsLoader, SetIsLoadingType} from "./app-reducer";
+import {setInitializedCardPack, SetInitializedCardPack, setIsLoader, SetIsLoadingType} from "./app-reducer";
+import {setInitialized, SetInitializedType} from "./login-reducer";
 
 enum CardsAction {
     SET_CARDS = 'Cards/SET_CARDS',
     SET_CURRENT_PAGE = 'Cards/SET_CURRENT_PAGE',
+    CLEAR_CARD = 'Cards/CLEAR_CARD'
 }
 
 export type CardType = {
@@ -32,27 +34,41 @@ type InitialState = {
     packUserId: string
     page: number
     pageCount: number
+    token: string
+    tokenDeathTime: number
 }
 
 const initialState: InitialState = {
     cards: [],
     cardsTotalCount: 1,
-    minGrade: 0,
     maxGrade: 6,
+    minGrade: 0,
     packUserId: "",
     page: 1,
     pageCount: 5,
+    token: '',
+    tokenDeathTime: 0
 }
 
-type CardsActionTypes = SetCardsType | SetCardPageType;
+type CardsActionTypes = SetCardsType | SetCardPageType | SetClearCard;
 
 export const cardsReducer = (state: InitialState = initialState, action: CardsActionTypes) => {
     switch (action.type) {
         case CardsAction.SET_CARDS:
-            return {...state, ...action.payload.data}
+            // const {
+            //     cards, cardsTotalCount, pageCount, page, packUserId,
+            //     token, tokenDeathTime, maxGrade, minGrade
+            // } = action.payload.data
+            return {...action.payload.data}
+        // return {...state, ...action.payload.data}
         case CardsAction.SET_CURRENT_PAGE: {
             return {...state, ...action.payload}
         }
+        case CardsAction.CLEAR_CARD:
+            return {
+                ...state,
+                cards: state.cards.filter(el => el._id !== action.card_id)
+            }
         default:
             return state;
     }
@@ -78,7 +94,16 @@ export const setCardPage = (page: number) => {
     } as const
 }
 
-export const getCardsData = (cardsPack_id: string, page?: number, pageCount?: number) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+type SetClearCard = ReturnType<typeof clearCard>
+export const clearCard = (card_id: string) => {
+    return {
+        type: CardsAction.CLEAR_CARD,
+        card_id
+    } as const
+}
+
+export const getCardsData = (cardsPack_id: string, page?: number, pageCount?: number) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType | SetInitializedCardPack>) => {
+    debugger
     dispatch(setIsLoader(true));
     packsListPageAPI.getCardsData(cardsPack_id, page, pageCount)
         .then(({data}) => {
@@ -89,6 +114,7 @@ export const getCardsData = (cardsPack_id: string, page?: number, pageCount?: nu
         })
         .finally(() => {
             dispatch(setIsLoader(false));
+            dispatch(setInitializedCardPack(true))
         });
 }
 
@@ -128,7 +154,7 @@ export const deleteCard = (id: string, cardsPack_id: string) => (dispatch: Dispa
 
 export const updateCard = (id: string, cardsPack_id: string, question: string, answer: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
     dispatch(setIsLoader(true));
-    packsListPageAPI.updateCard(id,question, answer)
+    packsListPageAPI.updateCard(id, question, answer)
         .then((res) => {
             packsListPageAPI.getCardsData(cardsPack_id)
                 .then(({data}) => {
@@ -141,4 +167,12 @@ export const updateCard = (id: string, cardsPack_id: string, question: string, a
         .finally(() => {
             dispatch(setIsLoader(false));
         });
+}
+export const updateGrade = (card_id: string, grade: number) => (dispatch: Dispatch) => {
+    dispatch(setIsLoader(true))
+    // debugger
+    packsListPageAPI.updateGrade(card_id, grade)
+        .then(res => {
+            // debugger
+        })
 }
