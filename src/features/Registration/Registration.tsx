@@ -1,12 +1,12 @@
 import s from './Registration.module.css';
 import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
-import {ChangeEvent, useState} from "react";
+import {useState} from "react";
 import {RegistrationTC, SetServerErrorAC} from "../../store/redusers/registration-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {Navigate} from "react-router-dom";
 import eyeIcon from "../../img/eye.png"
-import eyeHiddenIcon from "../../img/eye-hidden.png"
+import SuperInputText from "../../CommonComponents/c1-SuperInputText/SuperInputText";
 
 export const Registration = () => {
     const serverError = useSelector<AppRootStateType, string>(state => state.registration.serverError)
@@ -21,14 +21,14 @@ export const Registration = () => {
     const [confirmPasswordError, setConfirmPasswordInsertError] = useState<string>('')
     const [passwordInputType, setPasswordInputType] = useState<string>('password')
 
-    const emailInsertOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmailInsert(e.currentTarget.value)
+    const emailInsertOnChangeHandler = (value: string) => {
+        setEmailInsert(value)
     }
-    const passwordInsertOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setPasswordInsertInsert(e.currentTarget.value)
+    const passwordInsertOnChangeHandler = (value: string) => {
+        setPasswordInsertInsert(value)
     }
-    const confirmPasswordInsertOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setConfirmPasswordInsertInsert(e.currentTarget.value)
+    const confirmPasswordInsertOnChangeHandler = (value: string) => {
+        setConfirmPasswordInsertInsert(value)
     }
 
     const emailInsertOnFocusHandler = () => {
@@ -100,81 +100,67 @@ export const Registration = () => {
 
     return (
         <div className={s.main}>
-            <div className={s.form}>
-                <div className={s.headerBlock}>
+            <div className={'mainCardWrapper'}>
+                <div className={'mainCardHeader'}>
                     <h1>It-incubator</h1>
                     <h3>Sign Up</h3>
                 </div>
-                <div className={s.inputsBlock}>
+                <div className={'mainCardBody'}>
                     <div>
-                        <span className={s.inputDescription}>Email   </span>
-                        <span className={s.error}>{emailError}</span>
-                        <input
+                        <span className={'mainCardError'}>{emailError}</span>
+                        <SuperInputText
+                            title={'Email'}
                             className={s.input}
                             type={"email"}
                             value={emailInsert}
-                            onChange={emailInsertOnChangeHandler}
+                            onChangeText={emailInsertOnChangeHandler}
                             onFocus={emailInsertOnFocusHandler}
                         />
                     </div>
                     <div>
-                        <span className={s.inputDescription}>Password   </span>
-                        <span className={s.error}>{passwordError}</span>
+                        <span className={'mainCardError'}>{passwordError}</span>
                         <div className={s.inputContainer}>
-                            <input
+                            <SuperInputText
+                                title={'Password'}
                                 className={s.input}
                                 type={passwordInputType}
                                 value={passwordInsert}
-                                onChange={passwordInsertOnChangeHandler}
+                                onChangeText={passwordInsertOnChangeHandler}
                                 onFocus={passwordInsertOnFocusHandler}
                             />
-                            {passwordInputType === 'text'
-                                ? <img
-                                    src={eyeHiddenIcon}
-                                    className={s.eyeIcon}
-                                    onClick={changePasswordDisplay}
-                                />
-                                : <img
-                                    src={eyeIcon}
-                                    className={s.eyeIcon}
-                                    onClick={changePasswordDisplay}
-                                />
-                            }
+                            <img
+                                src={eyeIcon}
+                                className={s.eyeIcon}
+                                onClick={changePasswordDisplay}
+                            />
                         </div>
                     </div>
                     <div>
-                        <span className={s.inputDescription}>Confirm password   </span>
-                        <span className={s.error}>{confirmPasswordError}</span>
+                        <span className={'mainCardError'}>{confirmPasswordError}</span>
                         <div className={s.inputContainer}>
-                            <input
+                            <SuperInputText
+                                title={'Confirm password'}
                                 className={s.input}
                                 type={passwordInputType}
                                 value={confirmPasswordInsert}
-                                onChange={confirmPasswordInsertOnChangeHandler}
+                                onChangeText={confirmPasswordInsertOnChangeHandler}
                                 onFocus={confirmPasswordInsertOnFocusHandler}
                             />
-                            {passwordInputType === 'text'
-                                ? <img
-                                    src={eyeHiddenIcon}
-                                    className={s.eyeIcon}
-                                    onClick={changePasswordDisplay}
-                                />
-                                : <img
-                                    src={eyeIcon}
-                                    className={s.eyeIcon}
-                                    onClick={changePasswordDisplay}
-                                />
-                            }
+                            <img
+                                src={eyeIcon}
+                                className={s.eyeIcon}
+                                onClick={changePasswordDisplay}
+                            />
                         </div>
                     </div>
-                    <div className={s.error}>{serverError}</div>
+                    <div className={'mainCardError'}>{serverError}</div>
                 </div>
-                <div className={s.buttonBlock}>
+                <div className={'mainCardFooter'}>
                     <SuperButton
+                        white
                         onClick={clearFormHandler}
                     >Cancel</SuperButton>
                     <SuperButton
-                        className={s.blue}
                         onClick={registrationHandler}
                     >Register</SuperButton>
                 </div>

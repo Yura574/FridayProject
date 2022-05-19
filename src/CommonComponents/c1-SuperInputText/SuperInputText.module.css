@@ -12,12 +12,13 @@
     box-sizing: border-box;
 }
 .inputClass {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #a1a1a1;
     font-size: 16px;
     font-family: inherit;
     padding: 0.25em 0.5em;
     background-color: #fff;
-    border: 2px solid var(--input-border);
-    border-radius: 4px;
     transition: 180ms box-shadow ease-in-out;
     outline: 3px solid transparent;
 }
@@ -38,7 +39,12 @@
 }
 .inputClass:focus {
     border-color: #471263;
-    box-shadow: 0 0 0 2px rgba(71,18,99, 0.5);
+    border-bottom: 2px solid #a1a1a1;
+}
+
+.finalSpanClassName {
+    font-size: small;
+    opacity: 50%;
 }
 
 .error {
