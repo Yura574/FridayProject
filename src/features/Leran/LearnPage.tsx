@@ -3,7 +3,7 @@ import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {NavLink, useParams} from "react-router-dom";
-import {getCardsData, CardType} from "../../store/redusers/cards-reducer";
+import {getCardsData, CardType, setCardGrade} from "../../store/redusers/cards-reducer";
 import s from "./Learn.module.css"
 import {PacksListPageType} from "../../store/redusers/packsListPage-reducer";
 
@@ -68,11 +68,9 @@ export const LearnPage = () => {
             setIsChecked(false)
             setRating(0)
             setError(false)
+            dispatch(setCardGrade(rating, card._id))
             if (cards.length > 0) {
-                // dispatch
                 setCard(getCard(cards));
-            } else {
-
             }
         }
     }

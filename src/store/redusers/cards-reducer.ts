@@ -5,6 +5,7 @@ import {setIsLoader, SetIsLoadingType} from "./app-reducer";
 enum CardsAction {
     SET_CARDS = 'Cards/SET_CARDS',
     SET_CURRENT_PAGE = 'Cards/SET_CURRENT_PAGE',
+    SET_CARD_RATING = 'Cards/SET_CARD_RATING',
 }
 
 export type CardType = {
@@ -22,6 +23,15 @@ export type CardType = {
     user_id: string
     __v: number
     _id: string
+}
+
+type UpdatedGradeCard = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
 }
 
 type InitialState = {
@@ -44,7 +54,7 @@ const initialState: InitialState = {
     pageCount: 5,
 }
 
-type CardsActionTypes = SetCardsType | SetCardPageType;
+type CardsActionTypes = SetCardsType | SetCardPageType | SetCardRatingType;
 
 export const cardsReducer = (state: InitialState = initialState, action: CardsActionTypes) => {
     switch (action.type) {
@@ -52,6 +62,15 @@ export const cardsReducer = (state: InitialState = initialState, action: CardsAc
             return {...state, ...action.payload.data}
         case CardsAction.SET_CURRENT_PAGE: {
             return {...state, ...action.payload}
+        }
+        case CardsAction.SET_CARD_RATING: {
+            return {
+                ...state, cards: state.cards.map(c => {
+                    return c._id === action.payload.updatedData.card_id
+                        ? {...c, grade: action.payload.updatedData.grade}
+                        : c
+                })
+            }
         }
         default:
             return state;
@@ -75,6 +94,16 @@ export const setCardPage = (page: number) => {
         payload: {
             page,
         },
+    } as const
+}
+
+type SetCardRatingType = ReturnType<typeof setCardRating>
+export const setCardRating = (updatedData: UpdatedGradeCard) => {
+    return {
+        type: CardsAction.SET_CARD_RATING,
+        payload: {
+            updatedData,
+        }
     } as const
 }
 
@@ -128,12 +157,27 @@ export const deleteCard = (id: string, cardsPack_id: string) => (dispatch: Dispa
 
 export const updateCard = (id: string, cardsPack_id: string, question: string, answer: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
     dispatch(setIsLoader(true));
-    packsListPageAPI.updateCard(id,question, answer)
+    packsListPageAPI.updateCard(id, question, answer)
         .then((res) => {
             packsListPageAPI.getCardsData(cardsPack_id)
                 .then(({data}) => {
                     dispatch(setCardsData(data))
                 })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        .finally(() => {
+            dispatch(setIsLoader(false));
+        });
+}
+
+export const setCardGrade = (grade: number, _id: string) => (dispatch: Dispatch<CardsActionTypes | SetIsLoadingType>) => {
+    dispatch(setIsLoader(true));
+    packsListPageAPI.setCardGrade(grade, _id)
+        .then((res) => {
+            const updatedData = res.data.updatedGrade
+            dispatch(setCardRating(updatedData))
         })
         .catch((err) => {
             console.log(err)

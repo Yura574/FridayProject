@@ -8,8 +8,8 @@ import {
 import {NewPackType, PacksListType, PackType} from "../store/redusers/packsListPage-reducer";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:7542/2.0',
-    // baseURL: 'https://neko-back.herokuapp.com/2.0',
+    // baseURL: 'http://localhost:7542/2.0',
+    baseURL: 'https://neko-back.herokuapp.com/2.0',
     withCredentials: true,
 });
 
@@ -111,5 +111,8 @@ export const packsListPageAPI = {
         }
 
         return instance.put('/cards/card', {card})
-    }
+    },
+    setCardGrade(grade: number, card_id: string) {
+        return instance.put('/cards/grade', {grade, card_id})
+    },
 }
