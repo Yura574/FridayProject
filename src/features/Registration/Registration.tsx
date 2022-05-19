@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {Navigate} from "react-router-dom";
 import eyeIcon from "../../img/eye.png"
+import eyeHiddenIcon from "./../../img/eye-hidden.png"
 import SuperInputText from "../../CommonComponents/c1-SuperInputText/SuperInputText";
 
 export const Registration = () => {
@@ -129,7 +130,8 @@ export const Registration = () => {
                                 onFocus={passwordInsertOnFocusHandler}
                             />
                             <img
-                                src={eyeIcon}
+                                alt={eyeIcon}
+                                src={passwordInputType === 'text' ? eyeIcon : eyeHiddenIcon}
                                 className={s.eyeIcon}
                                 onClick={changePasswordDisplay}
                             />
@@ -147,7 +149,8 @@ export const Registration = () => {
                                 onFocus={confirmPasswordInsertOnFocusHandler}
                             />
                             <img
-                                src={eyeIcon}
+                                alt={eyeIcon}
+                                src={passwordInputType === 'text' ? eyeIcon : eyeHiddenIcon}
                                 className={s.eyeIcon}
                                 onClick={changePasswordDisplay}
                             />

@@ -37,7 +37,7 @@ export const AddCardModalContainer = (props: AddCardModalContainerType) => {
 
     return (
         <>
-            <SuperButton onClick={() => setShow(true)}>add pack</SuperButton>
+            <SuperButton onClick={() => setShow(true)}>add card</SuperButton>
             <Modal activeModal={show} cancel={cancel}>
                 <div className={s.title}>
                     <span>Add new card</span>
