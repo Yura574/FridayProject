@@ -2,12 +2,10 @@ import React, {useEffect, useState} from "react";
 import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
-import {Navigate, NavLink, useParams} from "react-router-dom";
-import {getCardsData, CardType, updateGrade, clearCard} from "../../store/redusers/cards-reducer";
+import {NavLink, useParams} from "react-router-dom";
+import {getCardsData, CardType, setCardGrade} from "../../store/redusers/cards-reducer";
 import s from "./Learn.module.css"
-import {GetPacksListTC, PacksListPageType} from "../../store/redusers/packsListPage-reducer";
-import {Loader} from "../../CommonComponents/c4-Loader/Loader";
-import {RepeatPage} from "./repeatPage";
+import {PacksListPageType} from "../../store/redusers/packsListPage-reducer";
 
 const grades = ['не знал', 'забыл', 'долго думал', 'перепутал', 'знал'];
 
@@ -23,7 +21,6 @@ const getCard = (cards: CardType[]) => {
 }
 
 export const LearnPage = () => {
-    const dispatch = useDispatch<AppDispatch>();
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [first, setFirst] = useState<boolean>(true);
     const [rating, setRating] = useState<number>(0)
@@ -31,7 +28,8 @@ export const LearnPage = () => {
     const {cards} = useSelector((store: AppRootStateType) => store.cards);
     const packsList = useSelector<AppRootStateType, PacksListPageType>(state => state.packsList)
     const {cardsPack_id} = useParams();
-    const initializedCardPack = useSelector<AppRootStateType, boolean>( state => state.app.setInitializedCardPack)
+
+    const packName = packsList.packsList.cardPacks.filter(p => p._id === cardsPack_id)[0].name
 
     const [card, setCard] = useState<CardType>({
         answer: 'answer fake',
@@ -50,65 +48,33 @@ export const LearnPage = () => {
         _id: 'fake',
     });
 
-
-    useEffect(() => {
-        dispatch(GetPacksListTC())
-    }, [
-        packsList.searchValue,
-        packsList.searchMinCardsCount,
-        packsList.searchMaxCardsCount,
-        packsList.sortPacks,
-        packsList.page,
-        packsList.packsOnPageCount,
-        packsList.packsList.cardPacksTotalCount,
-        packsList.userIdForSearching
-    ])
+    const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         if (first) {
             cardsPack_id && dispatch(getCardsData(cardsPack_id));
             setFirst(false);
         }
-        if (cards.length > 0) {
-            setCard(getCard(cards));
-        }
+        if (cards.length > 0) setCard(getCard(cards));
     }, [dispatch, cardsPack_id, cards, first]);
 
-
-    if(!initializedCardPack){
-        return <Loader/>
-    }
-    const packName = packsList.packsList.cardPacks.filter(p => p._id === cardsPack_id)[0].name
     const onSelectRating = (i: number) => {
         setRating(i + 1)
     }
 
-    if (!initializedCardPack && cards.length === 0) {
-        return <RepeatPage />
-        // alert('as')
-    }
-    const onNext = (card_id: string) => {
-        dispatch(updateGrade(card_id, rating))
-        dispatch(clearCard(card_id))
-
+    const onNext = () => {
         if (rating < 1 || rating > 5) {
             setError(true)
         } else {
             setIsChecked(false)
             setRating(0)
             setError(false)
-
+            dispatch(setCardGrade(rating, card._id))
             if (cards.length > 0) {
-                debugger
-                // dispatch
                 setCard(getCard(cards));
-            } else {
-
             }
         }
     }
-// if(card.cardsPack_id === ''){
-//     return <Loader/>
-// }
+
     return (
         <div className={s.main}>
             <div className={s.learnBlock}>
@@ -145,7 +111,7 @@ export const LearnPage = () => {
                             <NavLink to={'/packslist'}>
                                 <SuperButton>Cancel</SuperButton>
                             </NavLink>
-                            <SuperButton onClick={() => onNext(card._id)}>next</SuperButton>
+                            <SuperButton onClick={onNext}>next</SuperButton>
                         </div>
                     </>
                 )}

@@ -112,7 +112,7 @@ export const packsListPageAPI = {
 
         return instance.put('/cards/card', {card})
     },
-    updateGrade (card_id: string, grade: number) {
+    setCardGrade(grade: number, card_id: string) {
         return instance.put('/cards/grade', {grade, card_id})
-    }
+    },
 }
