@@ -111,5 +111,8 @@ export const packsListPageAPI = {
         }
 
         return instance.put('/cards/card', {card})
-    }
+    },
+    setCardGrade(grade: number, card_id: string) {
+        return instance.put('/cards/grade', {grade, card_id})
+    },
 }

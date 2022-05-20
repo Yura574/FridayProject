@@ -9,14 +9,24 @@ import s from './PacksListPage.module.css'
 export const CardsCountSlider = () => {
     const minCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.packsList.minCardsCount)
     const maxCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.packsList.maxCardsCount)
+    const searchMinCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.searchMinCardsCount)
+    const searchMaxCardsCount = useSelector<AppRootStateType, number>(state => state.packsList.searchMaxCardsCount)
     const dispatch = useDispatch()
 
     const [start, setStart] = useState<number>(minCardsCount)
     const [end, setEnd] = useState<number>(maxCardsCount)
 
     useEffect(() => {
-        setStart(minCardsCount);
-        setEnd(maxCardsCount)
+        if (searchMinCardsCount > minCardsCount) {
+            setStart(searchMinCardsCount)
+        } else {
+            setStart(minCardsCount)
+        }
+        if (searchMaxCardsCount < maxCardsCount && searchMaxCardsCount > 0) {
+            setEnd(searchMaxCardsCount)
+        } else {
+            setEnd(maxCardsCount)
+        }
     }, [minCardsCount, maxCardsCount])
 
     const rangeHandler = (value: number[]) => {
@@ -34,7 +44,7 @@ export const CardsCountSlider = () => {
                 style={{margin: '0 10px 0 10px'}}
                 min={minCardsCount}
                 max={maxCardsCount}
-                defaultValue={[minCardsCount, maxCardsCount]}
+                //defaultValue={[minCardsCount, maxCardsCount]}
                 value={[start, end]}
                 allowCross={false}
                 onChange={(value: number[]) => rangeHandler(value)}

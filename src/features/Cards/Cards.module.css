@@ -1,5 +1,5 @@
 .cardsWrapper {
-
+    margin-top: 80px;
 }
 
 .container {
@@ -15,7 +15,7 @@
 }
 
 .table {
-    margin: 20px 0;
+    margin: 70px 0;
     border-spacing: 0;
     width: 100%;
     text-align: start;

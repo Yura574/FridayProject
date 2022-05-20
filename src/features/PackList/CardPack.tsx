@@ -36,6 +36,11 @@ export const CardPack = (props: CardPackType) => {
                     <DeletePackModalContainer id={_id} name={name}/>
                 </>
             }
+            {props.pack.cardsCount > 0 &&
+                <NavLink to={`/learn/${_id}`}>
+                    <button>learn</button>
+                </NavLink>
+            }
         </div>
     </div>
 }

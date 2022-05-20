@@ -26,7 +26,7 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
 
 
 //actions
-type SetInitializedType = ReturnType<typeof setInitialized>
+export type SetInitializedType = ReturnType<typeof setInitialized>
 export const setInitialized = (initialized: boolean) => {
     return {
         type: LoginAction.SET_INITIALIZED,

@@ -1,12 +1,14 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
 import {Navigate} from "react-router-dom";
-import {ChangeEvent, useState} from "react";
-
+import {useState} from "react";
 import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
 import {DataLoginType, loginTC} from "../../store/redusers/profile-reducer";
 import s from './Login.module.css';
 import SuperCheckbox from "../../CommonComponents/c3-SuperCheckbox/SuperCheckbox";
+import SuperInputText from "../../CommonComponents/c1-SuperInputText/SuperInputText";
+import eyeIcon from "../../img/eye.png";
+import eyeHiddenIcon from "../../img/eye-hidden.png";
 
 
 export const Login = () => {
@@ -19,64 +21,64 @@ export const Login = () => {
     //const [emailError, setEmailError] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [rememberMe, setRememberMe] = useState<boolean>(false)
+    const [passwordInputType, setPasswordInputType] = useState<string>('password')
 
-    const emailInsertOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.currentTarget.value)
+    const emailInsertOnChangeHandler = (value: string) => {
+        setEmail(value)
     }
 
-    const passwordInsertOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.currentTarget.value)
+    const passwordInsertOnChangeHandler = (value: string) => {
+        setPassword(value)
     }
 
     const submit = (dataLogin: DataLoginType) => {
         dispatch(loginTC(dataLogin))
     }
 
-    //   const changePasswordDisplay = () => {
-    //     if (passwordInputType === 'password') {setPasswordInputType('text')}
-    //     if (passwordInputType === 'text') {setPasswordInputType('password')}
-    // }
+      const changePasswordDisplay = () => {
+        if (passwordInputType === 'password') {setPasswordInputType('text')}
+        if (passwordInputType === 'text') {setPasswordInputType('password')}
+    }
 
 
     if (isAuth) {
         return <Navigate to={'/profile'}/>
     }
     return (
-        <div className={s.main} >
+        <div className={s.main}>
 
-            <div className={s.form}>
-                <div className={s.headerBlock}>
+            <div className={'mainCardWrapper'}>
+                <div className={'mainCardHeader'}>
                     <h1>It-incubator</h1>
                     <h3>Login</h3>
                 </div>
-                <div className={s.inputsBlock}>
+                <div className={'mainCardBody'}>
                     <div>
-                        <span className={s.inputDescription}>Email </span>
-
-                        <input
-                            className={s.input}
+                        <SuperInputText
+                            title={'Email'}
                             type={"email"}
                             value={email}
-                            onChange={emailInsertOnChangeHandler}
+                            onChangeText={emailInsertOnChangeHandler}
                             //onFocus={emailInsertOnFocusHandler}
                         />
                     </div>
                     <div>
-                        <span className={s.inputDescription}>Password </span>
                         {/* <span className={s.error}>{passwordError}</span> */}
                         <div className={s.inputContainer}>
-                            <input
-                                className={s.input}
+                            <SuperInputText
+                                title={'Password'}
+                                className={'mainCardInput'}
+                                type={passwordInputType}
                                 //type={passwordInputType}
                                 value={password}
-                                onChange={passwordInsertOnChangeHandler}
+                                onChangeText={passwordInsertOnChangeHandler}
                                 //onFocus={passwordInsertOnFocusHandler}
                             />
-                            {/* <img
-                  src={eyeIcon}
-                  className={s.eyeIcon}
-                  onClick={changePasswordDisplay}
-                /> */}
+                            <img
+                                src={passwordInputType === 'text' ? eyeIcon : eyeHiddenIcon}
+                                className={s.eyeIcon}
+                                onClick={changePasswordDisplay}
+                            />
                         </div>
                     </div>
                     {/* <div>
@@ -103,10 +105,10 @@ export const Login = () => {
                     <SuperCheckbox checked={rememberMe} onChangeChecked={setRememberMe}/>
                     <span>Remember me</span>
                 </div>
-                <div className={s.error}>{ messageError}</div>
-                <div className={s.buttonBlock}>
+                <div className={'mainCardError'}>{messageError}</div>
+                <div className={'mainCardFooter'}>
                     {/* <SuperButton onClick={clearFormHandler}>Cancel</SuperButton> */}
-                    <SuperButton className={s.blue} onClick={() => submit({email, password, rememberMe})}
+                    <SuperButton onClick={() => submit({email, password, rememberMe})}
                                  disabled={isDisabled}>
                         Submit
                     </SuperButton>

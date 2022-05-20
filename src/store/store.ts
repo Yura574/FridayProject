@@ -9,6 +9,7 @@ import {setNewPasswordReducer} from "./redusers/setNewPassword-reducer";
 import {appReducer} from "./redusers/app-reducer";
 import {packsListReducer} from "./redusers/packsListPage-reducer";
 import {cardsReducer} from "./redusers/cards-reducer";
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 
 export const rootReducer  = combineReducers({
@@ -28,7 +29,7 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 
 export type AppDispatch = typeof store.dispatch
 
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunkMiddleware)));
 
 
 // @ts-ignore

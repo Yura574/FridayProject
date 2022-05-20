@@ -20,6 +20,7 @@ import {EditProfilePage} from "./features/Profile/EditProfilePage/EditProfilePag
 import {PacksListPage} from "./features/PackList/PacksListPage";
 import {logoutTC} from "./store/redusers/profile-reducer";
 import {Cards} from "./features/Cards/Cards";
+import {LearnPage} from "./features/Learn/LearnPage";
 
 function App() {
     const dispatch = useDispatch<AppDispatch>()
@@ -75,6 +76,7 @@ function App() {
                 <Route path={'/recovery-password'} element={<RecoveryPassword/>}/>
                 <Route path={'/set-new-password/:token'} element={<SetNewPassword/>}/>
                 <Route path={'/cards/:cardsPack_id'} element={<Cards/>}/>
+                <Route path={'/learn/:cardsPack_id'} element={<LearnPage/>}/>
                 <Route path={'*'} element={<Error404/>}/>
             </Routes>
 

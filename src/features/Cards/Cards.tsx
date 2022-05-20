@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import s from './Cards.module.css';
 import {NavLink, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -57,7 +57,7 @@ export const Cards = () => {
 
     useEffect(() => {
         if(cardsPack_id) {
-            dispatch(getCardsData(cardsPack_id, page, pageCount));
+            dispatch(getCardsData(cardsPack_id, page, 5))
         }
     }, [page]);
 
