@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import SuperButton from "../../CommonComponents/c2-SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootStateType} from "../../store/store";
-import {NavLink, useParams} from "react-router-dom";
+import {Navigate, NavLink, useParams} from "react-router-dom";
 import {getCardsData, CardType, setCardGrade} from "../../store/redusers/cards-reducer";
 import s from "./Learn.module.css"
 import {PacksListPageType} from "../../store/redusers/packsListPage-reducer";
@@ -75,6 +75,9 @@ export const LearnPage = () => {
                 setCard(getCard(cards));
             }
         }
+    }
+    if(packName === "not found"){
+        return <Navigate to={'/packslist'}/>
     }
 
     return (
