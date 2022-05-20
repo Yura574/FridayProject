@@ -57,7 +57,7 @@ export const Cards = () => {
 
     useEffect(() => {
         if(cardsPack_id) {
-            dispatch(getCardsData(cardsPack_id, 1, 1000));
+            dispatch(getCardsData(cardsPack_id, page, 5))
         }
     }, [page]);
 

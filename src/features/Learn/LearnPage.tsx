@@ -6,6 +6,7 @@ import {NavLink, useParams} from "react-router-dom";
 import {getCardsData, CardType, setCardGrade} from "../../store/redusers/cards-reducer";
 import s from "./Learn.module.css"
 import {PacksListPageType} from "../../store/redusers/packsListPage-reducer";
+import {Loader} from "../../CommonComponents/c4-Loader/Loader";
 
 const grades = ['не знал', 'забыл', 'долго думал', 'перепутал', 'знал'];
 
@@ -27,9 +28,11 @@ export const LearnPage = () => {
     const [error, setError] = useState<boolean>(false)
     const {cards} = useSelector((store: AppRootStateType) => store.cards);
     const packsList = useSelector<AppRootStateType, PacksListPageType>(state => state.packsList)
-    const {cardsPack_id} = useParams();
+    const isLoader = useSelector<AppRootStateType, boolean>(state => state.app.isLoading)
+    const {cardsPack_id} = useParams()
+    const dispatch = useDispatch<AppDispatch>()
 
-    const packName = packsList.packsList.cardPacks.filter(p => p._id === cardsPack_id)[0].name
+    const packName = packsList?.packsList?.cardPacks?.filter(p => p._id === cardsPack_id)[0]?.name || "not found"
 
     const [card, setCard] = useState<CardType>({
         answer: 'answer fake',
@@ -38,7 +41,7 @@ export const LearnPage = () => {
         created: '',
         grade: 0,
         more_id: '',
-        question: 'question fake',
+        question: '...',
         rating: 0,
         shots: 0,
         type: '',
@@ -48,10 +51,9 @@ export const LearnPage = () => {
         _id: 'fake',
     });
 
-    const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         if (first) {
-            cardsPack_id && dispatch(getCardsData(cardsPack_id));
+            cardsPack_id && dispatch(getCardsData(cardsPack_id, 1, 1000));
             setFirst(false);
         }
         if (cards.length > 0) setCard(getCard(cards));
@@ -77,9 +79,10 @@ export const LearnPage = () => {
 
     return (
         <div className={s.main}>
+            {isLoader && <Loader/>}
             <div className={s.learnBlock}>
                 <h3>Learn "{packName}"</h3>
-                <div>Question: "{card.question}"</div>
+                <div>Question: {isLoader ? `...` : `"` + card.question + `"`}</div>
                 {!isChecked && (
                     <div>
                         <NavLink to={'/packslist'}>

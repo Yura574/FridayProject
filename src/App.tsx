@@ -20,7 +20,7 @@ import {EditProfilePage} from "./features/Profile/EditProfilePage/EditProfilePag
 import {PacksListPage} from "./features/PackList/PacksListPage";
 import {logoutTC} from "./store/redusers/profile-reducer";
 import {Cards} from "./features/Cards/Cards";
-import {LearnPage} from "./features/Leran/LearnPage";
+import {LearnPage} from "./features/Learn/LearnPage";
 
 function App() {
     const dispatch = useDispatch<AppDispatch>()
